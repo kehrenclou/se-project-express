@@ -1,20 +1,25 @@
-// routes/users.js
+// backend/routes/users.js
 /* --------------------------------- imports -------------------------------- */
-const router = require('express').Router();
+const router = require("express").Router();
 const {
   getUsers,
   sendUserProfile,
-  createUser,
+  // createUser,
   updateUserProfile,
   updateUserAvatar,
-} = require('../controllers/users');
+} = require("../controllers/users");
 
+const {
+  validateUpdateProfileBody,
+  validateUserBody,
+} = require("../middlewares/validation");
 /* --------------------------------- routes --------------------------------- */
-router.get('', getUsers);
-router.get('/:userId', sendUserProfile);
-router.post('/', createUser);
-router.patch('/me', updateUserProfile);
-router.patch('/me/avatar', updateUserAvatar);
+// router.get("", getUsers);
+// router.get("/:userId", sendUserProfile);//is this neededanymore?
+// router.post('/', createUser);
+router.get("/me", sendUserProfile);
+router.patch("/me", validateUpdateProfileBody, updateUserProfile);
+router.patch("/me/avatar", updateUserAvatar);
 
 /* --------------------------------- exports -------------------------------- */
 module.exports = router;

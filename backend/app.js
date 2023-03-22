@@ -1,11 +1,19 @@
-// app.js
+//backend/app.js
 /* --------------------------------- imports -------------------------------- */
-const express = require('express');
-const mongoose = require('mongoose');
-const helmet = require('helmet');
-const path = require('path');
-const usersRouter = require('./routes/users');
-const cardsRouter = require('./routes/cards');
+const express = require("express");
+const mongoose = require("mongoose");
+const helmet = require("helmet");
+const path = require("path");
+const cors = require("cors");
+const { createUser, loginUser } = require("./controllers/users");
+const usersRouter = require("./routes/users");
+const cardsRouter = require("./routes/cards");
+const auth = require("./middlewares/auth");
+const {
+  validateUserBody,
+  validateLoginBody,
+} = require("./middlewares/validation");
+const { errors } = require("celebrate");
 
 /* -------------------------- declare app and port -------------------------- */
 /* ------------------------------ connect to DB ----------------------------- */
@@ -13,28 +21,34 @@ const app = express();
 
 const { PORT = 3000 } = process.env;
 
-mongoose.connect('mongodb://localhost:27017/aroundb');
+mongoose.connect("mongodb://localhost:27017/aroundb");
 // do we need options here?//
 /* -------------------------------- app -------------------------------- */
 
 app.use(helmet());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '63288fbe011f1c3bb40a0989',
-  };
-  next();
-});
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: "63288fbe011f1c3bb40a0989",
+//   };
+//   next();
+// });
 
-app.use(express.json());
+app.use(express.json()); //for versions express 4.16+ can use this instead of bodyparser
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/users', usersRouter);
-app.use('/cards', cardsRouter);
+app.post("/signup", validateUserBody, createUser);
+app.post("/signin", validateLoginBody, loginUser);
+
+app.use("/users", auth, usersRouter);
+app.use("/cards", auth, cardsRouter);
+
+app.use(errors());
 
 app.use((req, res) => {
-  res.status(404).send({ message: 'Requested resource not found' });
+  res.status(404).send({ message: "Requested resource not found" });
 });
 
 app.listen(PORT, () => {
