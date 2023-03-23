@@ -52,7 +52,8 @@ function App() {
   let history = useHistory();
 
   /* -------------------------------- setup API ------------------------------- */
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = "http://localhost:3000";//trying 3001
+  // const baseUrl = "http://localhost:3000";
   const api = new Api({
     baseUrl: baseUrl,
     headers: {
@@ -90,29 +91,29 @@ function App() {
     }
   }, [history,token]);
 
-  // useEffect(() => {
-  //   api
-  //     .getInfo()
-  //     // .getAppInfo()
+  useEffect(() => {
+    api
+      .getInfo()
+      // .getAppInfo()
 
-  //     .then((userData) => {
-  //       setCurrentUser(userData);
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }, []);
+      .then((userData) => {
+        setCurrentUser(userData);
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      });
+  }, [history]);
 
-  // useEffect(() => {
-  //   api
-  //     .getInitialCards()
-  //     .then((initialCards) => {
-  //       setCards(initialCards);
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }, [history]);
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((initialCards) => {
+        setCards(initialCards);
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      });
+  }, [history]);
 
   useEffect(() => {
     const handleEscClose = (event) => {
@@ -160,6 +161,7 @@ function App() {
   //Update Avatar
   function handleUpdateAvatar(newAvatar) {
     setIsLoading(true);
+   
     api
       .setProfileAvatar(newAvatar.avatar)
       .then((newAvatar) => {

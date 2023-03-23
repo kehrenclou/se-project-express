@@ -66,6 +66,7 @@ const createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
 
   return bcrypt.hash(password, 10, (err, hash) => {
+    console.log("called");
     return User.findOne({ email }).then((user) => {
       if (user) {
         return res
