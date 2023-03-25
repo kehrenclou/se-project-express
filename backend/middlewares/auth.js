@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
   }
   const token = authorization.replace("Bearer ", "");
   let payload;
-
+console.log("modexport called bend auth")
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {

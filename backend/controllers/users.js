@@ -42,6 +42,7 @@ const sendUserProfile = (req, res) => {
       throw error;
     })
     .then((user) => {
+      console.log("be controller senduserprof",user)
       res.status(SUCCESSFUL).send(user);
       // res.status(SUCCESSFUL).send({ data: user });
     })
@@ -66,7 +67,7 @@ const createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
 
   return bcrypt.hash(password, 10, (err, hash) => {
-    console.log("called");
+    console.log("calledcreateUser bend");
     return User.findOne({ email }).then((user) => {
       if (user) {
         return res
@@ -103,6 +104,7 @@ const loginUser = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
+      console.log("loginuser be controller",user)
       //authentication succesful user is in the variable
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",

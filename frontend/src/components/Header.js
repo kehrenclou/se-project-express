@@ -1,10 +1,14 @@
 /* --------------------------------- imports -------------------------------- */
+import { useContext } from "react";
 import { Route, Link, useRouteMatch } from "react-router-dom";
 import headerlogo from "../images/headerlogo.svg";
 
+import { UserContext } from "../contexts/UserContext";
+
 /* ----------------------------- function Header ---------------------------- */
-function Header({ email, onSignOut }) {
+function Header({ onSignOut }) {
   const { path, url } = useRouteMatch();
+  const { user } = useContext(UserContext);
 
   return (
     <header className="header">
@@ -15,7 +19,7 @@ function Header({ email, onSignOut }) {
       />
       <Route path={`${path}/`}>
         <div className="header__sub-container">
-          <span className="header__text">{email}</span>
+          <span className="header__text">{user.email}</span>
           <Link
             to={`${url}signin`}
             className="header__link header__link_light"

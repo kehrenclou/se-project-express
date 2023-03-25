@@ -1,8 +1,8 @@
 /* --------------------------------- imports -------------------------------- */
 
-import React from "react";
+import { useContext } from "react";
 import Card from "./Card";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { UserContext } from "../contexts/UserContext";
 
 /* -------------------------- function Main(props) -------------------------- */
 function Main({
@@ -14,7 +14,7 @@ function Main({
   onCardDelete,
   cards,
 }) {
-  const { name, about, avatar } = React.useContext(CurrentUserContext);
+  const { name, about, avatar } = useContext(UserContext);
 
   return (
     <main>

@@ -1,5 +1,5 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 
 import Api from "../utils/api";
@@ -18,7 +18,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import InfoToolTip from "./InfoToolTip";
 
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { UserContext } from "../contexts/UserContext";
 
 /* -------------------------------------------------------------------------- */
 /*                                 functionApp                                */
@@ -29,14 +29,16 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(""); //used for tooltip fail/sucess
 
   const [currentUser, setCurrentUser] = useState({
     name: " ",
     about: " ",
     avatar: " ",
+    //test adding email and id
+    email:"",
+    id:"",
   });
-  const [email, setEmail] = useState("email@email");
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -52,36 +54,53 @@ function App() {
   let history = useHistory();
 
   /* -------------------------------- setup API ------------------------------- */
-  const baseUrl = "http://localhost:3000";//trying 3001
+  const baseUrl = "http://localhost:3000"; //trying 3001
   // const baseUrl = "http://localhost:3000";
-  const api = new Api({
-    baseUrl: baseUrl,
-    headers: {
-      authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    // headers: { authorization: token, "Content-Type": "application/json" },
-  });
+  // const api = new Api({
+  //   baseUrl: baseUrl,
+  //   headers: {
+  //     authorization: `Bearer ${token}`,
+  //     "Content-Type": "application/json",
+  //   },
+  //   // headers: { authorization: token, "Content-Type": "application/json" },
+  // });
+  const api = useMemo(() => {
+    console.log("api usememo called");
+    return new Api({
+      baseUrl: baseUrl,
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+  }, [token]);
 
   /* --------------------------- useEffect  ----------------------------------- */
   //on load
   //on loggedIn change
+  //loads user info and card info here
+  //not loading current data
+  //?how is jwt being updated
 
+  //1. useEffect on load - check tokens
   useEffect(() => {
     setToken(localStorage.getItem("jwt"));
+    console.log("token", token);
+    //no token on loading page
     if (!token) {
       history.push("/signin");
     } else {
       auth
-        .checkToken(token)
+        .getContent(token) //in auth file- on load check token frontend auth.getcontent
+        //sends with token in header - endpoint /users/me=>sendUserProfile from controller
+        //QUESTION: how is the token able to return the user info - its getting it
         .then((res) => {
           if (res) {
+            console.log("useeffect check token", res);
             setIsLoggedIn(true);
-            setEmail(res.email);
-            history.push("/");
-            //try loading cards here
-            loadAppInfo();
-            // return res;
+      
+            loadAppInfo(); //load appinfo in this file
+            console.log("loggedin?", isLoggedIn);
           }
         })
         .catch((err) => {
@@ -89,31 +108,54 @@ function App() {
           history.push("/signin");
         });
     }
-  }, [history,token]);
+  }, []);
 
   useEffect(() => {
+    console.log("history changed");
+    if (!token) {
+      return;
+    } //exit if token is null, maybe set user undefined here
     api
-      .getInfo()
+      .getInfo() //user info from server
       // .getAppInfo()
 
       .then((userData) => {
+        console.log("ue after getinfo", userData);
         setCurrentUser(userData);
       })
       .catch((err) => {
         api.handleErrorResponse(err);
       });
-  }, [history]);
+  }, [api]);
+
+  // const fetchUserInfo = useCallback(() => {
+  //   console.log("fetchUserInfo");
+  //   api
+  //     .getInfo() //user info from server
+  //     // .getAppInfo()
+
+  //     .then((userData) => {
+  //       console.log("ue after fetchuserinfo", userData);
+  //       setCurrentUser(userData);
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     });
+  // }, []);
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    } //exit if not logged in
     api
-      .getInitialCards()
+      .getInitialCards() //card info from server
       .then((initialCards) => {
         setCards(initialCards);
       })
       .catch((err) => {
         api.handleErrorResponse(err);
       });
-  }, [history]);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const handleEscClose = (event) => {
@@ -130,10 +172,16 @@ function App() {
   /* ------------------------------ api functions ----------------------------- */
   function loadAppInfo() {
     api
-      .getAppInfo()
+      .getAppInfo() //api return cards and info
+      //already has user info from what is calling this?redundant
       .then(([userData, cardData]) => {
-        setCurrentUser(userData);
-        setCards(cardData);
+        console.log("ue after getappinfo", userData, cardData);
+        setCurrentUser(userData); //setting user data -
+        //but not context unless that is called in a useffect
+        setCards(cardData); //set card data - but not rendering?
+        //what should trigger to go to /?history
+        //try history here  - this works is this correct
+        history.push("/");
       })
       .catch((err) => {
         api.handleErrorResponse(err);
@@ -161,7 +209,7 @@ function App() {
   //Update Avatar
   function handleUpdateAvatar(newAvatar) {
     setIsLoading(true);
-   
+
     api
       .setProfileAvatar(newAvatar.avatar)
       .then((newAvatar) => {
@@ -261,14 +309,18 @@ function App() {
   }
 
   //login
+  //?should this also be calling loginuser from backendcontroller
   function handleLoginSubmit({ email, password }) {
     auth
       .login(email, password)
       .then((res) => {
         if (res) {
-          setIsLoggedIn(true);
-          setEmail(email);
+          console.log("handleloginsubmit", res, email, password);
           localStorage.setItem("jwt", res.token);
+          setToken(res.token);
+          setIsLoggedIn(true);
+          // fetchUserInfo();
+
           history.push("/");
         } else {
           setStatus("fail");
@@ -324,8 +376,9 @@ function App() {
   return (
     <div className="root">
       <div className="page">
-        <CurrentUserContext.Provider value={currentUser}>
-          <Header email={email} onSignOut={handleSignOut} />
+        <UserContext.Provider value={currentUser}>
+          <Header onSignOut={handleSignOut} />
+          {/* <Header email={email} onSignOut={handleSignOut} /> */}
           <Switch>
             <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
               <Main
@@ -383,7 +436,7 @@ function App() {
             onClose={closeAllPopups}
             status={status}
           />
-        </CurrentUserContext.Provider>
+        </UserContext.Provider>
       </div>
     </div>
   );

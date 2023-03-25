@@ -5,7 +5,7 @@ class Api {
 
     this._headers = headers;
   }
-
+ 
   _request(url, options) {
     return fetch(url, options).then(this._handleResponse);
     // return fetch(url, options).then((res) =>
@@ -26,7 +26,6 @@ class Api {
   }
 
   getAppInfo() {
-  
     return Promise.all([this.getInfo(), this.getInitialCards()]);
   }
   getInfo() {

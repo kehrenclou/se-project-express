@@ -1,6 +1,6 @@
 /* --------------------------------- imports -------------------------------- */
 import React, { useContext } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { UserContext } from "../contexts/UserContext";
 
 /* ------------------------------ function Card ----------------------------- */
 export default function Card({
@@ -25,7 +25,7 @@ export default function Card({
     onCardDelete(card);
   }
 
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useContext(UserContext);
 
   const isOwn = card.owner === currentUser._id;
   // const isOwn = card.owner._id === currentUser._id;

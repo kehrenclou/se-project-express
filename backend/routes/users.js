@@ -16,7 +16,9 @@ const {
 /* --------------------------------- routes --------------------------------- */
 // router.get("", getUsers);
 // router.get("/:userId", sendUserProfile);//is this neededanymore?
-router.post('/signup', createUser);
+// router.post('/signup', createUser);
+// router.post('/signin',login)
+
 router.get("/me", sendUserProfile);
 router.patch("/me", validateUpdateProfileBody, updateUserProfile);
 router.patch("/me/avatar", updateUserAvatar);
