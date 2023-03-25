@@ -36,7 +36,7 @@ function App() {
     about: " ",
     avatar: " ",
     //test adding email and id
-    email:"",
+    email:"email@email.com",
     id:"",
   });
 
@@ -66,6 +66,7 @@ function App() {
   // });
   const api = useMemo(() => {
     console.log("api usememo called");
+    console.log("api",token,currentUser)
     return new Api({
       baseUrl: baseUrl,
       headers: {
@@ -75,6 +76,11 @@ function App() {
     });
   }, [token]);
 
+  const storeValue=useMemo(()=>{
+    return{
+      currentUser,
+    };
+  },[currentUser])
   /* --------------------------- useEffect  ----------------------------------- */
   //on load
   //on loggedIn change
@@ -90,6 +96,7 @@ function App() {
     if (!token) {
       history.push("/signin");
     } else {
+      console.log("useeffectonload")
       auth
         .getContent(token) //in auth file- on load check token frontend auth.getcontent
         //sends with token in header - endpoint /users/me=>sendUserProfile from controller
@@ -380,7 +387,7 @@ function App() {
           <Header onSignOut={handleSignOut} />
           {/* <Header email={email} onSignOut={handleSignOut} /> */}
           <Switch>
-            <ProtectedRoute exact path="/" loggedIn={isLoggedIn}>
+            <ProtectedRoute exact path="/" loggedIn={storeValue}>
               <Main
                 onEditAvatarClick={handleEditAvatarClick}
                 onEditProfileClick={handleEditProfileClick}

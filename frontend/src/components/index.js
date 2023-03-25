@@ -1,0 +1,17 @@
+export { default as AddPlacePopup } from "./AddPlacePopup";
+export { default as App } from "./App";
+export { default as Card } from "./Card";
+export { default as ConfirmDeletePopup } from "./ConfirmDeletePopup";
+export { default as EditAvatarPopup } from "./EditAvatarPopup";
+export { default as EditProfilePopup } from "./EditProfilePopup";
+export { default as Footer } from "./Footer";
+export { default as Header } from "./Header";
+export { default as ImagePopup } from "./ImagePopup";
+export { default as InfoToolTip } from "./InfoToolTip";
+export { default as Login } from "./Login";
+export { default as Main } from "./Main";
+export { default as Popup } from "./Popup";
+export { default as PopupWithForm } from "./PopupWithForm";
+export { default as ProtectedRoute } from "./ProtectedRoute";
+export { default as Register } from "./Register";
+export { default as UserForm } from "./UserForm";
