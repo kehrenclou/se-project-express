@@ -10,13 +10,13 @@ function Header({ onSignOut }) {
   const { path, url } = useRouteMatch();
   const user = useContext(UserContext);
 
-  const renderWithContext = (context) => {
-    if (context) {
-      return <span className="header__text">{context.email}</span>;
-    } else {
-      return {};
-    }
-  };
+  // const renderWithContext = (context) => {
+  //   if (context) {
+  //     return <span className="header__text">{context.email}</span>;
+  //   } else {
+  //     return {};
+  //   }
+  // };
 
   return (
     <header className="header">
@@ -27,8 +27,10 @@ function Header({ onSignOut }) {
       />
       <Route path={`${path}/`}>
         <div className="header__sub-container">
+
           {/* <span className="header__text">{user.email}</span>//if soln ok delete this line */}
-          {renderWithContext(user)}
+          {/* {renderWithContext(user)} */}
+          {user ? <span className="header__text">{user.email}</span> : null}
           <Link
             to={`${url}signin`}
             className="header__link header__link_light"

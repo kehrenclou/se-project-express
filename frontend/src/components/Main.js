@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import Card from "./Card";
 import { UserContext } from "../contexts/UserContext";
+import { useAuth } from "../hooks";
 
 /* -------------------------- function Main(props) -------------------------- */
 function Main({
@@ -15,6 +16,7 @@ function Main({
   cards,
 }) {
   const { name, about, avatar } = useContext(UserContext);
+  const { isLoggedIn } = useAuth();
 
   return (
     <main>

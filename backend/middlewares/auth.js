@@ -8,6 +8,7 @@ const JWT_SECRET = require("../utils/config");
 
 //verify token from headers
 //if token ok, middleware should add token payload to the user object and call next()
+
 const handleAuthError = (res) => {
 
   res.status(UNAUTHORIZED).send({ message: "Authorization Required" });

@@ -2,8 +2,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 
-import Api from "../utils/api";
+import {api} from "../utils/api";
 import * as auth from "../utils/auth";
+
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -18,26 +19,28 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import InfoToolTip from "./InfoToolTip";
 
-import { UserContext } from "../contexts/UserContext";
+import { AuthContext, useInitializeAuthStore, UserContext } from "../contexts";
+import { NotFound } from "./NotFound";
 
 /* -------------------------------------------------------------------------- */
 /*                                 functionApp                                */
 /* -------------------------------------------------------------------------- */
-function App() {
+export function App() {
   /* ------------------------------- use states ------------------------------- */
   const [token, setToken] = useState(localStorage.getItem("jwt"));
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [status, setStatus] = useState(""); //used for tooltip fail/sucess
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
+ 
+  const [status, setStatus] = useState(""); //used for tooltip fail/sucess-moved to authcontext
 
   const [currentUser, setCurrentUser] = useState({
     name: " ",
     about: " ",
     avatar: " ",
     //test adding email and id
-    email:"email@email.com",
-    id:"",
+    email: "email@email.com",
+    id: "",
   });
 
   const [cards, setCards] = useState([]);
@@ -49,9 +52,10 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
     useState(false);
-  const [isToolTipOpen, setIsToolTipOpen] = useState(false);
+  const [isToolTipOpen, setIsToolTipOpen] = useState(false);//moved to authcontext
 
   let history = useHistory();
+  const authStore = useInitializeAuthStore();
 
   /* -------------------------------- setup API ------------------------------- */
   const baseUrl = "http://localhost:3000"; //trying 3001
@@ -64,67 +68,75 @@ function App() {
   //   },
   //   // headers: { authorization: token, "Content-Type": "application/json" },
   // });
-  const api = useMemo(() => {
-    console.log("api usememo called");
-    console.log("api",token,currentUser)
-    return new Api({
-      baseUrl: baseUrl,
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-  }, [token]);
+  // const api = useMemo(() => {
+  //   console.log("api usememo called");
+  //   return new Api({
+  //     baseUrl: baseUrl,
+  //     headers: {
+  //       authorization: `Bearer ${token}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  // }, [token]);
 
-  const storeValue=useMemo(()=>{
-    return{
+  useEffect(() => {
+    //api is the singleton instance of the Api class
+    //TODO: write setHeaders function
+    api.setHeaders({
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    })
+  }, [token])
+  /* -----------------------set up- useContext Store ---------------------------- */
+  const storeValue = useMemo(() => {
+    return {
       currentUser,
     };
-  },[currentUser])
+  }, [currentUser]);
+
   /* --------------------------- useEffect  ----------------------------------- */
-  //on load
-  //on loggedIn change
-  //loads user info and card info here
-  //not loading current data
-  //?how is jwt being updated
 
   //1. useEffect on load - check tokens
   useEffect(() => {
-    setToken(localStorage.getItem("jwt"));
-    console.log("token", token);
-    //no token on loading page
-    if (!token) {
+    //setToken(localStorage.getItem("jwt"));
+
+    if (!authStore.token) {
       history.push("/signin");
-    } else {
-      console.log("useeffectonload")
-      auth
-        .getContent(token) //in auth file- on load check token frontend auth.getcontent
-        //sends with token in header - endpoint /users/me=>sendUserProfile from controller
-        //QUESTION: how is the token able to return the user info - its getting it
-        .then((res) => {
-          if (res) {
-            console.log("useeffect check token", res);
-            setIsLoggedIn(true);
-      
-            loadAppInfo(); //load appinfo in this file
-            console.log("loggedin?", isLoggedIn);
-          }
-        })
-        .catch((err) => {
-          auth.handleAuthError(err);
-          history.push("/signin");
-        });
-    }
+    } 
+    // else {
+    //   console.log("useeffectonload");
+    //   //TODO:
+    //   //move this part to protectedroute as a use effect
+    //   auth
+    //     .getContent(authStore.token) //endpoint /users/me
+    //     //in auth file- on load check token frontend auth.getcontent
+    //     //sends with token in header - endpoint /users/me=>sendUserProfile from controller
+    //     //QUESTION: how is the token able to return the user info - its getting it
+    //     .then((res) => {
+    //       if (res) {
+    //         //res has all of user data
+    //         setIsLoggedIn(true);
+    //         loadAppInfo(); //load appinfo in this file -
+    //         //is it ok to have load app info as separate function
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       auth.handleAuthError(err);
+    //       history.push("/signin");
+    //     });
+    // }
   }, []);
 
+  //this gets user info (w/o token) and setus Current User (used in context)
+  //dependency: api changes
+  //what triggers a new api -
   useEffect(() => {
-    console.log("history changed");
-    if (!token) {
-      return;
-    } //exit if token is null, maybe set user undefined here
+    if (!authStore.token) {
+      return; //exit if token is null, maybe set user undefined here?
+    }
     api
-      .getInfo() //user info from server
-      // .getAppInfo()
+      .getInfo() //user info from server -in api not auth
+      // should this be auth? auth.getContent - same except this one has token
 
       .then((userData) => {
         console.log("ue after getinfo", userData);
@@ -135,21 +147,9 @@ function App() {
       });
   }, [api]);
 
-  // const fetchUserInfo = useCallback(() => {
-  //   console.log("fetchUserInfo");
-  //   api
-  //     .getInfo() //user info from server
-  //     // .getAppInfo()
-
-  //     .then((userData) => {
-  //       console.log("ue after fetchuserinfo", userData);
-  //       setCurrentUser(userData);
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }, []);
-
+  //this gets cards and sets cards
+  //triggered on isLoggedIn
+  //should this also get triggered if a card is added?
   useEffect(() => {
     if (!isLoggedIn) {
       return;
@@ -164,6 +164,9 @@ function App() {
       });
   }, [isLoggedIn]);
 
+  //this closes all popups and removes event listeners
+  //triggered on pageload
+  //is this enough of a trigger?
   useEffect(() => {
     const handleEscClose = (event) => {
       if (event.key === "Escape") {
@@ -177,6 +180,7 @@ function App() {
   }, []);
 
   /* ------------------------------ api functions ----------------------------- */
+  //can this be reused?
   function loadAppInfo() {
     api
       .getAppInfo() //api return cards and info
@@ -220,7 +224,6 @@ function App() {
     api
       .setProfileAvatar(newAvatar.avatar)
       .then((newAvatar) => {
-        // setUserAvatar(newAvatar);
         setCurrentUser(newAvatar);
         closeAllPopups();
       })
@@ -294,6 +297,7 @@ function App() {
 
   /* ---------------------------handlers with auth----------------------------- */
   //register
+  //TODO: move to Register
   function handleRegisterSubmit({ email, password }) {
     auth
       .register(email, password)
@@ -317,37 +321,39 @@ function App() {
 
   //login
   //?should this also be calling loginuser from backendcontroller
-  function handleLoginSubmit({ email, password }) {
-    auth
-      .login(email, password)
-      .then((res) => {
-        if (res) {
-          console.log("handleloginsubmit", res, email, password);
-          localStorage.setItem("jwt", res.token);
-          setToken(res.token);
-          setIsLoggedIn(true);
-          // fetchUserInfo();
+  //TODO: move this to login 
+  //useAuth hook to get access to isLoggein
+  //moved to login
+  // function handleLoginSubmit({ email, password }) {
+  //   auth
+  //     .login(email, password)
+  //     .then((res) => {
+  //       if (res) {
+  //         console.log("handleloginsubmit", res, email, password);
+  //         localStorage.setItem("jwt", res.token);
+  //         setToken(res.token);
+  //         setIsLoggedIn(true);
 
-          history.push("/");
-        } else {
-          setStatus("fail");
-          setIsToolTipOpen(true);
-        }
-      })
-      .catch((err) => {
-        // auth.handleAuthError(err);
-        console.log(err);
-        setStatus("fail");
-        setIsToolTipOpen(true);
-      });
-  }
+  //         history.push("/");
+  //       } else {
+  //         setStatus("fail");
+  //         setIsToolTipOpen(true);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       // auth.handleAuthError(err);
+  //       console.log(err);
+  //       setStatus("fail");
+  //       setIsToolTipOpen(true);
+  //     });
+  // }
 
-  //signout
-  function handleSignOut() {
-    setIsLoggedIn(false);
-    localStorage.removeItem("jwt");
-    history.push("/signin");
-  }
+  //signout moved to useAuth
+  // function handleSignOut() {
+  //   setIsLoggedIn(false);
+  //   localStorage.removeItem("jwt");
+  //   history.push("/signin");
+  // }
   /* --------------------------handler functions ------------------------------- */
 
   function handleEditAvatarClick() {
@@ -383,11 +389,12 @@ function App() {
   return (
     <div className="root">
       <div className="page">
+        <AuthContext.Provider value={authStore}>
         <UserContext.Provider value={currentUser}>
           <Header onSignOut={handleSignOut} />
           {/* <Header email={email} onSignOut={handleSignOut} /> */}
           <Switch>
-            <ProtectedRoute exact path="/" loggedIn={storeValue}>
+            <ProtectedRoute exact path="/">
               <Main
                 onEditAvatarClick={handleEditAvatarClick}
                 onEditProfileClick={handleEditProfileClick}
@@ -402,10 +409,11 @@ function App() {
               <Register onRegisterSubmit={handleRegisterSubmit} />
             </Route>
             <Route path="/signin">
-              <Login onLoginSubmit={handleLoginSubmit} />
+              <Login  />
+              {/* <Login onLoginSubmit={handleLoginSubmit} /> */}
             </Route>
             <Route>
-              {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
+              <NotFound/>
             </Route>
           </Switch>
           <Footer />
@@ -444,9 +452,8 @@ function App() {
             status={status}
           />
         </UserContext.Provider>
+        </AuthContext.Provider>
       </div>
     </div>
   );
 }
-
-export default App;

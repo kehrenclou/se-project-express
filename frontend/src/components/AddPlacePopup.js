@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 /* ------------------------- function AddPlacePopup ------------------------- */
-function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
+export default  function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
   const [isLinkValid, setIsLinkValid] = useState(false);
@@ -81,4 +81,3 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
   );
 }
 
-export default AddPlacePopup;

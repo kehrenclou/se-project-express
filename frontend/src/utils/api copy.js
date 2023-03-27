@@ -3,14 +3,19 @@ import { useAuth } from "../hooks";
 const baseUrl = "http://localhost:3000";
 
 class Api {
-  constructor({ baseUrl, headers, token }) {
+  constructor({ baseUrl, headers, token, props }) {
     //constructor body
+    super(props);
     this._baseUrl = baseUrl;
 
     this._headers = headers;
-
     //added32623
     this._token = token;
+
+    this.state={ headers: {
+      authorization: `Bearer ${useAuth.token}`,
+      "Content-Type": "application/json",
+    },}
   }
   //singletonpattern - having and api object (utility tused to make request)
   //always using the same object for all of your requests
@@ -107,6 +112,16 @@ class Api {
     });
   }
 }
+//added32723
+setHeaders(token){
+  this.setState = {
+    headers: {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }
+}
+ 
 
 //sets headers with token on all api calls
 export const api = new Api({
@@ -116,4 +131,9 @@ export const api = new Api({
     "Content-Type": "application/json",
   },
 });
+// export const api = new Api({
+//   baseUrl: baseUrl,
+// token:useAuth.token,
+ 
+// });
 /* --------------------------------- exports -------------------------------- */

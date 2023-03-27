@@ -1,6 +1,8 @@
 // export const BASE_URL = "https://register.nomoreparties.co";
 export const BASE_URL = "http://localhost:3000";
 
+//these are requests related to auth (requesting auth)
+
 // export const BASE_URL = "http://localhost:3000";
 const handleAuthResponse = (res) => {
   if (!res.ok) {
@@ -35,6 +37,7 @@ export const login = (email, password) => {
   }).then(handleAuthResponse);
 };
 
+//move to api
 export const getContent = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
