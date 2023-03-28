@@ -18,7 +18,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import InfoToolTip from "./InfoToolTip";
 
-import { UserContext, AuthContext, useInitializeAuthStore } from "../contexts";
+import { UserContext, AuthContext, useInitializeAuthStore, useInitializeUserStore } from "../contexts";
 
 /* -------------------------------------------------------------------------- */
 /*                                 functionApp                                */
@@ -31,14 +31,14 @@ function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [status, setStatus] = useState(""); //used for tooltip fail/sucess
 
-  const [currentUser, setCurrentUser] = useState({
-    name: " ",
-    about: " ",
-    avatar: " ",
-    //test adding email and id
-    email: "email@email.com",
-    id: "",
-  });
+  // const [currentUser, setCurrentUser] = useState({
+  //   name: " ",
+  //   about: " ",
+  //   avatar: " ",
+  //   //test adding email and id
+  //   email: "email@email.com",
+  //   id: "",
+  // });
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -53,14 +53,15 @@ function App() {
 
   let history = useHistory();
   const authStore = useInitializeAuthStore();
+  const userStore=useInitializeUserStore();
   /* -------------------------------- setup API ------------------------------- */
-  const baseUrl = "http://localhost:3000"; //trying 3001
+  // const baseUrl = "http://localhost:3000"; //trying 3001
 
-  const storeValue = useMemo(() => {
-    return {
-      currentUser,
-    };
-  }, [currentUser]);
+  // const storeValue = useMemo(() => {
+  //   return {
+  //     currentUser,
+  //   };
+  // }, [currentUser]);
   /* --------------------------- useEffect  ----------------------------------- */
   //on load
   //on loggedIn change
@@ -78,6 +79,7 @@ function App() {
     } else {
       console.log("useeffectonload", token); //token here
       console.log("authstore", authStore);
+
       api.setHeaders({
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -97,9 +99,9 @@ function App() {
             //   authorization: `Bearer ${token}`,
             //   "Content-Type": "application/json",
             // });
-            setCurrentUser(res);
+            userStore.setCurrentUser(res);
             // loadAppInfo(); //load appinfo in this file
-            console.log("loggedin?", authStore.isLoggedIn); //returns false?
+            console.log("ue onload user?", userStore.currentUser); //
           }
         })
         .catch((err) => {
@@ -115,7 +117,7 @@ function App() {
   useEffect(() => {
     if (!authStore.isLoggedIn) {
       console.log(
-        "ue cards on load authStore.isloggedin",
+        "ue cards on load authStore.isnotloggedin",
         authStore.isLoggedIn
       );
       return;
@@ -148,12 +150,12 @@ function App() {
 
   /* --------------------------- handlers with apis --------------------------- */
   //Update User
-  function handleUpdateUser(currentUser) {
+  function handleUpdateUser(input) {
     setIsLoading(true);
     api
-      .setUserInfo(currentUser.name, currentUser.about)
+      .setUserInfo(input.name, input.about)
       .then((userData) => {
-        setCurrentUser(userData);
+        userStore.setCurrentUser(userData);
         closeAllPopups();
       })
       .catch((err) => {
@@ -172,7 +174,7 @@ function App() {
       .setProfileAvatar(newAvatar.avatar)
       .then((newAvatar) => {
         // setUserAvatar(newAvatar);
-        setCurrentUser(newAvatar);
+        userStore.setCurrentUser(newAvatar);
         closeAllPopups();
       })
       .catch((err) => {
@@ -186,7 +188,7 @@ function App() {
   //Like Unlike Card
   function handleCardLike(card) {
     // Check one more time if this card was already liked
-    const isLiked = card.likes.some((user) => user === currentUser._id);
+    const isLiked = card.likes.some((user) => user === userStore.currentUser._id);
     // Send a request to the API and getting the updated card data
     api
       .changeLikeCardStatus(card._id, !isLiked)
@@ -276,6 +278,10 @@ function App() {
           console.log("handleloginsubmit", res, email, password); //returns token and email
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
+          api.setHeaders({
+            authorization: `Bearer ${res.token}`, //useAuth.token will be a response instead of useAuth
+            "Content-Type": "application/json",
+          });
           authStore.setIsLoggedIn(true);
           // fetchUserInfo();
 
@@ -334,7 +340,8 @@ function App() {
   return (
     <div className="root">
       <div className="page">
-        <UserContext.Provider value={currentUser}>
+        <AuthContext.Provider value={authStore}>
+        <UserContext.Provider value={userStore}>
           <Header onSignOut={handleSignOut} />
           {/* <Header email={email} onSignOut={handleSignOut} /> */}
           <Switch>
@@ -399,6 +406,7 @@ function App() {
             status={status}
           />
         </UserContext.Provider>
+        </AuthContext.Provider>
       </div>
     </div>
   );

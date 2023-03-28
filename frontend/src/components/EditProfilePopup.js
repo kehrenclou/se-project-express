@@ -31,7 +31,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
 
   function handleSubmit() {
     onUpdateUser({
-      name,
+      name: name,
       about: description,
     });
   }
@@ -60,7 +60,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         type="text"
         minLength="2"
         maxLength="40"
-        value={name}
+        value={name ?? ''}
         onChange={handleNameChange}
         required
       />
@@ -78,7 +78,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         type="text"
         minLength="2"
         maxLength="200"
-        value={description}
+        value={description ?? ''}
         onChange={handleDescriptionChange}
         required
       />
