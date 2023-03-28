@@ -91,23 +91,28 @@ function App() {
   //1. useEffect on load - check tokens
   useEffect(() => {
     setToken(localStorage.getItem("jwt"));
-    console.log("token", token);//returns token
+    console.log("token", token); //returns token
     //no token on loading page
     if (!token) {
       history.push("/signin");
     } else {
       console.log("useeffectonload");
-      auth
-        .getContent(token) //in auth file- on load check token frontend auth.getcontent
+      api.getInfo()
+      // auth
+      //   .getContent(token) //in auth file- on load check token frontend auth.getcontent
         //sends with token in header - endpoint /users/me=>sendUserProfile from controller
         //QUESTION: how is the token able to return the user info - its getting it
         .then((res) => {
           if (res) {
             console.log("useeffect check token", res);//return object with userino
             setIsLoggedIn(true);
-
-            loadAppInfo(); //load appinfo in this file
-            console.log("loggedin?", isLoggedIn);//returns false?
+            api.setHeaders({
+              authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            })
+            setCurrentUser(res);
+            // loadAppInfo(); //load appinfo in this file
+            console.log("loggedin?", isLoggedIn); //returns false?
           }
         })
         .catch((err) => {
@@ -117,8 +122,8 @@ function App() {
     }
   }, []);
 
+  //useEffect on api change - this could be redundant
   useEffect(() => {
-    console.log("history changed");
     if (!token) {
       return;
     } //exit if token is null, maybe set user undefined here
@@ -127,7 +132,7 @@ function App() {
       // .getAppInfo()
 
       .then((userData) => {
-        console.log("ue after getinfo", userData);
+        console.log("ue after api.getinfo-api change", userData);
         setCurrentUser(userData);
       })
       .catch((err) => {
@@ -180,21 +185,21 @@ function App() {
   }, []);
 
   /* ------------------------------ api functions ----------------------------- */
-  function loadAppInfo() {
-    api
-      //debugginn3/27 using getInfo instead of getAppInfo - to test promise errors
-      .getInfo() //returns object - user data
+  // function loadAppInfo() {
+  //   api
+  //     //debugginn3/27 using getInfo instead of getAppInfo - to test promise errors
+  //     .getInfo() //returns object - user data
 
-      //already has user info from what is calling this?redundant
-      .then((userData) => {
-        console.log("ue after loadAppInfo", userData);
-        setCurrentUser(userData); //setting user data -
-        history.push("/");
-      })
-      .catch((err) => {
-        api.handleErrorResponse(err);
-      });
-  }
+  //     //already has user info from what is calling this?redundant
+  //     .then((userData) => {
+  //       console.log("ue after loadAppInfo", userData);
+  //       setCurrentUser(userData); //setting user data -
+  //       history.push("/");
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     });
+  // }
   // function loadAppInfo() {
   //   api
   //     //debugginn3/27 using getInfo instead of getAppInfo - to test promise errors
@@ -343,7 +348,7 @@ function App() {
       .login(email, password)
       .then((res) => {
         if (res) {
-          console.log("handleloginsubmit", res, email, password);//returns token and email
+          console.log("handleloginsubmit", res, email, password); //returns token and email
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
           setIsLoggedIn(true);

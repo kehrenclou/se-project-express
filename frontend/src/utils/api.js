@@ -37,8 +37,9 @@ class Api {
   getInfo() {
     //get user info from server
     return this._request(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
       method: "GET",
+      headers: this._headers,
+     
     });
   }
 
