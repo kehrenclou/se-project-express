@@ -55,26 +55,6 @@ function App() {
   const authStore = useInitializeAuthStore();
   /* -------------------------------- setup API ------------------------------- */
   const baseUrl = "http://localhost:3000"; //trying 3001
-  // const baseUrl = "http://localhost:3000";
-  // const api = new Api({
-  //   baseUrl: baseUrl,
-  //   headers: {
-  //     authorization: `Bearer ${token}`,
-  //     "Content-Type": "application/json",
-  //   },
-  //   // headers: { authorization: token, "Content-Type": "application/json" },
-  // });
-  // const api = useMemo(() => {
-  //   console.log("api usememo called");
-  //   console.log("api", token, currentUser);
-  //   return new Api({
-  //     baseUrl: baseUrl,
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  // }, [token]);
 
   const storeValue = useMemo(() => {
     return {
@@ -88,7 +68,7 @@ function App() {
   //not loading current data
   //?how is jwt being updated
 
-  //1. useEffect on load - check tokens
+  //1. useEffect on load - check tokens, set userinfo
   useEffect(() => {
     setToken(localStorage.getItem("jwt"));
     console.log("authstoretoken", authStore.token); //returns token
@@ -102,7 +82,8 @@ function App() {
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       });
-      api .getInfo()
+      api
+        .getInfo()
         // auth
         //   .getContent(token) //in auth file- on load check token frontend auth.getcontent
         //sends with token in header - endpoint /users/me=>sendUserProfile from controller
@@ -128,46 +109,21 @@ function App() {
     }
   }, []);
 
-  //useEffect on api change - this could be redundant
-  // useEffect(() => {
-  //   if (!token) {
-  //     return;
-  //   } //exit if token is null, maybe set user undefined here
-  //   api
-  //     .getInfo() //user info from server
-  //     // .getAppInfo()
-
-  //     .then((userData) => {
-  //       console.log("ue after api.getinfo-api change", userData);
-  //       setCurrentUser(userData);
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }, [api]);
-
-  // const fetchUserInfo = useCallback(() => {
-  //   console.log("fetchUserInfo");
-  //   api
-  //     .getInfo() //user info from server
-  //     // .getAppInfo()
-
-  //     .then((userData) => {
-  //       console.log("ue after fetchuserinfo", userData);
-  //       setCurrentUser(userData);
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }, []);
-
   //use effect gets cards from server & sets - when isLoggedIn state changes
   //isLoggedIn changes on handleLoginSubmit before protected route is loaded
   //api.getInitialCards
   useEffect(() => {
     if (!authStore.isLoggedIn) {
+      console.log(
+        "ue cards on load authStore.isloggedin",
+        authStore.isLoggedIn
+      );
       return;
     } //exit if not logged in
+    api.setHeaders({
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
     api
       .getInitialCards() //card info from server
       .then((initialCards) => {
@@ -189,43 +145,6 @@ function App() {
       document.removeEventListener("keydown", handleEscClose, false);
     };
   }, []);
-
-  /* ------------------------------ api functions ----------------------------- */
-  // function loadAppInfo() {
-  //   api
-  //     //debugginn3/27 using getInfo instead of getAppInfo - to test promise errors
-  //     .getInfo() //returns object - user data
-
-  //     //already has user info from what is calling this?redundant
-  //     .then((userData) => {
-  //       console.log("ue after loadAppInfo", userData);
-  //       setCurrentUser(userData); //setting user data -
-  //       history.push("/");
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }
-  // function loadAppInfo() {
-  //   api
-  //     //debugginn3/27 using getInfo instead of getAppInfo - to test promise errors
-  //     .getInfo()
-  //     .getInitialCards()
-  //     // .getAppInfo() //api return cards and info
-  //     //already has user info from what is calling this?redundant
-  //     .then(([userData, cardData]) => {
-  //       console.log("ue after getappinfo", userData, cardData);
-  //       setCurrentUser(userData); //setting user data -
-  //       //but not context unless that is called in a useffect
-  //       setCards(cardData); //set card data - but not rendering?
-  //       //what should trigger to go to /?history
-  //       //try history here  - this works is this correct
-  //       history.push("/");
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }
 
   /* --------------------------- handlers with apis --------------------------- */
   //Update User
@@ -419,7 +338,7 @@ function App() {
           <Header onSignOut={handleSignOut} />
           {/* <Header email={email} onSignOut={handleSignOut} /> */}
           <Switch>
-            <ProtectedRoute exact path="/" loggedIn={storeValue}>
+            <ProtectedRoute exact path="/" loggedIn={authStore.isLoggedIn}>
               <Main
                 onEditAvatarClick={handleEditAvatarClick}
                 onEditProfileClick={handleEditProfileClick}
