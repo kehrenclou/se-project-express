@@ -345,7 +345,7 @@ function App() {
           <Header onSignOut={handleSignOut} />
           {/* <Header email={email} onSignOut={handleSignOut} /> */}
           <Switch>
-            <ProtectedRoute exact path="/" loggedIn={authStore.isLoggedIn}>
+            <ProtectedRoute exact path="/" >
               <Main
                 onEditAvatarClick={handleEditAvatarClick}
                 onEditProfileClick={handleEditProfileClick}

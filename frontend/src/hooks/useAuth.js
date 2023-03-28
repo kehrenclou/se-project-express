@@ -5,7 +5,7 @@ import { AuthContext } from "../contexts";
 export const useAuth = () => {
   const { isLoggedIn, token, setToken, setIsLoggedIn } =
     useContext(AuthContext);
-  const history = useHistory();
+  // const history = useHistory();
   // const userData = token ? jwt.decode(token, ) : {};
 
   const handleSignOut = useCallback(() => {
