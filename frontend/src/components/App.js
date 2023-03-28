@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 
-import Api from "../utils/api";
+import { api } from "../utils/api";
 import * as auth from "../utils/auth";
 import Header from "./Header";
 import Main from "./Main";
@@ -18,7 +18,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import InfoToolTip from "./InfoToolTip";
 
-import { UserContext } from "../contexts/UserContext";
+import { UserContext, AuthContext, useInitializeAuthStore } from "../contexts";
 
 /* -------------------------------------------------------------------------- */
 /*                                 functionApp                                */
@@ -28,7 +28,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem("jwt"));
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [status, setStatus] = useState(""); //used for tooltip fail/sucess
 
   const [currentUser, setCurrentUser] = useState({
@@ -52,7 +52,7 @@ function App() {
   const [isToolTipOpen, setIsToolTipOpen] = useState(false);
 
   let history = useHistory();
-
+  const authStore = useInitializeAuthStore();
   /* -------------------------------- setup API ------------------------------- */
   const baseUrl = "http://localhost:3000"; //trying 3001
   // const baseUrl = "http://localhost:3000";
@@ -64,17 +64,17 @@ function App() {
   //   },
   //   // headers: { authorization: token, "Content-Type": "application/json" },
   // });
-  const api = useMemo(() => {
-    console.log("api usememo called");
-    console.log("api", token, currentUser);
-    return new Api({
-      baseUrl: baseUrl,
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-  }, [token]);
+  // const api = useMemo(() => {
+  //   console.log("api usememo called");
+  //   console.log("api", token, currentUser);
+  //   return new Api({
+  //     baseUrl: baseUrl,
+  //     headers: {
+  //       authorization: `Bearer ${token}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  // }, [token]);
 
   const storeValue = useMemo(() => {
     return {
@@ -91,28 +91,34 @@ function App() {
   //1. useEffect on load - check tokens
   useEffect(() => {
     setToken(localStorage.getItem("jwt"));
-    console.log("token", token); //returns token
+    console.log("authstoretoken", authStore.token); //returns token
     //no token on loading page
-    if (!token) {
+    if (!authStore.token) {
       history.push("/signin");
     } else {
-      console.log("useeffectonload");
-      api.getInfo()
-      // auth
-      //   .getContent(token) //in auth file- on load check token frontend auth.getcontent
+      console.log("useeffectonload", token); //token here
+      console.log("authstore", authStore);
+      api.setHeaders({
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      });
+      api .getInfo()
+        // auth
+        //   .getContent(token) //in auth file- on load check token frontend auth.getcontent
         //sends with token in header - endpoint /users/me=>sendUserProfile from controller
         //QUESTION: how is the token able to return the user info - its getting it
         .then((res) => {
           if (res) {
-            console.log("useeffect check token", res);//return object with userino
-            setIsLoggedIn(true);
-            api.setHeaders({
-              authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            })
+            console.log("useeffect onloadres", res); //return object with userino
+            authStore.setIsLoggedIn(true);
+            //do headers need to be set here?
+            // api.setHeaders({
+            //   authorization: `Bearer ${token}`,
+            //   "Content-Type": "application/json",
+            // });
             setCurrentUser(res);
             // loadAppInfo(); //load appinfo in this file
-            console.log("loggedin?", isLoggedIn); //returns false?
+            console.log("loggedin?", authStore.isLoggedIn); //returns false?
           }
         })
         .catch((err) => {
@@ -123,22 +129,22 @@ function App() {
   }, []);
 
   //useEffect on api change - this could be redundant
-  useEffect(() => {
-    if (!token) {
-      return;
-    } //exit if token is null, maybe set user undefined here
-    api
-      .getInfo() //user info from server
-      // .getAppInfo()
+  // useEffect(() => {
+  //   if (!token) {
+  //     return;
+  //   } //exit if token is null, maybe set user undefined here
+  //   api
+  //     .getInfo() //user info from server
+  //     // .getAppInfo()
 
-      .then((userData) => {
-        console.log("ue after api.getinfo-api change", userData);
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        api.handleErrorResponse(err);
-      });
-  }, [api]);
+  //     .then((userData) => {
+  //       console.log("ue after api.getinfo-api change", userData);
+  //       setCurrentUser(userData);
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     });
+  // }, [api]);
 
   // const fetchUserInfo = useCallback(() => {
   //   console.log("fetchUserInfo");
@@ -159,7 +165,7 @@ function App() {
   //isLoggedIn changes on handleLoginSubmit before protected route is loaded
   //api.getInitialCards
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!authStore.isLoggedIn) {
       return;
     } //exit if not logged in
     api
@@ -170,7 +176,7 @@ function App() {
       .catch((err) => {
         api.handleErrorResponse(err);
       });
-  }, [isLoggedIn]);
+  }, [authStore.isLoggedIn]);
 
   useEffect(() => {
     const handleEscClose = (event) => {
@@ -351,7 +357,7 @@ function App() {
           console.log("handleloginsubmit", res, email, password); //returns token and email
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
-          setIsLoggedIn(true);
+          authStore.setIsLoggedIn(true);
           // fetchUserInfo();
 
           history.push("/");
@@ -370,7 +376,7 @@ function App() {
 
   //signout
   function handleSignOut() {
-    setIsLoggedIn(false);
+    authStore.setIsLoggedIn(false);
     localStorage.removeItem("jwt");
     history.push("/signin");
   }
@@ -431,7 +437,11 @@ function App() {
               <Login onLoginSubmit={handleLoginSubmit} />
             </Route>
             <Route>
-              {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
+              {authStore.isLoggedIn ? (
+                <Redirect to="/" />
+              ) : (
+                <Redirect to="/signin" />
+              )}
             </Route>
           </Switch>
           <Footer />

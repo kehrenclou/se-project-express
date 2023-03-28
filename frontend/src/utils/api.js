@@ -1,3 +1,8 @@
+/* --------------------------------- imports -------------------------------- */
+import {useAuth} from "../hooks";
+/* -------------------------------- variables ------------------------------- */
+const baseUrl ="http://localhost:3000";
+/* -------------------------------- class Api ------------------------------- */
 class Api {
   constructor({ baseUrl, headers }) {
     //constructor body
@@ -103,4 +108,11 @@ class Api {
 }
 
 /* --------------------------------- exports -------------------------------- */
-export default Api;
+//sets headers with token on all api calls
+export const api = new Api({
+  baseUrl: baseUrl,
+  headers: {
+    authorization: `Bearer ${useAuth.token}`,
+    "Content-Type": "application/json",
+  },
+});
