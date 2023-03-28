@@ -5,7 +5,7 @@ class Api {
 
     this._headers = headers;
   }
- 
+
   _request(url, options) {
     return fetch(url, options).then(this._handleResponse);
     // return fetch(url, options).then((res) =>
@@ -21,10 +21,16 @@ class Api {
     return Promise.reject(`Error: ${res.status}`);
   }
 
-  handleErrorResponse(err) {
+  // handleErrorResponse(err) {
+  //   console.log(`Error: ${err}`);
+  // }
+  //3/27refactor
+  handleErrorResponse=(err) =>{
     console.log(`Error: ${err}`);
+    throw err;
   }
 
+  //this function appears to be redundant as things are moving around
   getAppInfo() {
     return Promise.all([this.getInfo(), this.getInitialCards()]);
   }

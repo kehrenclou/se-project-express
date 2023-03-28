@@ -36,8 +36,8 @@ function App() {
     about: " ",
     avatar: " ",
     //test adding email and id
-    email:"email@email.com",
-    id:"",
+    email: "email@email.com",
+    id: "",
   });
 
   const [cards, setCards] = useState([]);
@@ -66,7 +66,7 @@ function App() {
   // });
   const api = useMemo(() => {
     console.log("api usememo called");
-    console.log("api",token,currentUser)
+    console.log("api", token, currentUser);
     return new Api({
       baseUrl: baseUrl,
       headers: {
@@ -76,11 +76,11 @@ function App() {
     });
   }, [token]);
 
-  const storeValue=useMemo(()=>{
-    return{
+  const storeValue = useMemo(() => {
+    return {
       currentUser,
     };
-  },[currentUser])
+  }, [currentUser]);
   /* --------------------------- useEffect  ----------------------------------- */
   //on load
   //on loggedIn change
@@ -91,23 +91,23 @@ function App() {
   //1. useEffect on load - check tokens
   useEffect(() => {
     setToken(localStorage.getItem("jwt"));
-    console.log("token", token);
+    console.log("token", token);//returns token
     //no token on loading page
     if (!token) {
       history.push("/signin");
     } else {
-      console.log("useeffectonload")
+      console.log("useeffectonload");
       auth
         .getContent(token) //in auth file- on load check token frontend auth.getcontent
         //sends with token in header - endpoint /users/me=>sendUserProfile from controller
         //QUESTION: how is the token able to return the user info - its getting it
         .then((res) => {
           if (res) {
-            console.log("useeffect check token", res);
+            console.log("useeffect check token", res);//return object with userino
             setIsLoggedIn(true);
-      
+
             loadAppInfo(); //load appinfo in this file
-            console.log("loggedin?", isLoggedIn);
+            console.log("loggedin?", isLoggedIn);//returns false?
           }
         })
         .catch((err) => {
@@ -150,6 +150,9 @@ function App() {
   //     });
   // }, []);
 
+  //use effect gets cards from server & sets - when isLoggedIn state changes
+  //isLoggedIn changes on handleLoginSubmit before protected route is loaded
+  //api.getInitialCards
   useEffect(() => {
     if (!isLoggedIn) {
       return;
@@ -179,21 +182,39 @@ function App() {
   /* ------------------------------ api functions ----------------------------- */
   function loadAppInfo() {
     api
-      .getAppInfo() //api return cards and info
+      //debugginn3/27 using getInfo instead of getAppInfo - to test promise errors
+      .getInfo() //returns object - user data
+
       //already has user info from what is calling this?redundant
-      .then(([userData, cardData]) => {
-        console.log("ue after getappinfo", userData, cardData);
+      .then((userData) => {
+        console.log("ue after loadAppInfo", userData);
         setCurrentUser(userData); //setting user data -
-        //but not context unless that is called in a useffect
-        setCards(cardData); //set card data - but not rendering?
-        //what should trigger to go to /?history
-        //try history here  - this works is this correct
         history.push("/");
       })
       .catch((err) => {
         api.handleErrorResponse(err);
       });
   }
+  // function loadAppInfo() {
+  //   api
+  //     //debugginn3/27 using getInfo instead of getAppInfo - to test promise errors
+  //     .getInfo()
+  //     .getInitialCards()
+  //     // .getAppInfo() //api return cards and info
+  //     //already has user info from what is calling this?redundant
+  //     .then(([userData, cardData]) => {
+  //       console.log("ue after getappinfo", userData, cardData);
+  //       setCurrentUser(userData); //setting user data -
+  //       //but not context unless that is called in a useffect
+  //       setCards(cardData); //set card data - but not rendering?
+  //       //what should trigger to go to /?history
+  //       //try history here  - this works is this correct
+  //       history.push("/");
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     });
+  // }
 
   /* --------------------------- handlers with apis --------------------------- */
   //Update User
@@ -322,7 +343,7 @@ function App() {
       .login(email, password)
       .then((res) => {
         if (res) {
-          console.log("handleloginsubmit", res, email, password);
+          console.log("handleloginsubmit", res, email, password);//returns token and email
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
           setIsLoggedIn(true);
