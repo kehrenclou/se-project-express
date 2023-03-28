@@ -25,10 +25,10 @@ class Api {
   //   console.log(`Error: ${err}`);
   // }
   //3/27refactor
-  handleErrorResponse=(err) =>{
+  handleErrorResponse = (err) => {
     console.log(`Error: ${err}`);
     throw err;
-  }
+  };
 
   //this function appears to be redundant as things are moving around
   getAppInfo() {
@@ -94,6 +94,10 @@ class Api {
       headers: this._headers,
       method: "DELETE",
     });
+  }
+
+  setHeaders(headers) {
+    this._headers = headers;
   }
 }
 
