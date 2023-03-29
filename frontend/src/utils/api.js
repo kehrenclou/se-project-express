@@ -21,7 +21,7 @@ class Api {
   //check difference between returning res and putting it in -request - may be ok to delete this part
   _handleResponse(res) {
     if (res.ok) {
-      return res.json();
+      return  res.json();
     }
     return Promise.reject(`Error: ${res.status}`);
   }
@@ -39,7 +39,7 @@ class Api {
   getAppInfo() {
     return Promise.all([this.getInfo(), this.getInitialCards()]);
   }
-  getInfo() {
+  getInfo=async() =>{
     //get user info from server
     return this._request(`${this._baseUrl}/users/me`, {
       method: "GET",

@@ -87,13 +87,49 @@ function App() {
   //sets authstore isloggedin true
   //sets userstore with profile
   useEffect(() => {
-    // setToken(localStorage.getItem("jwt"));
+    setToken(localStorage.getItem("jwt"));
     console.log("jwtsettoken", token);
     console.log("authstoretoken", authStore.token); //returns token
     //no token on loading page
     if (!authStore.token) {
       history.push("/signin");
-    } 
+    } else {
+      // console.log("useeffectonload", token); //local storage token here
+      console.log("authstore if token", authStore); //auth store here
+      // authStore.setIsLoggedIn(true);
+      api.setHeaders({
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      });
+      api
+        .getInfo()
+        // auth
+        //   .getContent(token) //in auth file- on load check token frontend auth.getcontent
+        //sends with token in header - endpoint /users/me=>sendUserProfile from controller
+        //QUESTION: how is the token able to return the user info - its getting it
+        .then((res) => {
+          if (res) {
+            console.log("useeffect onloadres after getinfo", res);
+            //return object with userino if logged out
+            //if reload while logged in returns last person info
+            authStore.setIsLoggedIn(true);
+            // useAuth.setIsLoggedIn(true);//caused error as context not defined
+            //do headers need to be set here?
+            // api.setHeaders({
+            //   authorization: `Bearer ${token}`,
+            //   "Content-Type": "application/json",
+            // });
+            userStore.setCurrentUser(res);
+            // loadAppInfo(); //load appinfo in this file
+            console.log("ue onload user?", userStore.currentUser); //
+            console.log("ue on load auth store", authStore); // not showing login
+          }
+        })
+        .catch((err) => {
+          auth.handleAuthError(err);
+          history.push("/signin");
+        });
+    }
   }, []);
 
   //use effect gets cards from server & sets - when isLoggedIn state changes
