@@ -255,40 +255,41 @@ function App() {
       });
   }
 
-  //login
+  //login --moved to login component
   //?should this also be calling loginuser from backendcontroller
-  function handleLoginSubmit({ email, password }) {
-    auth
-      .login(email, password)
-      .then((res) => {
-        if (res) {
-          console.log("handleloginsubmit", res, email, password); //returns token and email
-          localStorage.setItem("jwt", res.token);
-          setToken(res.token);
-          api.setHeaders({
-            authorization: `Bearer ${res.token}`, //useAuth.token will be a response instead of useAuth
-            "Content-Type": "application/json",
-          });
-          authStore.setIsLoggedIn(true);
-          // fetchUserInfo();
+  // function handleLoginSubmit({ email, password }) {
+  //   auth
+  //     .login(email, password)
+  //     .then((res) => {
+  //       if (res) {
+  //         console.log("handleloginsubmit", res, email, password); //returns token and email
+  //         localStorage.setItem("jwt", res.token);
+  //         setToken(res.token);
+  //         api.setHeaders({
+  //           authorization: `Bearer ${res.token}`, //useAuth.token will be a response instead of useAuth
+  //           "Content-Type": "application/json",
+  //         });
+  //         authStore.setIsLoggedIn(true);
+  //         // fetchUserInfo();
 
-          history.push("/");
-        } else {
-          setStatus("fail");
-          setIsToolTipOpen(true);
-        }
-      })
-      .catch((err) => {
-        // auth.handleAuthError(err);
-        console.log(err);
-        setStatus("fail");
-        setIsToolTipOpen(true);
-      });
-  }
+  //         history.push("/");
+  //       } else {
+  //         setStatus("fail");
+  //         setIsToolTipOpen(true);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       // auth.handleAuthError(err);
+  //       console.log(err);
+  //       setStatus("fail");
+  //       setIsToolTipOpen(true);
+  //     });
+  // }
 
   //signout
   function handleSignOut() {
     authStore.setIsLoggedIn(false);
+    userStore.setCurrentUser({})
     localStorage.removeItem("jwt");
     history.push("/signin");
   }
@@ -347,7 +348,8 @@ function App() {
                 <Register onRegisterSubmit={handleRegisterSubmit} />
               </Route>
               <Route path="/signin">
-                <Login onLoginSubmit={handleLoginSubmit} />
+                {/* <Login onLoginSubmit={handleLoginSubmit} /> */}
+                <Login  />
               </Route>
               <Route>
                 {authStore.isLoggedIn ? (
