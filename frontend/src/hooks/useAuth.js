@@ -3,11 +3,11 @@ import { AuthContext } from "../contexts";
 
 //this should include handle signout
 export const useAuth = () => {
-  const { isLoggedIn, token, setToken, setIsLoggedIn } =
+  const { isLoggedIn, token, setToken, setIsLoggedIn,isLoaded,setIsLoaded } =
     useContext(AuthContext);
   // const history = useHistory();
   // const userData = token ? jwt.decode(token, ) : {};
-
+  console.log("from useAuth file", isLoggedIn);
   const handleSignOut = useCallback(() => {
     // setIsLoggedIn(false);
     // localStorage.removeItem("jwt");
@@ -15,5 +15,5 @@ export const useAuth = () => {
     // history.push("/signin");
   }, []);
 
-  return { isLoggedIn, token, setToken, setIsLoggedIn, handleSignOut };
+  return {isLoaded,isLoggedIn, token, setToken, setIsLoggedIn, setIsLoaded,handleSignOut };
 };

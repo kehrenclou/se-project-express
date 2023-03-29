@@ -1,7 +1,7 @@
 /* --------------------------------- imports -------------------------------- */
-import {useAuth} from "../hooks";
+import { useAuth } from "../hooks";
 /* -------------------------------- variables ------------------------------- */
-const baseUrl ="http://localhost:3000";
+const baseUrl = "http://localhost:3000";
 /* -------------------------------- class Api ------------------------------- */
 class Api {
   constructor({ baseUrl, headers }) {
@@ -21,7 +21,7 @@ class Api {
   //check difference between returning res and putting it in -request - may be ok to delete this part
   _handleResponse(res) {
     if (res.ok) {
-      return  res.json();
+      return res.json();
     }
     return Promise.reject(`Error: ${res.status}`);
   }
@@ -39,14 +39,13 @@ class Api {
   getAppInfo() {
     return Promise.all([this.getInfo(), this.getInitialCards()]);
   }
-  getInfo=async() =>{
+  getInfo = () => {
     //get user info from server
     return this._request(`${this._baseUrl}/users/me`, {
       method: "GET",
       headers: this._headers,
-     
     });
-  }
+  };
 
   getInitialCards() {
     //get cards ? from server

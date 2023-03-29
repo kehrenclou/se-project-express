@@ -5,7 +5,7 @@ import UserForm from "./UserForm";
 /* ----------------------------- function Login ---------------------------- */
 function Login({ onLoginSubmit }) {
   function handleSubmit(email, password) {
-    // onLoginSubmit({ email, password });
+    onLoginSubmit({ email, password });
   }
   return (
     <div className="signup">

@@ -1,37 +1,37 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth, useUser } from "../hooks";
 import { api } from "../utils/api";
-
+import { AuthContext } from "../contexts";
 /* ------------------------- function ProtectedRoute ------------------------ */
 function ProtectedRoute({ children, ...props }) {
-  const { isLoggedIn, setIsLoggedIn, token } = useAuth();
+  // const { isLoggedIn, setIsLoggedIn, token } = useAuth();
   const { currentUser, setCurrentUser } = useUser();
-
+  const { isLoggedIn, setIsLoggedIn, token, setIsLoaded, isLoaded } =
+    useContext(AuthContext);
   /* ------------------------------- use Effects ------------------------------ */
   //protected route should olny reutn getInfo and not cards
   //ok to set user here
   //fires when loading protect route
+
+  console.log({ isLoggedIn, currentUser });
   useEffect(() => {
     if (!token) {
       return;
     }
-    console.log("protexctedroute ue called-token", token);
+    //update token in headers
     api.setHeaders({
       authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     });
     api
-      .getInfo() //token declared when setting api - will it work?
+      .getInfo()
       .then((res) => {
         if (res) {
-          console.log("protectedroute return res", res);
-
           setIsLoggedIn(true);
-          //res has all of user data
-          // setIsLoggedIn(true);
-          //set user context with user data
+          setIsLoaded(true);
+
           setCurrentUser(res);
           console.log("protectected route setuserdata", currentUser);
         }
@@ -43,7 +43,7 @@ function ProtectedRoute({ children, ...props }) {
 
   return (
     <Route {...props}>
-      {isLoggedIn ? children : <Redirect to={"/signin"} />}
+      {!isLoaded ? null : isLoggedIn ? children : <Redirect to={"/signin"} />}
     </Route>
   );
 }
