@@ -4,20 +4,12 @@ import { Route, Link, useRouteMatch } from "react-router-dom";
 import headerlogo from "../images/headerlogo.svg";
 
 import { UserContext } from "../contexts/UserContext";
-
+import { useUser } from "../hooks";
 /* ----------------------------- function Header ---------------------------- */
 function Header({ onSignOut }) {
   const { path, url } = useRouteMatch();
   const user = useContext(UserContext);
-
-  const renderWithContext = (context) => {
-    if (context) {
-      return <span className="header__text">{context.email}</span>;
-    } else {
-      return {};
-    }
-  };
-
+  const { currentUser } = useUser();
   return (
     <header className="header">
       <img
@@ -27,8 +19,10 @@ function Header({ onSignOut }) {
       />
       <Route path={`${path}/`}>
         <div className="header__sub-container">
-          {/* <span className="header__text">{user.email}</span>//if soln ok delete this line */}
-          {renderWithContext(user)}
+          {currentUser ? (
+            <span className="header__text">{currentUser.email}</span>
+          ) : null}
+
           <Link
             to={`${url}signin`}
             className="header__link header__link_light"

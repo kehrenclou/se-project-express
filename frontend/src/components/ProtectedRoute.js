@@ -11,7 +11,7 @@ function ProtectedRoute({ children, ...props }) {
   const { isLoggedIn, setIsLoggedIn, token, setIsLoaded, isLoaded } =
     useContext(AuthContext);
   /* ------------------------------- use Effects ------------------------------ */
-  //protected route should olny reutn getInfo and not cards
+  //protected route should olny return getInfo and not cards
   //ok to set user here
   //fires when loading protect route
 
