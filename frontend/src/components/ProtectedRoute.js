@@ -1,15 +1,14 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth, useUser } from "../hooks";
 import { api } from "../utils/api";
-import { AuthContext } from "../contexts";
+
 /* ------------------------- function ProtectedRoute ------------------------ */
 function ProtectedRoute({ children, ...props }) {
-  // const { isLoggedIn, setIsLoggedIn, token } = useAuth();
+  const { isLoggedIn, setIsLoggedIn, token, setIsLoaded, isLoaded } = useAuth();
   const { currentUser, setCurrentUser } = useUser();
-  const { isLoggedIn, setIsLoggedIn, token, setIsLoaded, isLoaded } =
-    useContext(AuthContext);
+
   /* ------------------------------- use Effects ------------------------------ */
   //protected route should olny return getInfo and not cards
   //ok to set user here

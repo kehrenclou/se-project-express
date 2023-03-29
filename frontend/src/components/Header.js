@@ -3,12 +3,11 @@ import { useContext } from "react";
 import { Route, Link, useRouteMatch } from "react-router-dom";
 import headerlogo from "../images/headerlogo.svg";
 
-import { UserContext } from "../contexts/UserContext";
 import { useUser } from "../hooks";
 /* ----------------------------- function Header ---------------------------- */
 function Header({ onSignOut }) {
   const { path, url } = useRouteMatch();
-  const user = useContext(UserContext);
+
   const { currentUser } = useUser();
   return (
     <header className="header">

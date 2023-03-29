@@ -1,8 +1,8 @@
 /* --------------------------------- imports -------------------------------- */
 
-import { useContext } from "react";
 import Card from "./Card";
-import { UserContext } from "../contexts/UserContext";
+
+import { useUser } from "../hooks";
 
 /* -------------------------- function Main(props) -------------------------- */
 function Main({
@@ -14,8 +14,7 @@ function Main({
   onCardDelete,
   cards,
 }) {
-  const { name, about, avatar } = useContext(UserContext);
-
+  const { currentUser } = useUser();
   return (
     <main>
       <section className="profile">
@@ -26,7 +25,7 @@ function Main({
         >
           <img
             className="profile__avatar-image"
-            src={avatar}
+            src={currentUser.avatar}
             alt="Profile"
             id="profile-avatar-image"
           />
@@ -34,7 +33,7 @@ function Main({
 
         <div className="profile__details">
           <h1 className="profile__name" id="profile-name">
-            {name}
+            {currentUser.name}
           </h1>
 
           <button
@@ -46,7 +45,7 @@ function Main({
           />
 
           <p className="profile__about" id="profile-about">
-            {about}
+            {currentUser.about}
           </p>
         </div>
         <button
