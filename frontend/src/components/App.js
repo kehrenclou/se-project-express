@@ -37,15 +37,6 @@ function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [status, setStatus] = useState(""); //used for tooltip fail/sucess
 
-  // const [currentUser, setCurrentUser] = useState({
-  //   name: " ",
-  //   about: " ",
-  //   avatar: " ",
-  //   //test adding email and id
-  //   email: "email@email.com",
-  //   id: "",
-  // });
-
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardToDelete, setCardToDelete] = useState({});
@@ -92,6 +83,7 @@ function App() {
     console.log("authstoretoken", authStore.token); //returns token
     //no token on loading page
     if (!authStore.token) {
+      console.log("ue no authstore.token")
       history.push("/signin");
     } 
   }, []);
@@ -99,6 +91,7 @@ function App() {
   //use effect gets cards from server & sets - when isLoggedIn state changes
   //isLoggedIn changes on handleLoginSubmit before protected route is loaded
   //api.getInitialCards
+  //debugging not loggedin onload
   useEffect(() => {
     if (!authStore.isLoggedIn) {
       console.log(

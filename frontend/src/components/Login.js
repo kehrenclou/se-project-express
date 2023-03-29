@@ -1,5 +1,5 @@
 /* --------------------------------- imports -------------------------------- */
-
+import {useHistory} from "react-router-dom";
 import UserForm from "./UserForm";
 import { useAuth, useUser } from "../hooks";
 import { api } from "../utils/api";
@@ -7,6 +7,7 @@ import * as auth from "../utils/auth";
 
 /* ----------------------------- function Login ---------------------------- */
 function Login({ onLoginSubmit }) {
+  const history=useHistory();
   const { currentUser, setCurrentUser } = useUser();
   const { token, setToken, setIsLoggedIn, setStatus, setIsToolTipOpen } =
     useAuth();
@@ -20,6 +21,7 @@ function Login({ onLoginSubmit }) {
     //error from email and password being undefined - fixed
     //not going to next page
     //islogged in is changing to true but not calling anything to push to /
+    //click button sets to true doesn't goto protected route
     auth
 
       .login(email, password)
@@ -35,7 +37,7 @@ function Login({ onLoginSubmit }) {
           setIsLoggedIn(true);
           // fetchUserInfo();
           //history broke code before may not need it if other stuff set up correctly
-          // history.push("/");
+          history.push("/");
         } else {
           console.log("fail");
           setStatus("fail");
