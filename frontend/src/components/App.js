@@ -18,12 +18,14 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import InfoToolTip from "./InfoToolTip";
 
-import { useAuth } from "../hooks";
+// import { useAuth } from "../hooks";
 import {
   UserContext,
   AuthContext,
+  ModalContext,
   useInitializeAuthStore,
   useInitializeUserStore,
+  useInitializeModalStore,
 } from "../contexts";
 
 /* -------------------------------------------------------------------------- */

@@ -1,19 +1,29 @@
-import { useCallback, useContext, useHistory } from "react";
+import { useCallback, useContext } from "react";
 import { AuthContext } from "../contexts";
 
 //this should include handle signout
+//cant useHistory in a hook
 export const useAuth = () => {
-  const { isLoggedIn, token, setToken, setIsLoggedIn,isLoaded,setIsLoaded } =
-    useContext(AuthContext);
-  // const history = useHistory();
+  // if decoding token needed would happen here
   // const userData = token ? jwt.decode(token, ) : {};
-  console.log("from useAuth file", isLoggedIn);
-  const handleSignOut = useCallback(() => {
-    // setIsLoggedIn(false);
-    // localStorage.removeItem("jwt");
-    // setToken(undefined);
-    // history.push("/signin");
+  const { isLoggedIn, token, setToken, setIsLoggedIn, isLoaded, setIsLoaded } =
+    useContext(AuthContext);
+
+  const onSignOut = useCallback(() => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("jwt");
+    setToken(undefined);
   }, []);
 
-  return {isLoaded,isLoggedIn, token, setToken, setIsLoggedIn, setIsLoaded,handleSignOut };
+  console.log("from useAuth file", isLoggedIn);
+  
+  return {
+    isLoaded,
+    isLoggedIn,
+    token,
+    setToken,
+    setIsLoggedIn,
+    setIsLoaded,
+    onSignOut,
+  };
 };

@@ -1,14 +1,22 @@
 /* --------------------------------- imports -------------------------------- */
-import { useContext } from "react";
+import { useHistory } from "react";
 import { Route, Link, useRouteMatch } from "react-router-dom";
 import headerlogo from "../images/headerlogo.svg";
 
-import { useUser } from "../hooks";
+import { useUser, useAuth } from "../hooks";
 /* ----------------------------- function Header ---------------------------- */
-function Header({ onSignOut }) {
+function Header() {
+  // const history = useHistory();
   const { path, url } = useRouteMatch();
-
   const { currentUser } = useUser();
+  const { onSignOut, setIsLoggedIn, setToken } = useAuth();
+  /* -------------------------------- handlers -------------------------------- */
+  const handleSignOut = () => {
+    console.log("signoutclicked");
+    onSignOut();
+  };
+
+  /* --------------------------------- return --------------------------------- */
   return (
     <header className="header">
       <img
@@ -25,7 +33,7 @@ function Header({ onSignOut }) {
           <Link
             to={`${url}signin`}
             className="header__link header__link_light"
-            onClick={onSignOut}
+            onClick={handleSignOut}
           >
             Log out
           </Link>
