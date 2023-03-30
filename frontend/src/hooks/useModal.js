@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import {  useContext } from "react";
 import { ModalContext } from "../contexts";
 
 //this should include handle signout

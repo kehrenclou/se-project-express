@@ -50,14 +50,16 @@ function App() {
     useState(false);
   const [isToolTipOpen, setIsToolTipOpen] = useState(false);
 
+  /* --------------------- set history and context stores --------------------- */
   let history = useHistory();
   const authStore = useInitializeAuthStore();
   const userStore = useInitializeUserStore();
+  const modalStore = useInitializeModalStore();
 
   /* --------------------------- useEffect  ----------------------------------- */
   //on load
   //on loggedIn change
-  //loads user info 
+  //loads user info
   //not loading current data
   //?how is jwt being updated
 
@@ -65,14 +67,13 @@ function App() {
   //currently calling local storage token not auth context
   useEffect(() => {
     api.setHeaders({
-      authorization: `Bearer ${token}`, 
+      authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     });
   }, [token]);
 
-
-  //1. useEffect on load - 
-  //set token to local storage, 
+  //1. useEffect on load -
+  //set token to local storage,
   //if there is a token in auth store, (sets from jwt on load)
   // set headers
   // get info (returns user profile?)
@@ -85,9 +86,9 @@ function App() {
     console.log("authstoretoken", authStore.token); //returns token
     //no token on loading page
     if (!authStore.token) {
-      console.log("ue no authstore.token")
+      console.log("ue no authstore.token");
       history.push("/signin");
-    } 
+    }
   }, []);
 
   //use effect gets cards from server & sets - when isLoggedIn state changes
@@ -281,13 +282,13 @@ function App() {
   //     });
   // }
 
-  //signout
-  function handleSignOut() {
-    authStore.setIsLoggedIn(false);
-    userStore.setCurrentUser({})
-    localStorage.removeItem("jwt");
-    history.push("/signin");
-  }
+  //signout- moved to header
+  // function handleSignOut() {
+  //   authStore.setIsLoggedIn(false);
+  //   userStore.setCurrentUser({})
+  //   localStorage.removeItem("jwt");
+  //   history.push("/signin");
+  // }
   /* --------------------------handler functions ------------------------------- */
 
   function handleEditAvatarClick() {
@@ -325,7 +326,8 @@ function App() {
       <div className="page">
         <AuthContext.Provider value={authStore}>
           <UserContext.Provider value={userStore}>
-            <Header onSignOut={handleSignOut} />
+            <ModalContext.Provider value={modalStore}>
+            <Header />
             {/* <Header email={email} onSignOut={handleSignOut} /> */}
             <Switch>
               <ProtectedRoute exact path="/">
@@ -344,7 +346,7 @@ function App() {
               </Route>
               <Route path="/signin">
                 {/* <Login onLoginSubmit={handleLoginSubmit} /> */}
-                <Login  />
+                <Login />
               </Route>
               <Route>
                 {authStore.isLoggedIn ? (
@@ -389,6 +391,7 @@ function App() {
               onClose={closeAllPopups}
               status={status}
             />
+            </ModalContext.Provider>
           </UserContext.Provider>
         </AuthContext.Provider>
       </div>

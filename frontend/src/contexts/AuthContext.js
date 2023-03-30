@@ -7,18 +7,14 @@ export const useInitializeAuthStore = () => {
   const [token, setToken] = useState(localStorage.getItem("jwt"));
   const [isToolTipOpen, setIsToolTipOpen] = useState(false);
   const [status, setStatus] = useState(""); //used for tooltip fail/sucess
-  const[isLoaded,setIsLoaded]=useState(false);//tracks if finished losading info
-  console.log("from authstore file",isLoggedIn);
+  const [isLoaded, setIsLoaded] = useState(false); //tracks if finished losading info
+  console.log("from authstore file", isLoggedIn);
   return {
     isLoggedIn,
     token,
-    isToolTipOpen,
-    status,
     isLoaded,
     setToken,
     setIsLoggedIn,
-    setIsToolTipOpen,
-    setStatus,
     setIsLoaded,
   };
 };
