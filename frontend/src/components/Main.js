@@ -1,8 +1,8 @@
 /* --------------------------------- imports -------------------------------- */
-
+import React, { useEffect, useState } from "react";
 import Card from "./Card";
-
-import { useUser } from "../hooks";
+import { api } from "../utils/api";
+import { useUser, useAuth } from "../hooks";
 
 /* -------------------------- function Main(props) -------------------------- */
 function Main({
@@ -12,9 +12,37 @@ function Main({
   onCardClick,
   onCardLike,
   onCardDelete,
-  cards,
+  // cards,
 }) {
+  /* ------------------------------ declarations ------------------------------ */
   const { currentUser } = useUser();
+  const { setToken, setIsLoggedIn, isLoggedIn, token } = useAuth();
+
+  /* -------------------------------- useStates ------------------------------- */
+  const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [cardToDelete, setCardToDelete] = useState({});
+
+  /* ------------------------------- useEffects ------------------------------- */
+
+  //load cards on load
+  useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    } //exit if not logged in
+    api.setHeaders({
+      authorization: `Bearer ${token}`, //token from useAuth
+      "Content-Type": "application/json",
+    });
+    api
+      .getInitialCards() //card info from server
+      .then((initialCards) => {
+        setCards(initialCards);
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      });
+  }, [isLoggedIn]);
 
   /* --------------------------------- return --------------------------------- */
   return (

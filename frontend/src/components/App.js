@@ -1,5 +1,5 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState,  } from "react";
 import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 
 import { api } from "../utils/api";
@@ -36,8 +36,8 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem("jwt"));
 
   const [isLoading, setIsLoading] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [status, setStatus] = useState(""); //used for tooltip fail/sucess
+
+  // const [status, setStatus] = useState(""); //used for tooltip fail/sucess
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -97,27 +97,24 @@ function App() {
   //isLoggedIn changes on handleLoginSubmit before protected route is loaded
   //api.getInitialCards
   //debugging not loggedin onload
-  useEffect(() => {
-    if (!authStore.isLoggedIn) {
-      console.log(
-        "ue cards on load authStore.isnotloggedin",
-        authStore.isLoggedIn
-      );
-      return;
-    } //exit if not logged in
-    api.setHeaders({
-      authorization: `Bearer ${authStore.token}`, //QUESTION:which token should this be from store?
-      "Content-Type": "application/json",
-    });
-    api
-      .getInitialCards() //card info from server
-      .then((initialCards) => {
-        setCards(initialCards);
-      })
-      .catch((err) => {
-        api.handleErrorResponse(err);
-      });
-  }, [authStore.isLoggedIn]);
+  //moved to main
+  // useEffect(() => {
+  //   if (!authStore.isLoggedIn) {
+  //     return;
+  //   } //exit if not logged in
+  //   api.setHeaders({
+  //     authorization: `Bearer ${authStore.token}`, //QUESTION:which token should this be from store?
+  //     "Content-Type": "application/json",
+  //   });
+  //   api
+  //     .getInitialCards() //card info from server
+  //     .then((initialCards) => {
+  //       setCards(initialCards);
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     });
+  // }, [authStore.isLoggedIn]);
 
   useEffect(() => {
     const handleEscClose = (event) => {
@@ -343,7 +340,7 @@ function App() {
                   />
                 </ProtectedRoute>
                 <Route path="/signup">
-                  <Register   />
+                  <Register />
                 </Route>
                 <Route path="/signin">
                   <Login />
