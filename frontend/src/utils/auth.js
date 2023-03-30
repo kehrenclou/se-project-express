@@ -5,6 +5,7 @@ export const BASE_URL = "http://localhost:3000";
 const handleAuthResponse = (res) => {
   if (!res.ok) {
     throw Error(res.statusText);
+    //QUESTION: should tool tips trigger here?
   } else {
     return res.json();
   }
@@ -35,12 +36,4 @@ export const login = (email, password) => {
   }).then(handleAuthResponse);
 };
 
-// export const getContent = (token) => {
-//   return fetch(`${BASE_URL}/users/me`, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       authorization: `Bearer ${token}`,
-//     },
-//   }).then(handleAuthResponse);
-// };
+

@@ -89,6 +89,8 @@ function App() {
       console.log("ue no authstore.token");
       history.push("/signin");
     }
+    history.push("/");//QUESTION check if this is correct only way
+    //I could figure out how to get it to redirect if a token from signin or signup page
   }, []);
 
   //use effect gets cards from server & sets - when isLoggedIn state changes
@@ -104,7 +106,7 @@ function App() {
       return;
     } //exit if not logged in
     api.setHeaders({
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${authStore.token}`, //QUESTION:which token should this be from store?
       "Content-Type": "application/json",
     });
     api
@@ -318,7 +320,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsConfirmDeletePopoupOpen(false);
     setSelectedCard(null);
-    setIsToolTipOpen(false);
+    modalStore.setIsToolTipOpen(false);
   }
   /* --------------------------------- return --------------------------------- */
   return (
@@ -327,70 +329,64 @@ function App() {
         <AuthContext.Provider value={authStore}>
           <UserContext.Provider value={userStore}>
             <ModalContext.Provider value={modalStore}>
-            <Header />
-            {/* <Header email={email} onSignOut={handleSignOut} /> */}
-            <Switch>
-              <ProtectedRoute exact path="/">
-                <Main
-                  onEditAvatarClick={handleEditAvatarClick}
-                  onEditProfileClick={handleEditProfileClick}
-                  onAddPlaceClick={handleAddPlaceClick}
-                  onCardClick={handleCardClick}
-                  cards={cards}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                />
-              </ProtectedRoute>
-              <Route path="/signup">
-                <Register onRegisterSubmit={handleRegisterSubmit} />
-              </Route>
-              <Route path="/signin">
-                {/* <Login onLoginSubmit={handleLoginSubmit} /> */}
-                <Login />
-              </Route>
-              <Route>
-                {authStore.isLoggedIn ? (
-                  <Redirect to="/" />
-                ) : (
-                  <Redirect to="/signin" />
-                )}
-              </Route>
-            </Switch>
-            <Footer />
-
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-              isLoading={isLoading}
-            />
-
-            <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
-              onClose={closeAllPopups}
-              onUpdateUser={handleUpdateUser}
-              isLoading={isLoading}
-            />
-
-            <ConfirmDeletePopup
-              isOpen={isConfirmDeletePopupOpen}
-              onClose={closeAllPopups}
-              onSubmit={handleConfirmDelete}
-              isLoading={isLoading}
-            />
-
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddPlaceSubmit={handleAddPlaceSubmit}
-              isLoading={isLoading}
-            />
-            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-            <InfoToolTip
-              isOpen={isToolTipOpen}
-              onClose={closeAllPopups}
-              status={status}
-            />
+              <Header />
+              <Switch>
+                <ProtectedRoute exact path="/">
+                  <Main
+                    onEditAvatarClick={handleEditAvatarClick}
+                    onEditProfileClick={handleEditProfileClick}
+                    onAddPlaceClick={handleAddPlaceClick}
+                    onCardClick={handleCardClick}
+                    cards={cards}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                  />
+                </ProtectedRoute>
+                <Route path="/signup">
+                  <Register onRegisterSubmit={handleRegisterSubmit} />
+                </Route>
+                <Route path="/signin">
+                  <Login />
+                </Route>
+                <Route>
+                  {authStore.isLoggedIn ? (
+                    <Redirect to="/" />
+                  ) : (
+                    <Redirect to="/signin" />
+                  )}
+                </Route>
+              </Switch>
+              <Footer />
+              <EditAvatarPopup
+                isOpen={isEditAvatarPopupOpen}
+                onClose={closeAllPopups}
+                onUpdateAvatar={handleUpdateAvatar}
+                isLoading={isLoading}
+              />
+              <EditProfilePopup
+                isOpen={isEditProfilePopupOpen}
+                onClose={closeAllPopups}
+                onUpdateUser={handleUpdateUser}
+                isLoading={isLoading}
+              />
+              <ConfirmDeletePopup
+                isOpen={isConfirmDeletePopupOpen}
+                onClose={closeAllPopups}
+                onSubmit={handleConfirmDelete}
+                isLoading={isLoading}
+              />
+              <AddPlacePopup
+                isOpen={isAddPlacePopupOpen}
+                onClose={closeAllPopups}
+                onAddPlaceSubmit={handleAddPlaceSubmit}
+                isLoading={isLoading}
+              />
+              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+              <InfoToolTip
+                isOpen={modalStore.isToolTipOpen}
+                onClose={closeAllPopups}
+                status={modalStore.status}
+              />
             </ModalContext.Provider>
           </UserContext.Provider>
         </AuthContext.Provider>

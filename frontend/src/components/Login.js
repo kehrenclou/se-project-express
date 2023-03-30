@@ -22,10 +22,17 @@ function Login({ onLoginSubmit }) {
   //1. sets status to fail in modalContext
   //2. sets isToolTipOpen to true in modalContext
   function handleSubmit(email, password) {
+    console.log("handlesubmit");
     auth
-      .login(email, password)
+      .login(email, password) //QUESTION:what should happen if login fails (wrong pword)
+      //how to get tooltip to trigger or should it? currently isnt
+      //goes to catch block and no popups
+      //not immediatly triggering usehook either
+      //maybe because modal is already rendered
+      //will try to use context somehow
       .then((res) => {
         if (res) {
+          console.log({ res });
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
           api.setHeaders({
@@ -43,7 +50,8 @@ function Login({ onLoginSubmit }) {
       .catch((err) => {
         // auth.handleAuthError(err);
         console.log(err);
-        setStatus("fail");
+        console.log("catch");
+        setStatus("fail");  //QUESTION: consolelog firing here but tootl tips are not opening modals
         setIsToolTipOpen(true);
       });
   }
