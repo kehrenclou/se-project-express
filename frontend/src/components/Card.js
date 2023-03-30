@@ -1,6 +1,7 @@
 /* --------------------------------- imports -------------------------------- */
 import React, { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { useUser } from "../hooks";
+// import { UserContext } from "../contexts/UserContext";
 
 /* ------------------------------ function Card ----------------------------- */
 export default function Card({
@@ -13,19 +14,9 @@ export default function Card({
   title,
   likeCount,
 }) {
-  function handleCardClick() {
-    onCardClick(card);
-  }
+  /* ------------------------------ declarations ------------------------------ */
 
-  function handleLikeClick() {
-    onLikeClick(card);
-  }
-
-  function handleDeleteClick() {
-    onCardDelete(card);
-  }
-
-  const currentUser = useContext(UserContext);
+  const { currentUser } = useUser();
 
   const isOwn = card.owner === currentUser._id;
   // const isOwn = card.owner._id === currentUser._id;
@@ -39,6 +30,18 @@ export default function Card({
   const cardLikeButtonClassName = ` button cards__button_type_like ${
     isLiked ? "cards__button_type_like-active" : " "
   }`;
+  /* -------------------------------- functions ------------------------------- */
+  function handleCardClick() {
+    onCardClick(card);
+  }
+
+  function handleLikeClick() {
+    onLikeClick(card);
+  }
+
+  function handleDeleteClick() {
+    onCardDelete(card);
+  }
 
   /* --------------------------------- return --------------------------------- */
   return (

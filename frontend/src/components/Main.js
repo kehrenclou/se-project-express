@@ -12,7 +12,6 @@ function Main({
   onCardClick,
   onCardLike,
   onCardDelete,
-  // cards,
 }) {
   /* ------------------------------ declarations ------------------------------ */
   const { currentUser } = useUser();
