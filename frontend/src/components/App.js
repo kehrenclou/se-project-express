@@ -1,5 +1,5 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect, useState,  } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 
 import { api } from "../utils/api";
@@ -375,15 +375,11 @@ function App() {
               <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
-                onAddPlaceSubmit={handleAddPlaceSubmit}
+                // onAddPlaceSubmit={handleAddPlaceSubmit}
                 isLoading={isLoading}
               />
               <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-              <InfoToolTip
-                isOpen={modalStore.isToolTipOpen}
-                onClose={closeAllPopups}
-                status={modalStore.status}
-              />
+              <InfoToolTip onClose={closeAllPopups} />
             </ModalContext.Provider>
           </UserContext.Provider>
         </AuthContext.Provider>

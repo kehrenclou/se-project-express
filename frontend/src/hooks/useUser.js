@@ -1,4 +1,4 @@
-import { useCallback, useContext, useHistory } from "react";
+import { useContext } from "react";
 import { UserContext } from "../contexts";
 
 /* ---------------------------------- hook ---------------------------------- */

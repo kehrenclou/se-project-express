@@ -14,9 +14,12 @@ export default function Card({
   title,
   likeCount,
 }) {
+  /* ------------------------------ custom hooks ------------------------------ */
+  const { currentUser } = useUser();
+
   /* ------------------------------ declarations ------------------------------ */
 
-  const { currentUser } = useUser();
+
 
   const isOwn = card.owner === currentUser._id;
   // const isOwn = card.owner._id === currentUser._id;
