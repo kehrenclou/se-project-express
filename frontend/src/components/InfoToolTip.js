@@ -7,7 +7,7 @@ import { useModal } from "../hooks";
 
 /* ------------------------- function Popup ------------------------- */
 function InfoToolTip({ onClose }) {
-  const { isToolTipOpen, status, setIsToolTipOpen } = useModal();
+  const { isToolTipOpen, status } = useModal();
   return (
     <Popup isOpen={isToolTipOpen} onClose={onClose} name="tooltip">
       {status === "success" ? (
