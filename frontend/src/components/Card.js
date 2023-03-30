@@ -40,6 +40,7 @@ export default function Card({
     isLiked ? "cards__button_type_like-active" : " "
   }`;
 
+  /* --------------------------------- return --------------------------------- */
   return (
     <li className="cards__item">
       <button

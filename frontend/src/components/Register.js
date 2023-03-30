@@ -16,7 +16,6 @@ function Register() {
       .register(email, password)
       .then((res) => {
         if (res) {
-          console.log({ res });
           setStatus("success");
           setIsToolTipOpen(true);
           history.push("/signin");

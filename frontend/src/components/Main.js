@@ -15,6 +15,8 @@ function Main({
   cards,
 }) {
   const { currentUser } = useUser();
+
+  /* --------------------------------- return --------------------------------- */
   return (
     <main>
       <section className="profile">

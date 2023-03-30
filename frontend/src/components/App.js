@@ -343,7 +343,7 @@ function App() {
                   />
                 </ProtectedRoute>
                 <Route path="/signup">
-                  <Register />
+                  <Register   />
                 </Route>
                 <Route path="/signin">
                   <Login />
