@@ -58,13 +58,12 @@ function App() {
 
   /* --------------------------- useEffect  ----------------------------------- */
   //on load
-  //on loggedIn change
-  //loads user info
-  //not loading current data
-  //?how is jwt being updated
-
   //use effect on token change set headers
   //currently calling local storage token not auth context
+  //QUESTION: which token should it reference, using authStore.token in other apis
+  //should a setToken call be made if local storage changes?
+  //think about what would cause a token to change
+  //for instance if a new user logs in
   useEffect(() => {
     api.setHeaders({
       authorization: `Bearer ${token}`,
@@ -81,15 +80,16 @@ function App() {
   //sets authstore isloggedin true
   //sets userstore with profile
   useEffect(() => {
-    // setToken(localStorage.getItem("jwt"));
+    setToken(localStorage.getItem("jwt"));
     console.log("jwtsettoken", token);
     console.log("authstoretoken", authStore.token); //returns token
     //no token on loading page
     if (!authStore.token) {
-      console.log("ue no authstore.token");
+      console.log("ue no authstore token");
       history.push("/signin");
+      return;
     }
-    history.push("/");//QUESTION check if this is correct only way
+    history.push("/"); //QUESTION check if this is correct only way
     //I could figure out how to get it to redirect if a token from signin or signup page
   }, []);
 
@@ -231,27 +231,27 @@ function App() {
   }
 
   /* ---------------------------handlers with auth----------------------------- */
-  //register
-  function handleRegisterSubmit({ email, password }) {
-    auth
-      .register(email, password)
-      .then((res) => {
-        if (res._id) {
-          setStatus("success");
-          setIsToolTipOpen(true);
-          history.push("/signin");
-        } else {
-          setStatus("fail");
-        }
-      })
-      .catch((err) => {
-        auth.handleAuthError(err);
-        setStatus("fail");
-      })
-      .finally(() => {
-        setIsToolTipOpen(true);
-      });
-  }
+  //register--moved to register
+  // function handleRegisterSubmit({ email, password }) {
+  //   auth
+  //     .register(email, password)
+  //     .then((res) => {
+  //       if (res._id) {
+  //         setStatus("success");
+  //         setIsToolTipOpen(true);
+  //         history.push("/signin");
+  //       } else {
+  //         setStatus("fail");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       auth.handleAuthError(err);
+  //       setStatus("fail");
+  //     })
+  //     .finally(() => {
+  //       setIsToolTipOpen(true);
+  //     });
+  // }
 
   //login --moved to login component
   //?should this also be calling loginuser from backendcontroller
@@ -343,7 +343,7 @@ function App() {
                   />
                 </ProtectedRoute>
                 <Route path="/signup">
-                  <Register onRegisterSubmit={handleRegisterSubmit} />
+                  <Register />
                 </Route>
                 <Route path="/signin">
                   <Login />
