@@ -1,18 +1,24 @@
 /* --------------------------------- imports -------------------------------- */
 import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
+import { useModal } from "../hooks";
 
 /* ------------------------ function EditAvatarPopup ------------------------ */
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
+  /* -------------------------------- useState -------------------------------- */
   const [isLinkValid, setIsLinkValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [inputValue, setInputValue] = useState("");
 
+  /* ---------------------------------- hooks --------------------------------- */
+  const { isEditAvatarPopupOpen } = useModal();
+  /* ------------------------------- useEffects ------------------------------- */
   useEffect(() => {
     setInputValue("");
     setErrorMessage("");
   }, [isOpen]);
 
+  /* -------------------------------- functions ------------------------------- */
   function handleLinkChange(event) {
     setInputValue(event.target.value);
 
@@ -26,9 +32,10 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     });
   }
 
+  /* --------------------------------- return --------------------------------- */
   return (
     <PopupWithForm
-      isOpen={isOpen}
+      isOpen={isEditAvatarPopupOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       name="change-avatar"

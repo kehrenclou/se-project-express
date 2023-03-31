@@ -43,12 +43,12 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardToDelete, setCardToDelete] = useState({});
 
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  // const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
     useState(false);
-  const [isToolTipOpen, setIsToolTipOpen] = useState(false);
+  // const [isToolTipOpen, setIsToolTipOpen] = useState(false);
 
   /* --------------------- set history and context stores --------------------- */
   let history = useHistory();
@@ -290,9 +290,9 @@ function App() {
   // }
   /* --------------------------handler functions ------------------------------- */
 
-  function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(true);
-  }
+  // function handleEditAvatarClick() {
+  //   setIsEditAvatarPopupOpen(true);
+  // }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -312,7 +312,7 @@ function App() {
   }
 
   function closeAllPopups() {
-    setIsEditAvatarPopupOpen(false);
+    modalStore.setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsConfirmDeletePopoupOpen(false);
@@ -330,7 +330,7 @@ function App() {
               <Switch>
                 <ProtectedRoute exact path="/">
                   <Main
-                    onEditAvatarClick={handleEditAvatarClick}
+                    // onEditAvatarClick={handleEditAvatarClick}
                     onEditProfileClick={handleEditProfileClick}
                     onAddPlaceClick={handleAddPlaceClick}
                     onCardClick={handleCardClick}
@@ -355,7 +355,7 @@ function App() {
               </Switch>
               <Footer />
               <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
+                // isOpen={modalStore.isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
                 onUpdateAvatar={handleUpdateAvatar}
                 isLoading={isLoading}

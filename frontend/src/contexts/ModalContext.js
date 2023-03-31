@@ -5,6 +5,11 @@ export const ModalContext = createContext();
 export const useInitializeModalStore = () => {
   const [isToolTipOpen, setIsToolTipOpen] = useState(false);
   const [status, setStatus] = useState(""); //used for tooltip fail/sucess
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  // const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  // const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  // const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
+  //   useState(false);
 
   console.log("from modalstore file", status, isToolTipOpen);
 
@@ -12,8 +17,10 @@ export const useInitializeModalStore = () => {
   //should all of the set popup opens be in here?
   //what about selected card?
   return {
+    isEditAvatarPopupOpen,
     isToolTipOpen,
     status,
+    setIsEditAvatarPopupOpen,
     setIsToolTipOpen,
     setStatus,
   };

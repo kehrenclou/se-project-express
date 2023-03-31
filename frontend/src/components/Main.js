@@ -2,21 +2,21 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import { api } from "../utils/api";
-import { useUser, useAuth } from "../hooks";
+import { useUser, useAuth, useModal } from "../hooks";
 
 /* -------------------------- function Main(props) -------------------------- */
 function Main({
-  onEditAvatarClick,
+  // onEditAvatarClick,
   onEditProfileClick,
   onAddPlaceClick,
   onCardClick,
   onCardLike,
   onCardDelete,
 }) {
-  /* ------------------------------ declarations ------------------------------ */
+  /* ------------------------------ hooks ------------------------------ */
   const { currentUser } = useUser();
   const { setToken, setIsLoggedIn, isLoggedIn, token } = useAuth();
-
+  const { setIsEditAvatarPopupOpen } = useModal();
   /* -------------------------------- useStates ------------------------------- */
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -43,6 +43,12 @@ function Main({
       });
   }, [isLoggedIn]);
 
+  /* -------------------------------- handlers -------------------------------- */
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+    console.log({setIsEditAvatarPopupOpen})
+  }
+
   /* --------------------------------- return --------------------------------- */
   return (
     <main>
@@ -50,7 +56,7 @@ function Main({
         <div
           className="profile__avatar"
           id="profile-avatar-container"
-          onClick={onEditAvatarClick}
+          onClick={handleEditAvatarClick}
         >
           <img
             className="profile__avatar-image"
