@@ -1,17 +1,21 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect, useState, useCallback,useContext } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
-import { UserContext } from "../contexts/UserContext";
+
 import { useUser, useModal } from "../hooks";
 import { api } from "../utils/api";
 /* ------------------------ function EditProfilePopup ----------------------- */
 
 function EditProfilePopup() {
-  /* -------------- const currentUser = useContext(UserContext); -------------- */
+/* ---------------------------------- hooks --------------------------------- */
   const { currentUser, setCurrentUser } = useUser();
-  const { isEditProfilePopupOpen, setIsEditProfilePopupOpen } = useModal();
-  //const currentUser=useContext(UserContext);
-
+  const {
+    isEditProfilePopupOpen,
+    setIsEditProfilePopupOpen,
+    isLoading,
+    setIsLoading,
+  } = useModal();
+/* -------------------------------- useState -------------------------------- */
   const [name, setName] = useState(currentUser.name || "");
   const [description, setDescription] = useState(currentUser.about || "");
   const [isNameValid, setIsNameValid] = useState(false);
@@ -44,7 +48,7 @@ function EditProfilePopup() {
 
   //Update User
   const handleSubmit = useCallback(() => {
-    // setIsLoading(true);todo: add to modal context
+    setIsLoading(true);
     api
       .setUserInfo(name, description)
       .then((userData) => {
@@ -55,7 +59,7 @@ function EditProfilePopup() {
         api.handleErrorResponse(err);
       })
       .finally(() => {
-        // setIsLoading(false);//TODO: Fix
+        setIsLoading(false);
       });
   });
 
@@ -78,7 +82,7 @@ function EditProfilePopup() {
       onSubmit={handleSubmit}
       name="edit-profile"
       title="Edit profile"
-      // submitText={isLoading ? "Saving" : "Save"}
+      submitText={isLoading ? "Saving" : "Save"}
     >
       <input
         name="input-name"

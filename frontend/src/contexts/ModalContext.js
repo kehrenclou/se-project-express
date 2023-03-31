@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 export const ModalContext = createContext();
 
 export const useInitializeModalStore = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isToolTipOpen, setIsToolTipOpen] = useState(false);
   const [status, setStatus] = useState(""); //used for tooltip fail/sucess
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -20,10 +21,12 @@ export const useInitializeModalStore = () => {
     isEditAvatarPopupOpen,
     isEditProfilePopupOpen,
     isToolTipOpen,
+    isLoading,
     status,
     setIsEditAvatarPopupOpen,
     setIsEditProfilePopupOpen,
     setIsToolTipOpen,
+    setIsLoading,
     setStatus,
   };
 };

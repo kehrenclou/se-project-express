@@ -7,23 +7,25 @@ export const useModal = () => {
     isEditAvatarPopupOpen,
     isEditProfilePopupOpen,
     isToolTipOpen,
+    isLoading,
     status,
     setIsEditAvatarPopupOpen,
     setIsEditProfilePopupOpen,
     setIsToolTipOpen,
+    setIsLoading,
     setStatus,
   } = useContext(ModalContext);
 
-  // console.log("from useModal file", isToolTipOpen, status);
-  console.log("from useModal", isEditProfilePopupOpen);
   return {
     isEditAvatarPopupOpen,
     isEditProfilePopupOpen,
     isToolTipOpen,
+    isLoading,
     status,
     setIsEditAvatarPopupOpen,
     setIsEditProfilePopupOpen,
     setIsToolTipOpen,
+    setIsLoading,
     setStatus,
   };
 };

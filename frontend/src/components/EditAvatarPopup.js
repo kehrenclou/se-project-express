@@ -5,21 +5,28 @@ import { useModal, useUser } from "../hooks";
 import { api } from "../utils/api";
 
 /* ------------------------ function EditAvatarPopup ------------------------ */
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
+function EditAvatarPopup() {
+  /* ---------------------------------- hooks --------------------------------- */
+  const {
+    isEditAvatarPopupOpen,
+    setIsEditAvatarPopupOpen,
+    isLoading,
+    setIsLoading,
+  } = useModal();
+
+  const { setCurrentUser } = useUser();
   /* -------------------------------- useState -------------------------------- */
   const [isLinkValid, setIsLinkValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [inputValue, setInputValue] = useState("");
 
-  /* ---------------------------------- hooks --------------------------------- */
-  const { isEditAvatarPopupOpen, setIsEditAvatarPopupOpen } = useModal();
-  const { setCurrentUser } = useUser();
   /* ------------------------------- useEffects ------------------------------- */
   useEffect(() => {
     setInputValue("");
     setErrorMessage("");
   }, [isEditAvatarPopupOpen]);
   //may have erros dependency was isOpen
+
   /* -------------------------------- functions ------------------------------- */
   function handleLinkChange(event) {
     setInputValue(event.target.value);
@@ -28,33 +35,24 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     setErrorMessage(event.target.validationMessage);
   }
 
-  // function handleSubmit() {
-  //   onUpdateAvatar({
-  //     avatar: inputValue,
-  //   });
-  // }
-  //not hooked up yet
   const handleUpdateAvatar = useCallback(() => {
-    // setIsLoading(true);//TODO: add to modal hook
+    setIsLoading(true);
 
     api
       .setProfileAvatar(inputValue)
       .then((newAvatar) => {
-        // setUserAvatar(newAvatar);
         setCurrentUser(newAvatar);
-        // userStore.setCurrentUser(newAvatar);
-        // closeAllPopups();
         closePopup();
       })
       .catch((err) => {
         api.handleErrorResponse(err);
       })
       .finally(() => {
-        // setIsLoading(false);
+        setIsLoading(false);
       });
-  }, [inputValue])
+  }, [inputValue]);
 
-  function closePopup(){
+  function closePopup() {
     setIsEditAvatarPopupOpen(false);
   }
   /* --------------------------------- return --------------------------------- */
