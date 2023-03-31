@@ -6,10 +6,17 @@ import fail from "../images/fail.png";
 import { useModal } from "../hooks";
 
 /* ------------------------- function Popup ------------------------- */
-function InfoToolTip({ onClose }) {
-  const { isToolTipOpen, status } = useModal();
+function InfoToolTip() {
+  /* ---------------------------------- hooks --------------------------------- */
+  const { isToolTipOpen, setIsToolTipOpen, status } = useModal();
+
+  /* -------------------------------- handlers -------------------------------- */
+  function closePopup() {
+    setIsToolTipOpen(false);
+  }
+  /* --------------------------------- return --------------------------------- */
   return (
-    <Popup isOpen={isToolTipOpen} onClose={onClose} name="tooltip">
+    <Popup isOpen={isToolTipOpen} onClose={closePopup} name="tooltip">
       {status === "success" ? (
         <div className="tooltip">
           <img className="tooltip__img" src={success} alt="Success graphic" />

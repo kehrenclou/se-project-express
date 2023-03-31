@@ -7,7 +7,7 @@ import { api } from "../utils/api";
 /* ------------------------ function EditProfilePopup ----------------------- */
 
 function EditProfilePopup() {
-/* ---------------------------------- hooks --------------------------------- */
+  /* ---------------------------------- hooks --------------------------------- */
   const { currentUser, setCurrentUser } = useUser();
   const {
     isEditProfilePopupOpen,
@@ -15,7 +15,7 @@ function EditProfilePopup() {
     isLoading,
     setIsLoading,
   } = useModal();
-/* -------------------------------- useState -------------------------------- */
+  /* -------------------------------- useState -------------------------------- */
   const [name, setName] = useState(currentUser.name || "");
   const [description, setDescription] = useState(currentUser.about || "");
   const [isNameValid, setIsNameValid] = useState(false);
@@ -27,27 +27,22 @@ function EditProfilePopup() {
   });
 
   /* -------------------------------- handlers -------------------------------- */
+ //input name change
   const handleNameChange = (event) => {
     setName(event.target.value);
     setIsNameValid(event.target.validity.valid);
     setErrorMessage({ name: event.target.validationMessage });
   };
 
+  //input description change
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
     setIsDescriptionValid(event.target.validity.valid);
     setErrorMessage({ description: event.target.validationMessage });
   };
 
-  // function handleSubmit() {
-  //   onUpdateUser({
-  //     name: name,
-  //     about: description,
-  //   });
-  // }
-
   //Update User
-  const handleSubmit = useCallback(() => {
+  const handleUpdateProfile = useCallback(() => {
     setIsLoading(true);
     api
       .setUserInfo(name, description)
@@ -79,7 +74,7 @@ function EditProfilePopup() {
     <PopupWithForm
       isOpen={isEditProfilePopupOpen}
       onClose={closePopup}
-      onSubmit={handleSubmit}
+      onSubmit={handleUpdateProfile}
       name="edit-profile"
       title="Edit profile"
       submitText={isLoading ? "Saving" : "Save"}

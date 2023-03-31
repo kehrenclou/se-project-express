@@ -305,19 +305,19 @@ function App() {
   function handleCardClick(clickedCard) {
     setSelectedCard(clickedCard);
   }
-//move to main
+  //move to main
   function handleCardDelete(card) {
     setIsConfirmDeletePopoupOpen(true);
     setCardToDelete(card);
   }
 
   function closeAllPopups() {
-    modalStore.setIsEditAvatarPopupOpen(false);
-    setIsEditProfilePopupOpen(false);
+    // modalStore.setIsEditAvatarPopupOpen(false);
+    // modalStore.setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsConfirmDeletePopoupOpen(false);
     setSelectedCard(null);
-    modalStore.setIsToolTipOpen(false);
+    // modalStore.setIsToolTipOpen(false);
   }
   /* --------------------------------- return --------------------------------- */
   return (
@@ -331,7 +331,7 @@ function App() {
                 <ProtectedRoute exact path="/">
                   <Main
                     // onEditAvatarClick={handleEditAvatarClick}
-                    onEditProfileClick={handleEditProfileClick}
+                    // onEditProfileClick={handleEditProfileClick}
                     onAddPlaceClick={handleAddPlaceClick}
                     onCardClick={handleCardClick}
                     cards={cards}
@@ -354,18 +354,8 @@ function App() {
                 </Route>
               </Switch>
               <Footer />
-              <EditAvatarPopup
-                // isOpen={modalStore.isEditAvatarPopupOpen}
-                // onClose={closeAllPopups}
-                // onUpdateAvatar={handleUpdateAvatar}
-                // isLoading={isLoading}
-              />
-              <EditProfilePopup
-                // isOpen={isEditProfilePopupOpen}
-                // onClose={closeAllPopups}
-                // onUpdateUser={handleUpdateUser}
-                // isLoading={isLoading}
-              />
+              <EditAvatarPopup />
+              <EditProfilePopup />
               <ConfirmDeletePopup
                 isOpen={isConfirmDeletePopupOpen}
                 onClose={closeAllPopups}
@@ -379,7 +369,7 @@ function App() {
                 isLoading={isLoading}
               />
               <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-              <InfoToolTip onClose={closeAllPopups} />
+              <InfoToolTip />
             </ModalContext.Provider>
           </UserContext.Provider>
         </AuthContext.Provider>
