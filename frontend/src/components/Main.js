@@ -16,7 +16,7 @@ function Main({
   /* ------------------------------ hooks ------------------------------ */
   const { currentUser } = useUser();
   const { setToken, setIsLoggedIn, isLoggedIn, token } = useAuth();
-  const { setIsEditAvatarPopupOpen } = useModal();
+  const { setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen } = useModal();
   /* -------------------------------- useStates ------------------------------- */
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -46,7 +46,10 @@ function Main({
   /* -------------------------------- handlers -------------------------------- */
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-    console.log({setIsEditAvatarPopupOpen})
+  }
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+    console.log({ setIsEditProfilePopupOpen });
   }
 
   /* --------------------------------- return --------------------------------- */
@@ -72,7 +75,7 @@ function Main({
           </h1>
 
           <button
-            onClick={onEditProfileClick}
+            onClick={handleEditProfileClick}
             aria-label="Edit Profile Button"
             type="button"
             className="button profile__button-edit"
@@ -95,7 +98,7 @@ function Main({
         <ul className="cards__list">
           {cards.map((card) => (
             <Card
-            // look for redundancy
+              // look for redundancy
               onCardClick={onCardClick}
               onLikeClick={onCardLike}
               onCardDelete={onCardDelete}

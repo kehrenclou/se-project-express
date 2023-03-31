@@ -129,22 +129,22 @@ function App() {
   }, []);
 
   /* --------------------------- handlers with apis --------------------------- */
-  //Update User
-  function handleUpdateUser(input) {
-    setIsLoading(true);
-    api
-      .setUserInfo(input.name, input.about)
-      .then((userData) => {
-        userStore.setCurrentUser(userData);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        api.handleErrorResponse(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  //Update User- move to edit profile popup
+  // function handleUpdateUser(input) {
+  //   setIsLoading(true);
+  //   api
+  //     .setUserInfo(input.name, input.about)
+  //     .then((userData) => {
+  //       userStore.setCurrentUser(userData);
+  //       closeAllPopups();
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }
 
   //Update Avatar--move to editavatarpopup
   // function handleUpdateAvatar(newAvatar) {
@@ -356,15 +356,15 @@ function App() {
               <Footer />
               <EditAvatarPopup
                 // isOpen={modalStore.isEditAvatarPopupOpen}
-                onClose={closeAllPopups}
+                // onClose={closeAllPopups}
                 // onUpdateAvatar={handleUpdateAvatar}
-                isLoading={isLoading}
+                // isLoading={isLoading}
               />
               <EditProfilePopup
-                isOpen={isEditProfilePopupOpen}
-                onClose={closeAllPopups}
-                onUpdateUser={handleUpdateUser}
-                isLoading={isLoading}
+                // isOpen={isEditProfilePopupOpen}
+                // onClose={closeAllPopups}
+                // onUpdateUser={handleUpdateUser}
+                // isLoading={isLoading}
               />
               <ConfirmDeletePopup
                 isOpen={isConfirmDeletePopupOpen}

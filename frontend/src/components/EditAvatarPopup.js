@@ -61,7 +61,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   return (
     <PopupWithForm
       isOpen={isEditAvatarPopupOpen}
-      onClose={onClose}
+      onClose={closePopup}
       onSubmit={handleUpdateAvatar}
       name="change-avatar"
       title="Change profile picture"

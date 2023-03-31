@@ -1,14 +1,16 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useCallback,useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { UserContext } from "../contexts/UserContext";
-import { useUser } from "../hooks";
+import { useUser, useModal } from "../hooks";
+import { api } from "../utils/api";
 /* ------------------------ function EditProfilePopup ----------------------- */
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
+function EditProfilePopup() {
   /* -------------- const currentUser = useContext(UserContext); -------------- */
-const {currentUser}=useUser();
-//const currentUser=useContext(UserContext);
+  const { currentUser, setCurrentUser } = useUser();
+  const { isEditProfilePopupOpen, setIsEditProfilePopupOpen } = useModal();
+  //const currentUser=useContext(UserContext);
 
   const [name, setName] = useState(currentUser.name || "");
   const [description, setDescription] = useState(currentUser.about || "");
@@ -20,6 +22,7 @@ const {currentUser}=useUser();
     description: "",
   });
 
+  /* -------------------------------- handlers -------------------------------- */
   const handleNameChange = (event) => {
     setName(event.target.value);
     setIsNameValid(event.target.validity.valid);
@@ -32,28 +35,50 @@ const {currentUser}=useUser();
     setErrorMessage({ description: event.target.validationMessage });
   };
 
-  function handleSubmit() {
-    onUpdateUser({
-      name: name,
-      about: description,
-    });
+  // function handleSubmit() {
+  //   onUpdateUser({
+  //     name: name,
+  //     about: description,
+  //   });
+  // }
+
+  //Update User
+  const handleSubmit = useCallback(() => {
+    // setIsLoading(true);todo: add to modal context
+    api
+      .setUserInfo(name, description)
+      .then((userData) => {
+        setCurrentUser(userData);
+        closePopup();
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      })
+      .finally(() => {
+        // setIsLoading(false);//TODO: Fix
+      });
+  });
+
+  function closePopup() {
+    setIsEditProfilePopupOpen(false);
   }
 
+  /* ------------------------------- useEffects ------------------------------- */
   useEffect(() => {
     if (currentUser) {
       setName(currentUser.name);
       setDescription(currentUser.about);
     }
-  }, [currentUser, isOpen]);
+  }, [currentUser, isEditProfilePopupOpen]);
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={isEditProfilePopupOpen}
+      onClose={closePopup}
       onSubmit={handleSubmit}
       name="edit-profile"
       title="Edit profile"
-      submitText={isLoading ? "Saving" : "Save"}
+      // submitText={isLoading ? "Saving" : "Save"}
     >
       <input
         name="input-name"
@@ -63,7 +88,7 @@ const {currentUser}=useUser();
         type="text"
         minLength="2"
         maxLength="40"
-        value={name ?? ''}
+        value={name ?? ""}
         onChange={handleNameChange}
         required
       />
@@ -81,7 +106,7 @@ const {currentUser}=useUser();
         type="text"
         minLength="2"
         maxLength="200"
-        value={description ?? ''}
+        value={description ?? ""}
         onChange={handleDescriptionChange}
         required
       />

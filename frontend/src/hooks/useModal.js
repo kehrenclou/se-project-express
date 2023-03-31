@@ -5,20 +5,24 @@ import { ModalContext } from "../contexts";
 export const useModal = () => {
   const {
     isEditAvatarPopupOpen,
+    isEditProfilePopupOpen,
     isToolTipOpen,
     status,
     setIsEditAvatarPopupOpen,
+    setIsEditProfilePopupOpen,
     setIsToolTipOpen,
     setStatus,
   } = useContext(ModalContext);
 
   // console.log("from useModal file", isToolTipOpen, status);
-  console.log("from useModal", isEditAvatarPopupOpen);
+  console.log("from useModal", isEditProfilePopupOpen);
   return {
     isEditAvatarPopupOpen,
+    isEditProfilePopupOpen,
     isToolTipOpen,
     status,
     setIsEditAvatarPopupOpen,
+    setIsEditProfilePopupOpen,
     setIsToolTipOpen,
     setStatus,
   };
