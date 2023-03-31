@@ -1,7 +1,8 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PopupWithForm from "./PopupWithForm";
-import { useModal } from "../hooks";
+import { useModal, useUser } from "../hooks";
+import { api } from "../utils/api";
 
 /* ------------------------ function EditAvatarPopup ------------------------ */
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
@@ -11,13 +12,14 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const [inputValue, setInputValue] = useState("");
 
   /* ---------------------------------- hooks --------------------------------- */
-  const { isEditAvatarPopupOpen } = useModal();
+  const { isEditAvatarPopupOpen, setIsEditAvatarPopupOpen } = useModal();
+  const { setCurrentUser } = useUser();
   /* ------------------------------- useEffects ------------------------------- */
   useEffect(() => {
     setInputValue("");
     setErrorMessage("");
   }, [isEditAvatarPopupOpen]);
-//may have erros dependency was isOpen
+  //may have erros dependency was isOpen
   /* -------------------------------- functions ------------------------------- */
   function handleLinkChange(event) {
     setInputValue(event.target.value);
@@ -26,18 +28,41 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     setErrorMessage(event.target.validationMessage);
   }
 
-  function handleSubmit() {
-    onUpdateAvatar({
-      avatar: inputValue,
-    });
-  }
+  // function handleSubmit() {
+  //   onUpdateAvatar({
+  //     avatar: inputValue,
+  //   });
+  // }
+  //not hooked up yet
+  const handleUpdateAvatar = useCallback(() => {
+    // setIsLoading(true);//TODO: add to modal hook
 
+    api
+      .setProfileAvatar(inputValue)
+      .then((newAvatar) => {
+        // setUserAvatar(newAvatar);
+        setCurrentUser(newAvatar);
+        // userStore.setCurrentUser(newAvatar);
+        // closeAllPopups();
+        closePopup();
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      })
+      .finally(() => {
+        // setIsLoading(false);
+      });
+  }, [inputValue])
+
+  function closePopup(){
+    setIsEditAvatarPopupOpen(false);
+  }
   /* --------------------------------- return --------------------------------- */
   return (
     <PopupWithForm
       isOpen={isEditAvatarPopupOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      onSubmit={handleUpdateAvatar}
       name="change-avatar"
       title="Change profile picture"
       submitText={isLoading ? "Saving" : "Save"}

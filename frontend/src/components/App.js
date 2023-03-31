@@ -41,7 +41,7 @@ function App() {
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [cardToDelete, setCardToDelete] = useState({});
+  const [cardToDelete, setCardToDelete] = useState({}); //move to mainjs (maybe not a usestae but an api call )
 
   // const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -146,24 +146,24 @@ function App() {
       });
   }
 
-  //Update Avatar
-  function handleUpdateAvatar(newAvatar) {
-    setIsLoading(true);
+  //Update Avatar--move to editavatarpopup
+  // function handleUpdateAvatar(newAvatar) {
+  //   setIsLoading(true);
 
-    api
-      .setProfileAvatar(newAvatar.avatar)
-      .then((newAvatar) => {
-        // setUserAvatar(newAvatar);
-        userStore.setCurrentUser(newAvatar);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        api.handleErrorResponse(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  //   api
+  //     .setProfileAvatar(newAvatar.avatar)
+  //     .then((newAvatar) => {
+  //       // setUserAvatar(newAvatar);
+  //       userStore.setCurrentUser(newAvatar);
+  //       closeAllPopups();
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }
 
   //Like Unlike Card
   function handleCardLike(card) {
@@ -305,7 +305,7 @@ function App() {
   function handleCardClick(clickedCard) {
     setSelectedCard(clickedCard);
   }
-
+//move to main
   function handleCardDelete(card) {
     setIsConfirmDeletePopoupOpen(true);
     setCardToDelete(card);
@@ -357,7 +357,7 @@ function App() {
               <EditAvatarPopup
                 // isOpen={modalStore.isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
-                onUpdateAvatar={handleUpdateAvatar}
+                // onUpdateAvatar={handleUpdateAvatar}
                 isLoading={isLoading}
               />
               <EditProfilePopup

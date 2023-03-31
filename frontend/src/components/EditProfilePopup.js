@@ -2,11 +2,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { UserContext } from "../contexts/UserContext";
-
+import { useUser } from "../hooks";
 /* ------------------------ function EditProfilePopup ----------------------- */
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
-  const currentUser = useContext(UserContext);
+  /* -------------- const currentUser = useContext(UserContext); -------------- */
+const {currentUser}=useUser();
+//const currentUser=useContext(UserContext);
+
   const [name, setName] = useState(currentUser.name || "");
   const [description, setDescription] = useState(currentUser.about || "");
   const [isNameValid, setIsNameValid] = useState(false);

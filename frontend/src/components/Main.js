@@ -95,6 +95,7 @@ function Main({
         <ul className="cards__list">
           {cards.map((card) => (
             <Card
+            // look for redundancy
               onCardClick={onCardClick}
               onLikeClick={onCardLike}
               onCardDelete={onCardDelete}
