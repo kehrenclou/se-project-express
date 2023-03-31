@@ -16,8 +16,8 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   useEffect(() => {
     setInputValue("");
     setErrorMessage("");
-  }, [isOpen]);
-
+  }, [isEditAvatarPopupOpen]);
+//may have erros dependency was isOpen
   /* -------------------------------- functions ------------------------------- */
   function handleLinkChange(event) {
     setInputValue(event.target.value);
