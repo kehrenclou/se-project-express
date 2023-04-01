@@ -14,6 +14,7 @@ const {
   validateLoginBody,
 } = require("./middlewares/validation");
 const { errors } = require("celebrate");
+const errorHandler = require("./middlewares/error-handler");
 
 /* -------------------------- declare app and port -------------------------- */
 /* ------------------------------ connect to DB ----------------------------- */
@@ -50,19 +51,8 @@ app.use("/users", auth, usersRouter);
 app.use("/cards", auth, cardsRouter);
 
 app.use(errors());
+app.use(errorHandler);
 
-//question: will this still be needed if centralized error handling?
-// app.use((req, res) => {
-//   res.status(404).send({ message: "Requested resource not found" });
-// });
-
-app.use((err, req, res, next) => {
-  //this is the error handler
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({
-    message: statusCode === 500 ? "An error occurred on the server" : message,
-  });
-});
 app.listen(PORT, () => {
   console.log(` App listening at port ${PORT}`);
 });
