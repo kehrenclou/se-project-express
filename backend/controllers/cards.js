@@ -2,7 +2,10 @@
 /* --------------------------------- imports -------------------------------- */
 
 const Card = require("../models/card");
-const { BadRequestError, NotFoundError, ForbiddenError } = require("../errors");
+
+const BadRequestError = require("../errors/bad-request");
+const NotFoundError = require("../errors/not-found");
+const ForbiddenError = require("../errors/forbidden");
 
 const { SUCCESSFUL, CREATED } = require("../utils/statuses");
 /* -------------------------------------------------------------------------- */
@@ -12,7 +15,7 @@ const { SUCCESSFUL, CREATED } = require("../utils/statuses");
 const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.status(SUCCESSFUL).send(cards))
-    .catch(next);
+    .catch(next); //equivalent to .catch(err=>next(err));
 };
 
 /* ----------------------------- create new Card ---------------------------- */
