@@ -1,5 +1,7 @@
 //backend/app.js
 /* --------------------------------- imports -------------------------------- */
+require("dotenv").config();
+console.log("dotenv",process.env.NODE_ENV);
 const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
