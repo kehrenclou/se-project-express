@@ -165,7 +165,8 @@ function App() {
   //     });
   // }
 
-  //Like Unlike Card
+  //Like Unlike Card -need to move to main - setcards is in main now
+  //this currently is not functioning
   function handleCardLike(card) {
     // Check one more time if this card was already liked
     const isLiked = card.likes.some(
@@ -302,9 +303,9 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleCardClick(clickedCard) {
-    setSelectedCard(clickedCard);
-  }
+  // function handleCardClick(clickedCard) {
+  //   setSelectedCard(clickedCard);
+  // }
   //move to main
   // function handleCardDelete(card) {
   //   // setIsConfirmDeletePopoupOpen(true);
@@ -333,7 +334,7 @@ function App() {
                     // onEditAvatarClick={handleEditAvatarClick}
                     // onEditProfileClick={handleEditProfileClick}
                     onAddPlaceClick={handleAddPlaceClick}
-                    onCardClick={handleCardClick}
+                    // onCardClick={handleCardClick}
                     cards={cards}
                     onCardLike={handleCardLike}
                     // onCardDelete={handleCardDelete}

@@ -8,9 +8,9 @@ import { useUser, useAuth, useModal } from "../hooks";
 /* -------------------------- function Main(props) -------------------------- */
 function Main({
   // onEditAvatarClick,
-  onEditProfileClick,
+  // onEditProfileClick,
   onAddPlaceClick,
-  onCardClick,
+  // onCardClick,
   onCardLike,
   // onCardDelete,
 }) {
@@ -59,11 +59,17 @@ function Main({
     console.log({ setIsEditProfilePopupOpen });
   }
 
+  //on card click
+  function handleCardClick(clickedCard) {
+    setSelectedCard(clickedCard);
+  }
+
   //on trash click
   function handleCardDeleteClick(card) {
     setIsConfirmDeletePopupOpen(true);
     setCardToDelete(card);
   }
+
   //Confirm Delete Card - on confirm click
   function handleConfirmDelete(event) {
     setIsLoading(true);
@@ -137,9 +143,9 @@ function Main({
             {cards.map((card) => (
               <Card
                 // look for redundancy
-                onCardClick={onCardClick}
+                onCardClick={handleCardClick}
                 onLikeClick={onCardLike}
-                onCardDelete={handleCardDeleteClick}
+                onCardDelete={handleCardDeleteClick}//updated
                 card={card}
                 key={card._id}
                 link={card.link}

@@ -13,6 +13,7 @@ export default function Card({
   name,
   title,
   likeCount,
+ 
 }) {
   /* ------------------------------ custom hooks ------------------------------ */
   const { currentUser } = useUser();
