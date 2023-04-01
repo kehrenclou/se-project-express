@@ -23,7 +23,7 @@ const app = express();
 const { PORT = 3000, BASE_PATH } = process.env;
 // const { PORT = 3000 } = process.env;
 
-// mongoose.connect("mongodb://localhost:27017/aroundb");
+// mongoose.connect("mongodb://localhost:27017/aroundb");//older node versions
 mongoose.connect("mongodb://127.0.0.1/aroundb");
 // do we need options here?//
 /* -------------------------------- app -------------------------------- */
@@ -32,18 +32,9 @@ app.use(helmet());
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: "63288fbe011f1c3bb40a0989",
-//   };
-//   next();
-// });
-
 app.use(express.json()); //for versions express 4.16+ can use this instead of bodyparser
 app.use(express.urlencoded({ extended: false }));
 
-// app.post(`{BASE_PATH}/signup`, validateUserBody, createUser);
-// app.use("/signup", validateUserBody, createUser);
 app.post("/signup", validateUserBody, createUser);
 app.post("/signin", validateLoginBody, loginUser);
 

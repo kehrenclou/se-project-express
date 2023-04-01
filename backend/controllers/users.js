@@ -6,29 +6,16 @@ const User = require("../models/user");
 const JWT_SECRET = require("../utils/config");
 
 // const { BadRequestError, NotFoundError,  ConflictError } = require("../errors");
-const BadRequestError=require("../errors/bad-request");
+const BadRequestError = require("../errors/bad-request");
 const NotFoundError = require("../errors/not-found");
-const ConflictError=require("../errors/conflict");
+const ConflictError = require("../errors/conflict");
 
 const { SUCCESSFUL, CREATED } = require("../utils/statuses");
 const UnauthorizedError = require("../errors/unauthorized");
-// const ConflictError = require("../errors/conflict");
 
 /* -------------------------------------------------------------------------- */
 /*                                  functions                                 */
 /* -------------------------------------------------------------------------- */
-
-/* ------------------------------ get All Users ----------------------------- */
-//TODO: questiondo we get all users ever in the app
-// const getUsers = (req, res, next) =>
-//   User.find({})
-
-//     .then((users) => res.status(SUCCESSFUL).send(users))
-//     .catch(() =>
-//       res
-//         .status(INTERNAL_SERVER_ERROR)
-//         .send({ message: "An error has occurred on the server" })
-//     );
 
 /* ---------------------------- send User Profile ---------------------------- */
 const sendUserProfile = (req, res, next) => {
@@ -41,7 +28,6 @@ const sendUserProfile = (req, res, next) => {
     })
     .then((user) => {
       res.status(SUCCESSFUL).send(user);
-      // res.status(SUCCESSFUL).send({ data: user });
     })
 
     .catch(next); //equivalent to .catch(err=>next(err));

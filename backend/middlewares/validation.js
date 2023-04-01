@@ -49,16 +49,7 @@ const validateUserBody = celebrate({
     avatar: Joi.string()
       .default("https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg")
       .custom(validateUrl),
-    //validateUrl never gets called
-    // .custom((value, helpers) => {
-    //   if (validator.isURL(value)) {
-    //     return value;
-    //   }
-    //   return helpers.error("string.uri");
-    // })
-    // .messages({
-    //   "string.custom": "Please enter a valid urlz",
-    // }),
+
     email: Joi.string().email().required().messages({
       "string.email": "Please enter a valid email",
       "string.required": "The email field must be filled in",

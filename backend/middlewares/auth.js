@@ -2,7 +2,7 @@
 /* --------------------------------- imports -------------------------------- */
 const jwt = require("jsonwebtoken");
 const UnauthorizedError = require("../errors/unauthorized");
-const { UNAUTHORIZED } = require("../utils/statuses");
+
 const JWT_SECRET = require("../utils/config");
 
 /* ---------------------------------- auth ---------------------------------- */
