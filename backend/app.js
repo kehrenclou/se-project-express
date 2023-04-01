@@ -19,7 +19,7 @@ const { errors } = require("celebrate");
 /* ------------------------------ connect to DB ----------------------------- */
 const app = express();
 
-const { PORT = 3000,BASE_PATH } = process.env;
+const { PORT = 3000, BASE_PATH } = process.env;
 // const { PORT = 3000 } = process.env;
 
 // mongoose.connect("mongodb://localhost:27017/aroundb");
@@ -51,10 +51,18 @@ app.use("/cards", auth, cardsRouter);
 
 app.use(errors());
 
-app.use((req, res) => {
-  res.status(404).send({ message: "Requested resource not found" });
-});
+//question: will this still be needed if centralized error handling?
+// app.use((req, res) => {
+//   res.status(404).send({ message: "Requested resource not found" });
+// });
 
+app.use((err, req, res, next) => {
+  //this is the error handler
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? "An error occurred on the server" : message,
+  });
+});
 app.listen(PORT, () => {
   console.log(` App listening at port ${PORT}`);
 });
