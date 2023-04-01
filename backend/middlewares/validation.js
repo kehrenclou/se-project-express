@@ -21,6 +21,7 @@ function validateUrl(value, helpers) {
 /*                          joi celebrate validation                          */
 /* -------------------------------------------------------------------------- */
 /* -------------------------- validateLoginBody ------------------------- */
+//used on LogIn User
 const validateLoginBody = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required().messages({
@@ -34,8 +35,7 @@ const validateLoginBody = celebrate({
 });
 
 /* ---------------------------- validateUserBody ---------------------------- */
-// user submits form -> api request with data to backend => this middleware ->
-// "; DROP TABLE USERS;
+// used on creating User
 const validateUserBody = celebrate({
   body: Joi.object().keys({
     name: Joi.string().default("Jaques Cousteau").min(2).max(30).messages({
@@ -48,7 +48,8 @@ const validateUserBody = celebrate({
     }),
     avatar: Joi.string()
       .default("https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg")
-      .custom(validateUrl),
+      .custom(validateUrl)
+      .messages({ "string.url": "the avatara url must be a valid url" }),
 
     email: Joi.string().email().required().messages({
       "string.email": "Please enter a valid email",
@@ -62,6 +63,7 @@ const validateUserBody = celebrate({
 
 /* ------------------------ validateUpdateProfileBody ----------------------- */
 //do we need req params here for the userId or just the body?
+//used for updating Profile
 const validateUpdateProfileBody = celebrate({
   params: Joi.object().keys({
     _id: Joi.string(),
