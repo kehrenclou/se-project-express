@@ -11,12 +11,12 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 
-import EditProfilePopup from "./EditProfilePopup";
-import ImagePopup from "./ImagePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
-import ConfirmDeletePopup from "./ConfirmDeletePopup";
-import InfoToolTip from "./InfoToolTip";
+import EditProfilePopup from "./popups/EditProfilePopup";
+import ImagePopup from "./popups/ImagePopup";
+import EditAvatarPopup from "./popups/EditAvatarPopup";
+import AddPlacePopup from "./popups/AddPlacePopup";
+import ConfirmDeletePopup from "./popups/ConfirmDeletePopup";
+import InfoToolTip from "./popups/InfoToolTip";
 
 // import { useAuth } from "../hooks";
 import {
@@ -365,7 +365,7 @@ function App() {
               <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
-                // onAddPlaceSubmit={handleAddPlaceSubmit}
+                onAddPlaceSubmit={handleAddPlaceSubmit}
                 isLoading={isLoading}
               />
               <ImagePopup card={selectedCard} onClose={closeAllPopups} />

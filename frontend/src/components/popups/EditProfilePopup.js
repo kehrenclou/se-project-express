@@ -2,8 +2,8 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-import { useUser, useModal } from "../hooks";
-import { api } from "../utils/api";
+import { useUser, useModal } from "../../hooks";
+import { api } from "../../utils/api";
 /* ------------------------ function EditProfilePopup ----------------------- */
 
 function EditProfilePopup() {
@@ -27,7 +27,7 @@ function EditProfilePopup() {
   });
 
   /* -------------------------------- handlers -------------------------------- */
- //input name change
+  //input name change
   const handleNameChange = (event) => {
     setName(event.target.value);
     setIsNameValid(event.target.validity.valid);

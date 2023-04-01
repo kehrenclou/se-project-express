@@ -1,9 +1,9 @@
 /* --------------------------------- imports -------------------------------- */
 import React from "react";
 import Popup from "./Popup";
-import success from "../images/success.png";
-import fail from "../images/fail.png";
-import { useModal } from "../hooks";
+import success from "../../images/success.png";
+import fail from "../../images/fail.png";
+import { useModal } from "../../hooks";
 
 /* ------------------------- function Popup ------------------------- */
 function InfoToolTip() {

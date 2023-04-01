@@ -5,6 +5,9 @@ import PopupWithForm from "./PopupWithForm";
 /* ----------------------- function ConirmDeletePopup ----------------------- */
 
 function ConfirmDeletePopup({ onClose, isOpen, onSubmit, isLoading }) {
+// hooks
+
+  /* --------------------------------- return --------------------------------- */
   return (
     <PopupWithForm
       isOpen={isOpen}

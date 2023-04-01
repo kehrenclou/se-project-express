@@ -1,8 +1,8 @@
 /* --------------------------------- imports -------------------------------- */
 import React, { useState, useEffect, useCallback } from "react";
 import PopupWithForm from "./PopupWithForm";
-import { useModal, useUser } from "../hooks";
-import { api } from "../utils/api";
+import { useModal, useUser } from "../../hooks";
+import { api } from "../../utils/api";
 
 /* ------------------------ function EditAvatarPopup ------------------------ */
 function EditAvatarPopup() {
