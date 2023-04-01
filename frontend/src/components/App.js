@@ -15,7 +15,7 @@ import EditProfilePopup from "./popups/EditProfilePopup";
 import ImagePopup from "./popups/ImagePopup";
 import EditAvatarPopup from "./popups/EditAvatarPopup";
 import AddPlacePopup from "./popups/AddPlacePopup";
-import ConfirmDeletePopup from "./popups/ConfirmDeletePopup";
+// import ConfirmDeletePopup from "./popups/ConfirmDeletePopup";
 import InfoToolTip from "./popups/InfoToolTip";
 
 // import { useAuth } from "../hooks";
@@ -356,12 +356,7 @@ function App() {
               <Footer />
               <EditAvatarPopup />
               <EditProfilePopup />
-              <ConfirmDeletePopup
-                // isOpen={isConfirmDeletePopupOpen}
-                // onClose={closeAllPopups}
-                // onSubmit={handleConfirmDelete}
-                // isLoading={isLoading}
-              />
+          
               <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}

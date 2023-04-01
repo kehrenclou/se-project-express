@@ -6,22 +6,15 @@ import { useModal } from "../../hooks";
 
 /* ----------------------- function ConirmDeletePopup ----------------------- */
 
-function ConfirmDeletePopup({ onSubmit }) {
+function ConfirmDeletePopup({ onSubmit, onClose }) {
   /* ---------------------------------- hooks --------------------------------- */
-  const { isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen, isLoading } =
-    useModal();
-
-  /* -------------------------------- handlers -------------------------------- */
-
-  function closePopup() {
-    setIsConfirmDeletePopupOpen(false);
-  }
+  const { isConfirmDeletePopupOpen, isLoading } = useModal();
 
   /* --------------------------------- return --------------------------------- */
   return (
     <PopupWithForm
       isOpen={isConfirmDeletePopupOpen}
-      onClose={closePopup}
+      onClose={onClose}
       onSubmit={onSubmit}
       name="check-delete"
       title="Are you sure?"
