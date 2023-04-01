@@ -1,5 +1,5 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useContext } from "react";
+import React from "react";
 import { useUser } from "../hooks";
 // import { UserContext } from "../contexts/UserContext";
 

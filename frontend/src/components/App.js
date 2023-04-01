@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 
 import { api } from "../utils/api";
-import * as auth from "../utils/auth";
+
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -12,13 +12,9 @@ import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 
 import EditProfilePopup from "./popups/EditProfilePopup";
-import ImagePopup from "./popups/ImagePopup";
 import EditAvatarPopup from "./popups/EditAvatarPopup";
-import AddPlacePopup from "./popups/AddPlacePopup";
-// import ConfirmDeletePopup from "./popups/ConfirmDeletePopup";
 import InfoToolTip from "./popups/InfoToolTip";
 
-// import { useAuth } from "../hooks";
 import {
   UserContext,
   AuthContext,
@@ -35,17 +31,17 @@ function App() {
   /* ------------------------------- use states ------------------------------- */
   const [token, setToken] = useState(localStorage.getItem("jwt"));
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   // const [status, setStatus] = useState(""); //used for tooltip fail/sucess
 
-  const [cards, setCards] = useState([]);
-  const [selectedCard, setSelectedCard] = useState(null);
+  // const [cards, setCards] = useState([]);
+  // const [selectedCard, setSelectedCard] = useState(null);
   // const [cardToDelete, setCardToDelete] = useState({}); //move to mainjs (maybe not a usestae but an api call )
 
   // const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   // const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  // const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   // const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
   //   useState(false);
   // const [isToolTipOpen, setIsToolTipOpen] = useState(false);
@@ -119,7 +115,7 @@ function App() {
   useEffect(() => {
     const handleEscClose = (event) => {
       if (event.key === "Escape") {
-        closeAllPopups();
+        modalStore.closeAllPopups();
       }
     };
     document.addEventListener("keydown", handleEscClose, false);
@@ -312,14 +308,14 @@ function App() {
   //   setCardToDelete(card);
   // }
 
-  function closeAllPopups() {
-    // modalStore.setIsEditAvatarPopupOpen(false);
-    // modalStore.setIsEditProfilePopupOpen(false);
-    // setIsAddPlacePopupOpen(false);
-    // setIsConfirmDeletePopoupOpen(false);
-    // setSelectedCard(null);
-    // modalStore.setIsToolTipOpen(false);
-  }
+  // function closeAllPopups() {
+  //   // modalStore.setIsEditAvatarPopupOpen(false);
+  //   // modalStore.setIsEditProfilePopupOpen(false);
+  //   // setIsAddPlacePopupOpen(false);
+  //   // setIsConfirmDeletePopoupOpen(false);
+  //   // setSelectedCard(null);
+  //   // modalStore.setIsToolTipOpen(false);
+  // }
   /* --------------------------------- return --------------------------------- */
   return (
     <div className="root">
@@ -335,7 +331,7 @@ function App() {
                     // onEditProfileClick={handleEditProfileClick}
                     // onAddPlaceClick={handleAddPlaceClick}
                     // onCardClick={handleCardClick}
-                    cards={cards}
+                    // cards={cards}
                     // onCardLike={handleCardLike}
                     // onCardDelete={handleCardDelete}
                   />
@@ -357,7 +353,7 @@ function App() {
               <Footer />
               <EditAvatarPopup />
               <EditProfilePopup />
-          
+
               {/* <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}

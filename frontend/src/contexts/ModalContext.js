@@ -12,8 +12,15 @@ export const useInitializeModalStore = () => {
   useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
 
-
-  console.log("from modalstore file", status, isToolTipOpen);
+  function closeAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsConfirmDeletePopupOpen(false);
+    // setSelectedCard(null);
+    setIsToolTipOpen(false);
+  }
+  
 
   return {
     isAddPlacePopupOpen,
@@ -30,5 +37,6 @@ export const useInitializeModalStore = () => {
     setIsToolTipOpen,
     setIsLoading,
     setStatus,
+    closeAllPopups,
   };
 };
