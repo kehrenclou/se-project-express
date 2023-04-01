@@ -1,11 +1,9 @@
 import { useCallback, useContext } from "react";
 import { AuthContext } from "../contexts";
 
-//this should include handle signout
-//cant useHistory in a hook
 export const useAuth = () => {
   // if decoding token needed would happen here
-  // const userData = token ? jwt.decode(token, ) : {};
+  // example: const userData = token ? jwt.decode(token, ) : {};
   const { isLoggedIn, token, setToken, setIsLoggedIn, isLoaded, setIsLoaded } =
     useContext(AuthContext);
 
@@ -15,8 +13,6 @@ export const useAuth = () => {
     setToken(undefined);
   }, []);
 
-  console.log("from useAuth file", isLoggedIn);
-  
   return {
     isLoaded,
     isLoggedIn,

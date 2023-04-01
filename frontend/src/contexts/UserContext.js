@@ -7,7 +7,6 @@ export const useInitializeUserStore = () => {
     name: "",
     about: "",
     avatar: "",
-    //test adding email and id
     email: "email@email.com",
     id: "",
   });

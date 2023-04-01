@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { ModalContext } from "../contexts";
 
-//this should include handle signout
 export const useModal = () => {
   const {
     isAddPlacePopupOpen,
