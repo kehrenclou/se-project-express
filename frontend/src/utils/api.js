@@ -1,7 +1,11 @@
 /* --------------------------------- imports -------------------------------- */
 import { useAuth } from "../hooks";
 /* -------------------------------- variables ------------------------------- */
-const baseUrl = "http://localhost:3000";
+// const baseUrl = "http://localhost:3000";
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "deployed-backend-url"
+    : "http://localhost:3000";
 /* -------------------------------- class Api ------------------------------- */
 class Api {
   constructor({ baseUrl, headers }) {

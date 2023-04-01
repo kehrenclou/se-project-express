@@ -1,5 +1,9 @@
 // export const BASE_URL = "https://register.nomoreparties.co";
-export const BASE_URL = "http://localhost:3000";
+// export const BASE_URL = "http://localhost:3000";
+export const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "deployed-backend-rul"
+    : "http://localhost:3000";
 
 const handleAuthResponse = (res) => {
   if (!res.ok) {
