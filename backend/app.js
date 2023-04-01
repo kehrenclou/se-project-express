@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const path = require("path");
 const cors = require("cors");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { createUser, loginUser } = require("./controllers/users");
 const usersRouter = require("./routes/users");
 const cardsRouter = require("./routes/cards");
@@ -35,14 +36,18 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json()); //for versions express 4.16+ can use this instead of bodyparser
 app.use(express.urlencoded({ extended: false }));
 
+app.use(requestLogger);
+
+//routes
 app.post("/signup", validateUserBody, createUser);
 app.post("/signin", validateLoginBody, loginUser);
 
 app.use("/users", auth, usersRouter);
 app.use("/cards", auth, cardsRouter);
 
-app.use(errors());
-app.use(errorHandler);
+app.user(errorLogger); //winston
+app.use(errors()); //celebrate
+app.use(errorHandler); //centralized error handler
 
 app.listen(PORT, () => {
   console.log(` App listening at port ${PORT}`);
