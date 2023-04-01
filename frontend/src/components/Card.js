@@ -4,23 +4,13 @@ import { useUser } from "../hooks";
 // import { UserContext } from "../contexts/UserContext";
 
 /* ------------------------------ function Card ----------------------------- */
-export default function Card({
-  onCardClick,
-  onLikeClick,
-  onCardDelete,
-  card,
-  // link,
-  // name,
-  // title,
-  // likeCount,
- 
-}) {
+export default function Card({ onCardClick, onLikeClick, onCardDelete, card }) {
   /* ------------------------------ custom hooks ------------------------------ */
   const { currentUser } = useUser();
 
   /* ------------------------------ declarations ------------------------------ */
 
-const likeCount=card.likes.length;
+  const likeCount = card.likes.length;
 
   const isOwn = card.owner === currentUser._id;
   // const isOwn = card.owner._id === currentUser._id;
@@ -35,7 +25,7 @@ const likeCount=card.likes.length;
     isLiked ? "cards__button_type_like-active" : " "
   }`;
   /* -------------------------------- functions ------------------------------- */
-  //selects card 
+  //selects card
   function handleCardClick() {
     onCardClick(card);
   }
@@ -69,7 +59,7 @@ const likeCount=card.likes.length;
       />
       <div className="cards__textbox">
         <h2 className="cards__text" id="card-text">
-          {card.title}
+          {card.name}
         </h2>
         <div className="cards__like-container">
           <button

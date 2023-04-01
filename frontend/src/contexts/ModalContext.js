@@ -10,18 +10,20 @@ export const useInitializeModalStore = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] =
   useState(false);
-  // const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
 
 
   console.log("from modalstore file", status, isToolTipOpen);
 
   return {
+    isAddPlacePopupOpen,
     isEditAvatarPopupOpen,
     isEditProfilePopupOpen,
     isConfirmDeletePopupOpen,
     isToolTipOpen,
     isLoading,
     status,
+    setIsAddPlacePopupOpen,
     setIsEditAvatarPopupOpen,
     setIsEditProfilePopupOpen,
     setIsConfirmDeletePopupOpen,

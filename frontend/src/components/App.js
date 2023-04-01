@@ -212,21 +212,21 @@ function App() {
   // }
 
   //Add New Card
-  function handleAddPlaceSubmit(newCard) {
-    setIsLoading(true);
-    api
-      .addNewCard(newCard.name, newCard.link)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        api.handleErrorResponse(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  // function handleAddPlaceSubmit(newCard) {
+  //   setIsLoading(true);
+  //   api
+  //     .addNewCard(newCard.name, newCard.link)
+  //     .then((newCard) => {
+  //       setCards([newCard, ...cards]);
+  //       closeAllPopups();
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }
 
   /* ---------------------------handlers with auth----------------------------- */
   //register--moved to register
@@ -299,9 +299,9 @@ function App() {
   //   setIsEditProfilePopupOpen(true);
   // }
 
-  function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(true);
-  }
+  // function handleAddPlaceClick() {
+  //   setIsAddPlacePopupOpen(true);
+  // }
 
   // function handleCardClick(clickedCard) {
   //   setSelectedCard(clickedCard);
@@ -315,7 +315,7 @@ function App() {
   function closeAllPopups() {
     // modalStore.setIsEditAvatarPopupOpen(false);
     // modalStore.setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
+    // setIsAddPlacePopupOpen(false);
     // setIsConfirmDeletePopoupOpen(false);
     // setSelectedCard(null);
     // modalStore.setIsToolTipOpen(false);
@@ -333,7 +333,7 @@ function App() {
                   <Main
                     // onEditAvatarClick={handleEditAvatarClick}
                     // onEditProfileClick={handleEditProfileClick}
-                    onAddPlaceClick={handleAddPlaceClick}
+                    // onAddPlaceClick={handleAddPlaceClick}
                     // onCardClick={handleCardClick}
                     cards={cards}
                     // onCardLike={handleCardLike}
@@ -358,12 +358,12 @@ function App() {
               <EditAvatarPopup />
               <EditProfilePopup />
           
-              <AddPlacePopup
+              {/* <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
                 onAddPlaceSubmit={handleAddPlaceSubmit}
                 isLoading={isLoading}
-              />
+              /> */}
               {/* <ImagePopup card={selectedCard} onClose={closeAllPopups} /> */}
               <InfoToolTip />
             </ModalContext.Provider>

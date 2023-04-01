@@ -2,23 +2,27 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import ImagePopup from "./popups/ImagePopup";
+import AddPlacePopup from "./popups/AddPlacePopup";
 import ConfirmDeletePopup from "./popups/ConfirmDeletePopup";
 import { api } from "../utils/api";
 import { useUser, useAuth, useModal } from "../hooks";
 
 /* -------------------------- function Main(props) -------------------------- */
-function Main({
-  // onEditAvatarClick,
-  // onEditProfileClick,
-  onAddPlaceClick,
-  // onCardClick,
-  // onCardLike,
-  // onCardDelete,
-}) {
+function Main(
+  {
+    // onEditAvatarClick,
+    // onEditProfileClick,
+    // onAddPlaceClick,
+    // onCardClick,
+    // onCardLike,
+    // onCardDelete,
+  }
+) {
   /* ------------------------------ hooks ------------------------------ */
   const { currentUser } = useUser();
   const { isLoggedIn, token } = useAuth();
   const {
+    setIsAddPlacePopupOpen,
     setIsEditAvatarPopupOpen,
     setIsEditProfilePopupOpen,
     setIsConfirmDeletePopupOpen,
@@ -51,6 +55,11 @@ function Main({
   }, [isLoggedIn]);
 
   /* -------------------------------- handlers -------------------------------- */
+  //on AddPlace Click
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
   //on EditAvatar Click
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -71,6 +80,23 @@ function Main({
   function handleCardDeleteClick(card) {
     setIsConfirmDeletePopupOpen(true);
     setCardToDelete(card);
+  }
+
+  //Add New Card
+  function handleAddPlaceSubmit(newCard) {
+    setIsLoading(true);
+    api
+      .addNewCard(newCard.name, newCard.link)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        handleClosePopups();
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   //Like or Unlike Card
@@ -115,18 +141,12 @@ function Main({
       });
   }
 
-  //close Delete Confirm Popup
-  function closeDeleteConfirmPopup() {
+  //close Delete Confirm Popup,Image &addPlace popups
+  function handleClosePopups() {
+    setIsAddPlacePopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
     setSelectedCard(null);
   }
-    //close Delete Confirm Popup & Image popup
-    function handleClosePopups() {
-      setIsConfirmDeletePopupOpen(false);
-      setSelectedCard(null);
-    }
-
-  //onClose Image Popup
 
   /* --------------------------------- return --------------------------------- */
   return (
@@ -164,7 +184,7 @@ function Main({
             </p>
           </div>
           <button
-            onClick={onAddPlaceClick}
+            onClick={handleAddPlaceClick}
             aria-label="Add Place Button"
             type="button"
             className="button profile__button-add"
@@ -175,29 +195,25 @@ function Main({
           <ul className="cards__list">
             {cards.map((card) => (
               <Card
-                // look for redundancy
                 onCardClick={handleCardClick}
-                onLikeClick={handleCardLike} //updated
-                onCardDelete={handleCardDeleteClick} //updated
+                onLikeClick={handleCardLike}
+                onCardDelete={handleCardDeleteClick}
                 card={card}
                 key={card._id}
-                // link={card.link}
-                // title={card.name}
-                // alt={card.name}
-                // ownerId={card.owner}
-                // imageId={card._id}
-                // likes={card.likes}
-                // likeCount={card.likes.length}
               />
             ))}
           </ul>
         </section>
       </main>
+      <AddPlacePopup
+        onClose={handleClosePopups}
+        onAddPlaceSubmit={handleAddPlaceSubmit}
+      />
       <ConfirmDeletePopup
         onClose={handleClosePopups}
         onSubmit={handleConfirmDelete}
       />
-       <ImagePopup card={selectedCard} onClose={handleClosePopups} />
+      <ImagePopup card={selectedCard} onClose={handleClosePopups} />
     </>
   );
 }
