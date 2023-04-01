@@ -1,15 +1,15 @@
 /* --------------------------------- imports -------------------------------- */
-import { useHistory } from "react";
+
 import { Route, Link, useRouteMatch } from "react-router-dom";
 import headerlogo from "../images/headerlogo.svg";
 
 import { useUser, useAuth } from "../hooks";
 /* ----------------------------- function Header ---------------------------- */
 function Header() {
-  // const history = useHistory();
+  /* ---------------------------------- hooks --------------------------------- */
   const { path, url } = useRouteMatch();
   const { currentUser } = useUser();
-  const { onSignOut, setIsLoggedIn, setToken } = useAuth();
+  const { onSignOut } = useAuth();
   /* -------------------------------- handlers -------------------------------- */
   const handleSignOut = () => {
     console.log("signoutclicked");

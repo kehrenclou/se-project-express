@@ -27,7 +27,6 @@ function Login() {
 
       .then((res) => {
         if (res) {
-          console.log({ res });
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
           api.setHeaders({
@@ -42,8 +41,7 @@ function Login() {
           setIsToolTipOpen(true);
         }
       })
-      .catch((err) => {
-        // auth.handleAuthError(err);
+      .catch(() => {
         setStatus("fail");
         setIsToolTipOpen(true);
       });

@@ -6,12 +6,13 @@ import * as auth from "../utils/auth";
 
 /* ----------------------------- function Register ---------------------------- */
 function Register() {
+  /* ---------------------------------- hooks --------------------------------- */
   const history = useHistory();
   const { setStatus, setIsToolTipOpen } = useModal();
 
   /* ------------------------------ handleSubmit ------------------------------ */
   function handleSubmit(email, password) {
-    console.log("handlesubmit");
+
     auth
       .register(email, password)
       .then((res) => {
@@ -31,6 +32,8 @@ function Register() {
         setIsToolTipOpen(true);
       });
   }
+
+  /* --------------------------------- return --------------------------------- */
   return (
     <div className="signup">
       <UserForm

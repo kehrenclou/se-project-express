@@ -8,16 +8,7 @@ import { api } from "../utils/api";
 import { useUser, useAuth, useModal } from "../hooks";
 
 /* -------------------------- function Main(props) -------------------------- */
-function Main(
-  {
-    // onEditAvatarClick,
-    // onEditProfileClick,
-    // onAddPlaceClick,
-    // onCardClick,
-    // onCardLike,
-    // onCardDelete,
-  }
-) {
+function Main() {
   /* ------------------------------ hooks ------------------------------ */
   const { currentUser } = useUser();
   const { isLoggedIn, token } = useAuth();
@@ -31,7 +22,7 @@ function Main(
   /* -------------------------------- useStates ------------------------------- */
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [cardToDelete, setCardToDelete] = useState({}); // (maybe not a usestate but an api call )
+  const [cardToDelete, setCardToDelete] = useState({});
 
   /* ------------------------------- useEffects ------------------------------- */
 

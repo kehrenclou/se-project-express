@@ -10,11 +10,10 @@ function ProtectedRoute({ children, ...props }) {
   const { currentUser, setCurrentUser } = useUser();
 
   /* ------------------------------- use Effects ------------------------------ */
-  //protected route should olny return getInfo and not cards
-  //ok to set user here
-  //fires when loading protect route
 
-  console.log({ isLoggedIn, currentUser });
+  // on load - Protected route
+  //checks for token
+  //if token, update headers, getInfo, setIsLoggedIn, setIsLoaded, setCurrentUser
   useEffect(() => {
     if (!token) {
       return;
@@ -30,9 +29,7 @@ function ProtectedRoute({ children, ...props }) {
         if (res) {
           setIsLoggedIn(true);
           setIsLoaded(true);
-
           setCurrentUser(res);
-          console.log("protectected route setuserdata", currentUser);
         }
       })
       .catch((err) => {

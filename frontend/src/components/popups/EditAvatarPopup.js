@@ -25,7 +25,6 @@ function EditAvatarPopup() {
     setInputValue("");
     setErrorMessage("");
   }, [isEditAvatarPopupOpen]);
-  //may have erros dependency was isOpen
 
   /* -------------------------------- functions ------------------------------- */
   function handleLinkChange(event) {

@@ -9,10 +9,8 @@ function ImagePopup({ card, onClose }) {
       onClose();
     }
   }
-  function closePopup(){
-    
-  }
 
+  /* --------------------------------- return --------------------------------- */
   return (
     <div
       className={`modal modal_type_image ${card ? "modal_open" : ""}`}
