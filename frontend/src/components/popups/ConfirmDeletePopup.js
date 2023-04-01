@@ -2,12 +2,18 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
+import { useModal } from "../../hooks";
+
 /* ----------------------- function ConirmDeletePopup ----------------------- */
 
-function ConfirmDeletePopup({ onClose, isOpen, onSubmit, isLoading }) {
+function ConfirmDeletePopup({ onSubmit, onClose }) {
+  /* ---------------------------------- hooks --------------------------------- */
+  const { isConfirmDeletePopupOpen, isLoading } = useModal();
+
+  /* --------------------------------- return --------------------------------- */
   return (
     <PopupWithForm
-      isOpen={isOpen}
+      isOpen={isConfirmDeletePopupOpen}
       onClose={onClose}
       onSubmit={onSubmit}
       name="check-delete"

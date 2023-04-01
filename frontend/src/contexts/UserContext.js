@@ -1,3 +1,18 @@
-import React from "react";
+import { createContext, useState } from "react";
 
-export const UserContext = React.createContext();
+export const UserContext = createContext();
+
+export const useInitializeUserStore = () => {
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    about: "",
+    avatar: "",
+    email: "email@email.com",
+    id: "",
+  });
+
+  return {
+    currentUser,
+    setCurrentUser,
+  };
+};

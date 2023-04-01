@@ -1,13 +1,22 @@
 /* --------------------------------- imports -------------------------------- */
 import React from "react";
 import Popup from "./Popup";
-import success from "../images/success.png";
-import fail from "../images/fail.png";
+import success from "../../images/success.png";
+import fail from "../../images/fail.png";
+import { useModal } from "../../hooks";
 
 /* ------------------------- function Popup ------------------------- */
-function InfoToolTip({ isOpen, onClose, status }) {
+function InfoToolTip() {
+  /* ---------------------------------- hooks --------------------------------- */
+  const { isToolTipOpen, setIsToolTipOpen, status } = useModal();
+
+  /* -------------------------------- handlers -------------------------------- */
+  function closePopup() {
+    setIsToolTipOpen(false);
+  }
+  /* --------------------------------- return --------------------------------- */
   return (
-    <Popup isOpen={isOpen} onClose={onClose} name="tooltip">
+    <Popup isOpen={isToolTipOpen} onClose={closePopup} name="tooltip">
       {status === "success" ? (
         <div className="tooltip">
           <img className="tooltip__img" src={success} alt="Success graphic" />

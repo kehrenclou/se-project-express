@@ -1,3 +1,12 @@
+/* --------------------------------- imports -------------------------------- */
+import { useAuth } from "../hooks";
+/* -------------------------------- variables ------------------------------- */
+// const baseUrl = "http://localhost:3000";
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "deployed-backend-url"
+    : "http://localhost:3000";
+/* -------------------------------- class Api ------------------------------- */
 class Api {
   constructor({ baseUrl, headers }) {
     //constructor body
@@ -5,7 +14,7 @@ class Api {
 
     this._headers = headers;
   }
- 
+
   _request(url, options) {
     return fetch(url, options).then(this._handleResponse);
     // return fetch(url, options).then((res) =>
@@ -13,7 +22,6 @@ class Api {
     // );
   }
 
-  //check difference between returning res and putting it in -request - may be ok to delete this part
   _handleResponse(res) {
     if (res.ok) {
       return res.json();
@@ -21,23 +29,21 @@ class Api {
     return Promise.reject(`Error: ${res.status}`);
   }
 
-  handleErrorResponse(err) {
+  handleErrorResponse = (err) => {
     console.log(`Error: ${err}`);
-  }
+    throw err;
+  };
 
-  getAppInfo() {
-    return Promise.all([this.getInfo(), this.getInitialCards()]);
-  }
-  getInfo() {
+  getInfo = () => {
     //get user info from server
     return this._request(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
       method: "GET",
+      headers: this._headers,
     });
-  }
+  };
 
   getInitialCards() {
-    //get cards ? from server
+    //get cards from server
     return this._request(`${this._baseUrl}/cards`, {
       headers: this._headers,
       method: "GET",
@@ -74,6 +80,7 @@ class Api {
     });
   }
 
+  //change like status
   changeLikeCardStatus(cardId, like) {
     return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       headers: this._headers,
@@ -89,7 +96,19 @@ class Api {
       method: "DELETE",
     });
   }
+
+  //set headers
+  setHeaders(headers) {
+    this._headers = headers;
+  }
 }
 
 /* --------------------------------- exports -------------------------------- */
-export default Api;
+//sets headers with token on all api calls
+export const api = new Api({
+  baseUrl: baseUrl,
+  headers: {
+    authorization: `Bearer ${useAuth.token}`,
+    "Content-Type": "application/json",
+  },
+});

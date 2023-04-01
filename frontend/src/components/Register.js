@@ -1,20 +1,45 @@
 /* --------------------------------- imports -------------------------------- */
-import {withRouter} from 'react-router-dom';
+import { useHistory, withRouter } from "react-router-dom";
 import UserForm from "./UserForm";
+import { useModal } from "../hooks";
+import * as auth from "../utils/auth";
 
 /* ----------------------------- function Register ---------------------------- */
-function Register({ onRegisterSubmit }) {
-  function handleSubmit(email, password) {
-    //needs to push up to App.js?//
+function Register() {
+  /* ---------------------------------- hooks --------------------------------- */
+  const history = useHistory();
+  const { setStatus, setIsToolTipOpen } = useModal();
 
-    onRegisterSubmit({ email, password });
+  /* ------------------------------ handleSubmit ------------------------------ */
+  function handleSubmit(email, password) {
+
+    auth
+      .register(email, password)
+      .then((res) => {
+        if (res) {
+          setStatus("success");
+          setIsToolTipOpen(true);
+          history.push("/signin");
+        } else {
+          setStatus("fail");
+        }
+      })
+      .catch((err) => {
+        auth.handleAuthError(err);
+        setStatus("fail");
+      })
+      .finally(() => {
+        setIsToolTipOpen(true);
+      });
   }
+
+  /* --------------------------------- return --------------------------------- */
   return (
     <div className="signup">
       <UserForm
         title="Sign Up"
         submitText="Sign up"
-        text="Already a member?" 
+        text="Already a member?"
         linkText=" Log in here!"
         link="/signin"
         onSubmit={handleSubmit}

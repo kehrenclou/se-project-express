@@ -1,7 +1,10 @@
 // export const BASE_URL = "https://register.nomoreparties.co";
-export const BASE_URL = "http://localhost:3000";
-
 // export const BASE_URL = "http://localhost:3000";
+export const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "deployed-backend-rul"
+    : "http://localhost:3000";
+
 const handleAuthResponse = (res) => {
   if (!res.ok) {
     throw Error(res.statusText);
@@ -25,22 +28,11 @@ export const register = (email, password) => {
 };
 
 export const login = (email, password) => {
-
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  }).then(handleAuthResponse);
-};
-
-export const getContent = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
-    },
   }).then(handleAuthResponse);
 };

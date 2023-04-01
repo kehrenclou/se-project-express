@@ -1,12 +1,21 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
-import { UserContext } from "../contexts/UserContext";
 
+import { useUser, useModal } from "../../hooks";
+import { api } from "../../utils/api";
 /* ------------------------ function EditProfilePopup ----------------------- */
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
-  const currentUser = useContext(UserContext);
+function EditProfilePopup() {
+  /* ---------------------------------- hooks --------------------------------- */
+  const { currentUser, setCurrentUser } = useUser();
+  const {
+    isEditProfilePopupOpen,
+    setIsEditProfilePopupOpen,
+    isLoading,
+    setIsLoading,
+  } = useModal();
+  /* -------------------------------- useState -------------------------------- */
   const [name, setName] = useState(currentUser.name || "");
   const [description, setDescription] = useState(currentUser.about || "");
   const [isNameValid, setIsNameValid] = useState(false);
@@ -17,37 +26,55 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
     description: "",
   });
 
+  /* -------------------------------- handlers -------------------------------- */
+  //input name change
   const handleNameChange = (event) => {
     setName(event.target.value);
     setIsNameValid(event.target.validity.valid);
     setErrorMessage({ name: event.target.validationMessage });
   };
 
+  //input description change
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
     setIsDescriptionValid(event.target.validity.valid);
     setErrorMessage({ description: event.target.validationMessage });
   };
 
-  function handleSubmit() {
-    onUpdateUser({
-      name,
-      about: description,
-    });
+  //Update User
+  const handleUpdateProfile = useCallback(() => {
+    setIsLoading(true);
+    api
+      .setUserInfo(name, description)
+      .then((userData) => {
+        setCurrentUser(userData);
+        closePopup();
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  });
+
+  function closePopup() {
+    setIsEditProfilePopupOpen(false);
   }
 
+  /* ------------------------------- useEffects ------------------------------- */
   useEffect(() => {
     if (currentUser) {
       setName(currentUser.name);
       setDescription(currentUser.about);
     }
-  }, [currentUser, isOpen]);
+  }, [currentUser, isEditProfilePopupOpen]);
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
-      onClose={onClose}
-      onSubmit={handleSubmit}
+      isOpen={isEditProfilePopupOpen}
+      onClose={closePopup}
+      onSubmit={handleUpdateProfile}
       name="edit-profile"
       title="Edit profile"
       submitText={isLoading ? "Saving" : "Save"}
@@ -60,7 +87,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         type="text"
         minLength="2"
         maxLength="40"
-        value={name}
+        value={name ?? ""}
         onChange={handleNameChange}
         required
       />
@@ -78,7 +105,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         type="text"
         minLength="2"
         maxLength="200"
-        value={description}
+        value={description ?? ""}
         onChange={handleDescriptionChange}
         required
       />

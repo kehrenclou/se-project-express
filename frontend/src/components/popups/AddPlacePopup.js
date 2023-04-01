@@ -1,9 +1,14 @@
 /* --------------------------------- imports -------------------------------- */
 import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
+import { useModal } from "../../hooks";
 
 /* ------------------------- function AddPlacePopup ------------------------- */
-function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
+function AddPlacePopup({ onClose, onAddPlaceSubmit }) {
+  /* ---------------------------------- hooks --------------------------------- */
+  const { isAddPlacePopupOpen, isLoading } = useModal();
+
+  /* -------------------------------- useState -------------------------------- */
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
   const [isLinkValid, setIsLinkValid] = useState(false);
@@ -13,6 +18,12 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
     link: "",
   });
 
+  /* -------------------------------- useEffect ------------------------------- */
+  useEffect(() => {
+    setName("");
+    setLink("");
+  }, [isAddPlacePopupOpen]);
+  /* -------------------------------- handlers -------------------------------- */
   const handleNameChange = (event) => {
     setName(event.target.value);
     setIsNameValid(event.target.validity.valid);
@@ -29,14 +40,10 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }) {
     onAddPlaceSubmit({ name, link });
   }
 
-  useEffect(() => {
-    setName("");
-    setLink("");
-  }, [isOpen]);
-
+  /* --------------------------------- return --------------------------------- */
   return (
     <PopupWithForm
-      isOpen={isOpen}
+      isOpen={isAddPlacePopupOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       name="add-place"

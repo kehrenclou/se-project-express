@@ -1,31 +1,16 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import React from "react";
+import { useUser } from "../hooks";
+// import { UserContext } from "../contexts/UserContext";
 
 /* ------------------------------ function Card ----------------------------- */
-export default function Card({
-  onCardClick,
-  onLikeClick,
-  onCardDelete,
-  card,
-  link,
-  name,
-  title,
-  likeCount,
-}) {
-  function handleCardClick() {
-    onCardClick(card);
-  }
+export default function Card({ onCardClick, onLikeClick, onCardDelete, card }) {
+  /* ------------------------------ custom hooks ------------------------------ */
+  const { currentUser } = useUser();
 
-  function handleLikeClick() {
-    onLikeClick(card);
-  }
+  /* ------------------------------ declarations ------------------------------ */
 
-  function handleDeleteClick() {
-    onCardDelete(card);
-  }
-
-  const currentUser = useContext(UserContext);
+  const likeCount = card.likes.length;
 
   const isOwn = card.owner === currentUser._id;
   // const isOwn = card.owner._id === currentUser._id;
@@ -39,7 +24,23 @@ export default function Card({
   const cardLikeButtonClassName = ` button cards__button_type_like ${
     isLiked ? "cards__button_type_like-active" : " "
   }`;
+  /* -------------------------------- functions ------------------------------- */
+  //selects card
+  function handleCardClick() {
+    onCardClick(card);
+  }
 
+  //like handler
+  function handleLikeClick() {
+    onLikeClick(card);
+  }
+
+  //delete handler
+  function handleDeleteClick() {
+    onCardDelete(card);
+  }
+
+  /* --------------------------------- return --------------------------------- */
   return (
     <li className="cards__item">
       <button
@@ -51,14 +52,14 @@ export default function Card({
       />
       <img
         onClick={handleCardClick}
-        src={link}
-        alt={name}
+        src={card.link}
+        alt={card.name}
         className="cards__image"
         id="card-image"
       />
       <div className="cards__textbox">
         <h2 className="cards__text" id="card-text">
-          {title}
+          {card.name}
         </h2>
         <div className="cards__like-container">
           <button
