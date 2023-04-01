@@ -167,28 +167,28 @@ function App() {
 
   //Like Unlike Card -need to move to main - setcards is in main now
   //this currently is not functioning
-  function handleCardLike(card) {
-    // Check one more time if this card was already liked
-    const isLiked = card.likes.some(
-      (user) => user === userStore.currentUser._id
-    );
-    // Send a request to the API and getting the updated card data
-    api
-      .changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((state) =>
-          //state of cards before changing them
-          //map returns array with each of its elements modified
-          state.map((currentCard) =>
-            // console.log(currentCard)
-            currentCard._id === card._id ? newCard : currentCard
-          )
-        );
-      })
-      .catch((err) => {
-        api.handleErrorResponse(err);
-      });
-  }
+  // function handleCardLike(card) {
+  //   // Check one more time if this card was already liked
+  //   const isLiked = card.likes.some(
+  //     (user) => user === userStore.currentUser._id
+  //   );
+  //   // Send a request to the API and getting the updated card data
+  //   api
+  //     .changeLikeCardStatus(card._id, !isLiked)
+  //     .then((newCard) => {
+  //       setCards((state) =>
+  //         //state of cards before changing them
+  //         //map returns array with each of its elements modified
+  //         state.map((currentCard) =>
+  //           // console.log(currentCard)
+  //           currentCard._id === card._id ? newCard : currentCard
+  //         )
+  //       );
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     });
+  // }
 
   //Confirm Delete Card- moved to main
   // function handleConfirmDelete(event) {
@@ -336,7 +336,7 @@ function App() {
                     onAddPlaceClick={handleAddPlaceClick}
                     // onCardClick={handleCardClick}
                     cards={cards}
-                    onCardLike={handleCardLike}
+                    // onCardLike={handleCardLike}
                     // onCardDelete={handleCardDelete}
                   />
                 </ProtectedRoute>
