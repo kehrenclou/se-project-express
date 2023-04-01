@@ -45,7 +45,7 @@ app.post("/signin", validateLoginBody, loginUser);
 app.use("/users", auth, usersRouter);
 app.use("/cards", auth, cardsRouter);
 
-app.user(errorLogger); //winston
+app.use(errorLogger); //winston
 app.use(errors()); //celebrate
 app.use(errorHandler); //centralized error handler
 
