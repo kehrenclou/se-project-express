@@ -13,7 +13,7 @@ const {
   FORBIDDEN,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require("../utils/errors");
+} = require("../utils/statuses");
 
 /* -------------------------------------------------------------------------- */
 /*                                  functions                                 */
@@ -42,7 +42,7 @@ const sendUserProfile = (req, res) => {
       throw error;
     })
     .then((user) => {
-      console.log("be controller senduserprof",user)
+      console.log("be controller senduserprof", user);
       res.status(SUCCESSFUL).send(user);
       // res.status(SUCCESSFUL).send({ data: user });
     })
@@ -104,13 +104,13 @@ const loginUser = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      console.log("loginuser be controller",user)
+      console.log("loginuser be controller", user);
       //authentication succesful user is in the variable
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
 
-      return res.status(SUCCESSFUL).send({token: token} );
+      return res.status(SUCCESSFUL).send({ token: token });
     })
     .catch((err) => {
       res
@@ -143,7 +143,7 @@ const updateUserProfile = (req, res) => {
           .status(NOT_FOUND)
           .send({ message: "No user found with that ID" });
       }
-      res.status(SUCCESSFUL).send( user);
+      res.status(SUCCESSFUL).send(user);
       // res.status(SUCCESSFUL).send({ data: user });
     })
     .catch((err) => {

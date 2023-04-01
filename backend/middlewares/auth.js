@@ -1,7 +1,7 @@
 //backend/middlewares/auth.js
 /* --------------------------------- imports -------------------------------- */
 const jwt = require("jsonwebtoken");
-const { UNAUTHORIZED } = require("../utils/errors");
+const { UNAUTHORIZED } = require("../utils/statuses");
 const JWT_SECRET = require("../utils/config");
 
 /* ---------------------------------- auth ---------------------------------- */
@@ -9,7 +9,6 @@ const JWT_SECRET = require("../utils/config");
 //verify token from headers
 //if token ok, middleware should add token payload to the user object and call next()
 const handleAuthError = (res) => {
-
   res.status(UNAUTHORIZED).send({ message: "Authorization Required" });
 };
 
@@ -21,7 +20,7 @@ module.exports = (req, res, next) => {
   }
   const token = authorization.replace("Bearer ", "");
   let payload;
-console.log("modexport called bend auth")
+  console.log("modexport called bend auth");
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
