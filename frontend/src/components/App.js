@@ -41,13 +41,13 @@ function App() {
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [cardToDelete, setCardToDelete] = useState({}); //move to mainjs (maybe not a usestae but an api call )
+  // const [cardToDelete, setCardToDelete] = useState({}); //move to mainjs (maybe not a usestae but an api call )
 
   // const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   // const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
-    useState(false);
+  // const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
+  //   useState(false);
   // const [isToolTipOpen, setIsToolTipOpen] = useState(false);
 
   /* --------------------- set history and context stores --------------------- */
@@ -189,26 +189,26 @@ function App() {
       });
   }
 
-  //Confirm Delete Card
-  function handleConfirmDelete(event) {
-    setIsLoading(true);
-    api
-      .deleteCard(cardToDelete._id)
-      .then(() => {
-        setCards(
-          cards.filter(function (item) {
-            return item._id !== cardToDelete._id;
-          })
-        );
-        closeAllPopups();
-      })
-      .catch((err) => {
-        api.handleErrorResponse(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
+  //Confirm Delete Card- moved to main
+  // function handleConfirmDelete(event) {
+  //   setIsLoading(true);
+  //   api
+  //     .deleteCard(cardToDelete._id)
+  //     .then(() => {
+  //       setCards(
+  //         cards.filter(function (item) {
+  //           return item._id !== cardToDelete._id;
+  //         })
+  //       );
+  //       closeAllPopups();
+  //     })
+  //     .catch((err) => {
+  //       api.handleErrorResponse(err);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }
 
   //Add New Card
   function handleAddPlaceSubmit(newCard) {
@@ -306,17 +306,17 @@ function App() {
     setSelectedCard(clickedCard);
   }
   //move to main
-  function handleCardDelete(card) {
-    setIsConfirmDeletePopoupOpen(true);
-    setCardToDelete(card);
-  }
+  // function handleCardDelete(card) {
+  //   // setIsConfirmDeletePopoupOpen(true);
+  //   setCardToDelete(card);
+  // }
 
   function closeAllPopups() {
     // modalStore.setIsEditAvatarPopupOpen(false);
     // modalStore.setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setIsConfirmDeletePopoupOpen(false);
-    setSelectedCard(null);
+    // setIsConfirmDeletePopoupOpen(false);
+    // setSelectedCard(null);
     // modalStore.setIsToolTipOpen(false);
   }
   /* --------------------------------- return --------------------------------- */
@@ -336,7 +336,7 @@ function App() {
                     onCardClick={handleCardClick}
                     cards={cards}
                     onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
+                    // onCardDelete={handleCardDelete}
                   />
                 </ProtectedRoute>
                 <Route path="/signup">
@@ -357,10 +357,10 @@ function App() {
               <EditAvatarPopup />
               <EditProfilePopup />
               <ConfirmDeletePopup
-                isOpen={isConfirmDeletePopupOpen}
-                onClose={closeAllPopups}
-                onSubmit={handleConfirmDelete}
-                isLoading={isLoading}
+                // isOpen={isConfirmDeletePopupOpen}
+                // onClose={closeAllPopups}
+                // onSubmit={handleConfirmDelete}
+                // isLoading={isLoading}
               />
               <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}

@@ -16,11 +16,16 @@ function Main({
   /* ------------------------------ hooks ------------------------------ */
   const { currentUser } = useUser();
   const { setToken, setIsLoggedIn, isLoggedIn, token } = useAuth();
-  const { setIsEditAvatarPopupOpen, setIsEditProfilePopupOpen } = useModal();
+  const {
+    setIsEditAvatarPopupOpen,
+    setIsEditProfilePopupOpen,
+    setIsConfirmDeletePopupOpen,
+    setIsLoading,
+  } = useModal();
   /* -------------------------------- useStates ------------------------------- */
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [cardToDelete, setCardToDelete] = useState({});
+  const [cardToDelete, setCardToDelete] = useState({}); // (maybe not a usestate but an api call )
 
   /* ------------------------------- useEffects ------------------------------- */
 
@@ -47,11 +52,42 @@ function Main({
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
+
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
     console.log({ setIsEditProfilePopupOpen });
   }
 
+  //on trash click
+  function handleCardDeleteClick(card) {
+    setIsConfirmDeletePopupOpen(true);
+    setCardToDelete(card);
+  }
+  //Confirm Delete Card - on confirm click
+  function handleConfirmDelete(event) {
+    setIsLoading(true);
+    api
+      .deleteCard(cardToDelete._id)
+      .then(() => {
+        setCards(
+          cards.filter(function (item) {
+            return item._id !== cardToDelete._id;
+          })
+        );
+        closeAllPopups();
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  function closeDeleteConfirmPopup(){
+    setIsConfirmDeletePopupOpen(false);
+    setSelectedCard(null);
+  }
   /* --------------------------------- return --------------------------------- */
   return (
     <main>
