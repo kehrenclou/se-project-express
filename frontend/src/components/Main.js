@@ -145,16 +145,16 @@ function Main({
                 // look for redundancy
                 onCardClick={handleCardClick}
                 onLikeClick={onCardLike}
-                onCardDelete={handleCardDeleteClick}//updated
+                onCardDelete={handleCardDeleteClick} //updated
                 card={card}
                 key={card._id}
-                link={card.link}
-                title={card.name}
-                alt={card.name}
-                ownerId={card.owner}
-                imageId={card._id}
-                likes={card.likes}
-                likeCount={card.likes.length}
+                // link={card.link}
+                // title={card.name}
+                // alt={card.name}
+                // ownerId={card.owner}
+                // imageId={card._id}
+                // likes={card.likes}
+                // likeCount={card.likes.length}
               />
             ))}
           </ul>

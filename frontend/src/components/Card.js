@@ -9,10 +9,10 @@ export default function Card({
   onLikeClick,
   onCardDelete,
   card,
-  link,
-  name,
-  title,
-  likeCount,
+  // link,
+  // name,
+  // title,
+  // likeCount,
  
 }) {
   /* ------------------------------ custom hooks ------------------------------ */
@@ -20,7 +20,7 @@ export default function Card({
 
   /* ------------------------------ declarations ------------------------------ */
 
-
+const likeCount=card.likes.length;
 
   const isOwn = card.owner === currentUser._id;
   // const isOwn = card.owner._id === currentUser._id;
@@ -35,14 +35,17 @@ export default function Card({
     isLiked ? "cards__button_type_like-active" : " "
   }`;
   /* -------------------------------- functions ------------------------------- */
+  //selects card 
   function handleCardClick() {
     onCardClick(card);
   }
 
+  //like handler
   function handleLikeClick() {
     onLikeClick(card);
   }
 
+  //delete handler
   function handleDeleteClick() {
     onCardDelete(card);
   }
@@ -59,14 +62,14 @@ export default function Card({
       />
       <img
         onClick={handleCardClick}
-        src={link}
-        alt={name}
+        src={card.link}
+        alt={card.name}
         className="cards__image"
         id="card-image"
       />
       <div className="cards__textbox">
         <h2 className="cards__text" id="card-text">
-          {title}
+          {card.title}
         </h2>
         <div className="cards__like-container">
           <button
