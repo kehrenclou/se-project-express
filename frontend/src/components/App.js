@@ -364,7 +364,7 @@ function App() {
                 onAddPlaceSubmit={handleAddPlaceSubmit}
                 isLoading={isLoading}
               />
-              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+              {/* <ImagePopup card={selectedCard} onClose={closeAllPopups} /> */}
               <InfoToolTip />
             </ModalContext.Provider>
           </UserContext.Provider>

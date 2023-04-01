@@ -3,10 +3,14 @@ import React from "react";
 
 /* -------------------------- function ImpagePopup -------------------------- */
 function ImagePopup({ card, onClose }) {
+  /* -------------------------------- handlers -------------------------------- */
   function handleOutsideClick(event) {
     if (card && event.target === event.currentTarget) {
       onClose();
     }
+  }
+  function closePopup(){
+    
   }
 
   return (

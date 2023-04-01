@@ -11,8 +11,7 @@ export const useInitializeModalStore = () => {
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] =
   useState(false);
   // const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  // const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
-  //   useState(false);
+
 
   console.log("from modalstore file", status, isToolTipOpen);
 

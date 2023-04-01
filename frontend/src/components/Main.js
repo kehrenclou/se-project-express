@@ -1,6 +1,7 @@
 /* --------------------------------- imports -------------------------------- */
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
+import ImagePopup from "./popups/ImagePopup";
 import ConfirmDeletePopup from "./popups/ConfirmDeletePopup";
 import { api } from "../utils/api";
 import { useUser, useAuth, useModal } from "../hooks";
@@ -16,7 +17,7 @@ function Main({
 }) {
   /* ------------------------------ hooks ------------------------------ */
   const { currentUser } = useUser();
-  const { setToken, setIsLoggedIn, isLoggedIn, token } = useAuth();
+  const { isLoggedIn, token } = useAuth();
   const {
     setIsEditAvatarPopupOpen,
     setIsEditProfilePopupOpen,
@@ -50,7 +51,7 @@ function Main({
   }, [isLoggedIn]);
 
   /* -------------------------------- handlers -------------------------------- */
- //on EditAvatar Click
+  //on EditAvatar Click
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -72,32 +73,29 @@ function Main({
     setCardToDelete(card);
   }
 
-//Like or Unlike Card
-function handleCardLike(card) {
-  // Check one more time if this card was already liked
-  const isLiked = card.likes.some(
-    (user) => user === currentUser._id
-  );
-  // Send a request to the API and getting the updated card data
-  api
-    .changeLikeCardStatus(card._id, !isLiked)
-    .then((newCard) => {
-      setCards((state) =>
-        //state of cards before changing them
-        //map returns array with each of its elements modified
-        state.map((currentCard) =>
-          // console.log(currentCard)
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    })
-    .catch((err) => {
-      api.handleErrorResponse(err);
-    });
-}
+  //Like or Unlike Card
+  function handleCardLike(card) {
+    // Check one more time if this card was already liked
+    const isLiked = card.likes.some((user) => user === currentUser._id);
+    // Send a request to the API and getting the updated card data
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          //state of cards before changing them
+          //map returns array with each of its elements modified
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch((err) => {
+        api.handleErrorResponse(err);
+      });
+  }
 
   //Confirm Delete Card - on confirm click
-  function handleConfirmDelete(event) {
+  function handleConfirmDelete() {
     setIsLoading(true);
     api
       .deleteCard(cardToDelete._id)
@@ -107,7 +105,7 @@ function handleCardLike(card) {
             return item._id !== cardToDelete._id;
           })
         );
-        closeDeleteConfirmPopup();
+        handleClosePopups();
       })
       .catch((err) => {
         api.handleErrorResponse(err);
@@ -122,6 +120,14 @@ function handleCardLike(card) {
     setIsConfirmDeletePopupOpen(false);
     setSelectedCard(null);
   }
+    //close Delete Confirm Popup & Image popup
+    function handleClosePopups() {
+      setIsConfirmDeletePopupOpen(false);
+      setSelectedCard(null);
+    }
+
+  //onClose Image Popup
+
   /* --------------------------------- return --------------------------------- */
   return (
     <>
@@ -188,9 +194,10 @@ function handleCardLike(card) {
         </section>
       </main>
       <ConfirmDeletePopup
-        onClose={closeDeleteConfirmPopup}
+        onClose={handleClosePopups}
         onSubmit={handleConfirmDelete}
       />
+       <ImagePopup card={selectedCard} onClose={handleClosePopups} />
     </>
   );
 }
