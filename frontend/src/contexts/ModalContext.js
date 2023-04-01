@@ -17,7 +17,6 @@ export const useInitializeModalStore = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
-    // setSelectedCard(null);
     setIsToolTipOpen(false);
   }
   

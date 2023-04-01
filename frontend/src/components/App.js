@@ -31,21 +31,6 @@ function App() {
   /* ------------------------------- use states ------------------------------- */
   const [token, setToken] = useState(localStorage.getItem("jwt"));
 
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // const [status, setStatus] = useState(""); //used for tooltip fail/sucess
-
-  // const [cards, setCards] = useState([]);
-  // const [selectedCard, setSelectedCard] = useState(null);
-  // const [cardToDelete, setCardToDelete] = useState({}); //move to mainjs (maybe not a usestae but an api call )
-
-  // const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  // const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  // const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  // const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
-  //   useState(false);
-  // const [isToolTipOpen, setIsToolTipOpen] = useState(false);
-
   /* --------------------- set history and context stores --------------------- */
   let history = useHistory();
   const authStore = useInitializeAuthStore();
@@ -53,13 +38,9 @@ function App() {
   const modalStore = useInitializeModalStore();
 
   /* --------------------------- useEffect  ----------------------------------- */
-  //on load
-  //use effect on token change set headers
-  //currently calling local storage token not auth context
-  //QUESTION: which token should it reference, using authStore.token in other apis
-  //should a setToken call be made if local storage changes?
-  //think about what would cause a token to change
-  //for instance if a new user logs in
+
+  // on token change
+  // set headers
   useEffect(() => {
     api.setHeaders({
       authorization: `Bearer ${token}`,
@@ -67,51 +48,19 @@ function App() {
     });
   }, [token]);
 
-  //1. useEffect on load -
-  //set token to local storage,
-  //if there is a token in auth store, (sets from jwt on load)
-  // set headers
-  // get info (returns user profile?)
-  // set authstore logged in trueset userinfo
-  //sets authstore isloggedin true
-  //sets userstore with profile
+  // on load
+  // set token to local storage,redirect depending on iftoken
   useEffect(() => {
     setToken(localStorage.getItem("jwt"));
-    console.log("jwtsettoken", token);
-    console.log("authstoretoken", authStore.token); //returns token
-    //no token on loading page
     if (!authStore.token) {
-      console.log("ue no authstore token");
       history.push("/signin");
       return;
     }
-    history.push("/"); //QUESTION check if this is correct only way
-    //I could figure out how to get it to redirect if a token from signin or signup page
+    history.push("/");
   }, []);
 
-  //use effect gets cards from server & sets - when isLoggedIn state changes
-  //isLoggedIn changes on handleLoginSubmit before protected route is loaded
-  //api.getInitialCards
-  //debugging not loggedin onload
-  //moved to main
-  // useEffect(() => {
-  //   if (!authStore.isLoggedIn) {
-  //     return;
-  //   } //exit if not logged in
-  //   api.setHeaders({
-  //     authorization: `Bearer ${authStore.token}`, //QUESTION:which token should this be from store?
-  //     "Content-Type": "application/json",
-  //   });
-  //   api
-  //     .getInitialCards() //card info from server
-  //     .then((initialCards) => {
-  //       setCards(initialCards);
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }, [authStore.isLoggedIn]);
-
+  // on load
+  // set esc close handler
   useEffect(() => {
     const handleEscClose = (event) => {
       if (event.key === "Escape") {
@@ -124,198 +73,6 @@ function App() {
     };
   }, []);
 
-  /* --------------------------- handlers with apis --------------------------- */
-  //Update User- move to edit profile popup
-  // function handleUpdateUser(input) {
-  //   setIsLoading(true);
-  //   api
-  //     .setUserInfo(input.name, input.about)
-  //     .then((userData) => {
-  //       userStore.setCurrentUser(userData);
-  //       closeAllPopups();
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }
-
-  //Update Avatar--move to editavatarpopup
-  // function handleUpdateAvatar(newAvatar) {
-  //   setIsLoading(true);
-
-  //   api
-  //     .setProfileAvatar(newAvatar.avatar)
-  //     .then((newAvatar) => {
-  //       // setUserAvatar(newAvatar);
-  //       userStore.setCurrentUser(newAvatar);
-  //       closeAllPopups();
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }
-
-  //Like Unlike Card -need to move to main - setcards is in main now
-  //this currently is not functioning
-  // function handleCardLike(card) {
-  //   // Check one more time if this card was already liked
-  //   const isLiked = card.likes.some(
-  //     (user) => user === userStore.currentUser._id
-  //   );
-  //   // Send a request to the API and getting the updated card data
-  //   api
-  //     .changeLikeCardStatus(card._id, !isLiked)
-  //     .then((newCard) => {
-  //       setCards((state) =>
-  //         //state of cards before changing them
-  //         //map returns array with each of its elements modified
-  //         state.map((currentCard) =>
-  //           // console.log(currentCard)
-  //           currentCard._id === card._id ? newCard : currentCard
-  //         )
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     });
-  // }
-
-  //Confirm Delete Card- moved to main
-  // function handleConfirmDelete(event) {
-  //   setIsLoading(true);
-  //   api
-  //     .deleteCard(cardToDelete._id)
-  //     .then(() => {
-  //       setCards(
-  //         cards.filter(function (item) {
-  //           return item._id !== cardToDelete._id;
-  //         })
-  //       );
-  //       closeAllPopups();
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }
-
-  //Add New Card
-  // function handleAddPlaceSubmit(newCard) {
-  //   setIsLoading(true);
-  //   api
-  //     .addNewCard(newCard.name, newCard.link)
-  //     .then((newCard) => {
-  //       setCards([newCard, ...cards]);
-  //       closeAllPopups();
-  //     })
-  //     .catch((err) => {
-  //       api.handleErrorResponse(err);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }
-
-  /* ---------------------------handlers with auth----------------------------- */
-  //register--moved to register
-  // function handleRegisterSubmit({ email, password }) {
-  //   auth
-  //     .register(email, password)
-  //     .then((res) => {
-  //       if (res._id) {
-  //         setStatus("success");
-  //         setIsToolTipOpen(true);
-  //         history.push("/signin");
-  //       } else {
-  //         setStatus("fail");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       auth.handleAuthError(err);
-  //       setStatus("fail");
-  //     })
-  //     .finally(() => {
-  //       setIsToolTipOpen(true);
-  //     });
-  // }
-
-  //login --moved to login component
-  //?should this also be calling loginuser from backendcontroller
-  // function handleLoginSubmit({ email, password }) {
-  //   auth
-  //     .login(email, password)
-  //     .then((res) => {
-  //       if (res) {
-  //         console.log("handleloginsubmit", res, email, password); //returns token and email
-  //         localStorage.setItem("jwt", res.token);
-  //         setToken(res.token);
-  //         api.setHeaders({
-  //           authorization: `Bearer ${res.token}`, //useAuth.token will be a response instead of useAuth
-  //           "Content-Type": "application/json",
-  //         });
-  //         authStore.setIsLoggedIn(true);
-  //         // fetchUserInfo();
-
-  //         history.push("/");
-  //       } else {
-  //         setStatus("fail");
-  //         setIsToolTipOpen(true);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       // auth.handleAuthError(err);
-  //       console.log(err);
-  //       setStatus("fail");
-  //       setIsToolTipOpen(true);
-  //     });
-  // }
-
-  //signout- moved to header
-  // function handleSignOut() {
-  //   authStore.setIsLoggedIn(false);
-  //   userStore.setCurrentUser({})
-  //   localStorage.removeItem("jwt");
-  //   history.push("/signin");
-  // }
-  /* --------------------------handler functions ------------------------------- */
-
-  // function handleEditAvatarClick() {
-  //   setIsEditAvatarPopupOpen(true);
-  // }
-
-  // function handleEditProfileClick() {
-  //   setIsEditProfilePopupOpen(true);
-  // }
-
-  // function handleAddPlaceClick() {
-  //   setIsAddPlacePopupOpen(true);
-  // }
-
-  // function handleCardClick(clickedCard) {
-  //   setSelectedCard(clickedCard);
-  // }
-  //move to main
-  // function handleCardDelete(card) {
-  //   // setIsConfirmDeletePopoupOpen(true);
-  //   setCardToDelete(card);
-  // }
-
-  // function closeAllPopups() {
-  //   // modalStore.setIsEditAvatarPopupOpen(false);
-  //   // modalStore.setIsEditProfilePopupOpen(false);
-  //   // setIsAddPlacePopupOpen(false);
-  //   // setIsConfirmDeletePopoupOpen(false);
-  //   // setSelectedCard(null);
-  //   // modalStore.setIsToolTipOpen(false);
-  // }
   /* --------------------------------- return --------------------------------- */
   return (
     <div className="root">
@@ -326,15 +83,7 @@ function App() {
               <Header />
               <Switch>
                 <ProtectedRoute exact path="/">
-                  <Main
-                    // onEditAvatarClick={handleEditAvatarClick}
-                    // onEditProfileClick={handleEditProfileClick}
-                    // onAddPlaceClick={handleAddPlaceClick}
-                    // onCardClick={handleCardClick}
-                    // cards={cards}
-                    // onCardLike={handleCardLike}
-                    // onCardDelete={handleCardDelete}
-                  />
+                  <Main />
                 </ProtectedRoute>
                 <Route path="/signup">
                   <Register />
@@ -353,14 +102,6 @@ function App() {
               <Footer />
               <EditAvatarPopup />
               <EditProfilePopup />
-
-              {/* <AddPlacePopup
-                isOpen={isAddPlacePopupOpen}
-                onClose={closeAllPopups}
-                onAddPlaceSubmit={handleAddPlaceSubmit}
-                isLoading={isLoading}
-              /> */}
-              {/* <ImagePopup card={selectedCard} onClose={closeAllPopups} /> */}
               <InfoToolTip />
             </ModalContext.Provider>
           </UserContext.Provider>
