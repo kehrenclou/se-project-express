@@ -44,7 +44,7 @@ function App() {
   const [cardToDelete, setCardToDelete] = useState({}); //move to mainjs (maybe not a usestae but an api call )
 
   // const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  // const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
     useState(false);
@@ -294,9 +294,9 @@ function App() {
   //   setIsEditAvatarPopupOpen(true);
   // }
 
-  function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(true);
-  }
+  // function handleEditProfileClick() {
+  //   setIsEditProfilePopupOpen(true);
+  // }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);

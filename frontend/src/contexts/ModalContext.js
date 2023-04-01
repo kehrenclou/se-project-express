@@ -8,6 +8,8 @@ export const useInitializeModalStore = () => {
   const [status, setStatus] = useState(""); //used for tooltip fail/sucess
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
+  useState(false);
   // const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   // const [isConfirmDeletePopupOpen, setIsConfirmDeletePopoupOpen] =
   //   useState(false);
@@ -17,11 +19,13 @@ export const useInitializeModalStore = () => {
   return {
     isEditAvatarPopupOpen,
     isEditProfilePopupOpen,
+    isConfirmDeletePopupOpen,
     isToolTipOpen,
     isLoading,
     status,
     setIsEditAvatarPopupOpen,
     setIsEditProfilePopupOpen,
+    setIsConfirmDeletePopoupOpen,
     setIsToolTipOpen,
     setIsLoading,
     setStatus,
