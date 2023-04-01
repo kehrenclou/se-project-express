@@ -59,7 +59,6 @@ function Main() {
   //on EditProfile Click
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
-    console.log({ setIsEditProfilePopupOpen });
   }
 
   //on card click

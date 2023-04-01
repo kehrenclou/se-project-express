@@ -1,11 +1,9 @@
 // export const BASE_URL = "https://register.nomoreparties.co";
 export const BASE_URL = "http://localhost:3000";
 
-
 const handleAuthResponse = (res) => {
   if (!res.ok) {
     throw Error(res.statusText);
-    //QUESTION: should tool tips trigger here?
   } else {
     return res.json();
   }
@@ -26,7 +24,6 @@ export const register = (email, password) => {
 };
 
 export const login = (email, password) => {
-
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
@@ -35,5 +32,3 @@ export const login = (email, password) => {
     body: JSON.stringify({ email, password }),
   }).then(handleAuthResponse);
 };
-
-

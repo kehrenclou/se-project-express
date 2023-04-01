@@ -12,7 +12,6 @@ function Header() {
   const { onSignOut } = useAuth();
   /* -------------------------------- handlers -------------------------------- */
   const handleSignOut = () => {
-    console.log("signoutclicked");
     onSignOut();
   };
 

@@ -18,7 +18,6 @@ class Api {
     // );
   }
 
-  //check difference between returning res and putting it in -request - may be ok to delete this part
   _handleResponse(res) {
     if (res.ok) {
       return res.json();
@@ -26,19 +25,11 @@ class Api {
     return Promise.reject(`Error: ${res.status}`);
   }
 
-  // handleErrorResponse(err) {
-  //   console.log(`Error: ${err}`);
-  // }
-  //3/27refactor
   handleErrorResponse = (err) => {
     console.log(`Error: ${err}`);
     throw err;
   };
 
-  //this function appears to be redundant as things are moving around
-  getAppInfo() {
-    return Promise.all([this.getInfo(), this.getInitialCards()]);
-  }
   getInfo = () => {
     //get user info from server
     return this._request(`${this._baseUrl}/users/me`, {
@@ -48,7 +39,7 @@ class Api {
   };
 
   getInitialCards() {
-    //get cards ? from server
+    //get cards from server
     return this._request(`${this._baseUrl}/cards`, {
       headers: this._headers,
       method: "GET",
@@ -85,6 +76,7 @@ class Api {
     });
   }
 
+  //change like status
   changeLikeCardStatus(cardId, like) {
     return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       headers: this._headers,
@@ -101,6 +93,7 @@ class Api {
     });
   }
 
+  //set headers
   setHeaders(headers) {
     this._headers = headers;
   }

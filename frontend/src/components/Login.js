@@ -21,7 +21,6 @@ function Login() {
   //1. sets status to fail in modalContext
   //2. sets isToolTipOpen to true in modalContext
   function handleSubmit(email, password) {
-    console.log("handlesubmit");
     auth
       .login(email, password)
 
