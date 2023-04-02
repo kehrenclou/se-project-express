@@ -2,8 +2,9 @@
 /* --------------------------------- imports -------------------------------- */
 const jwt = require("jsonwebtoken");
 const UnauthorizedError = require("../errors/unauthorized");
-
-const JWT_SECRET = require("../utils/config");
+const jwtSecret = require("../utils/config");
+const { NODE_ENV, JWT_SECRET } = process.env;
+// const JWT_SECRET = require("../utils/config");
 
 /* ---------------------------------- auth ---------------------------------- */
 
@@ -23,7 +24,10 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(
+      token,
+      NODE_ENV === "production" ? JWT_SECRET : jwtSecret
+    );
   } catch (err) {
     throw new UnauthorizedError("Unauthorized");
   }
