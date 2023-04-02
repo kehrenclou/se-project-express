@@ -33,6 +33,7 @@ mongoose.connect("mongodb://127.0.0.1/aroundb");
 
 app.use(helmet());
 app.use(cors());
+app.options('*',cors()); //enable requests for all routes
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json()); //for versions express 4.16+ can use this instead of bodyparser

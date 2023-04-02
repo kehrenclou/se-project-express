@@ -3,10 +3,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-//this needs to be active for server
-const { NODE_ENV, JWT_SECRET } = process.env;
-// const JWT_SECRET = require("../utils/config");
-const jwtSecret = require("../utils/config");
+
+const { NODE_ENV, JWT_SECRET } = process.env; //secret saved on server in .env file
+
+const jwtSecret = require("../utils/config"); //local secret for dev
 
 // const { BadRequestError, NotFoundError,  ConflictError } = require("../errors");
 const BadRequestError = require("../errors/bad-request");
