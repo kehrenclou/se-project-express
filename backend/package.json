@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kehrenclou/around-express.git"
+    "url": "git+https://github.com/kehrenclou/se_project_express.git"
   },
   "author": "Krista Ehrenclou",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kehrenclou/around-express/issues"
+    "url": "https://github.com/kehrenclou/se_project_express/issues"
   },
-  "homepage": "https://github.com/kehrenclou/around-express#readme",
+  "homepage": "https://kedoodledev.crabdance.com/",
   "devDependencies": {
     "eslint": "^8.23.0",
     "eslint-config-airbnb-base": "^15.0.0",
