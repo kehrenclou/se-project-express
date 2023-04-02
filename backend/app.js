@@ -23,7 +23,7 @@ const errorHandler = require("./middlewares/error-handler");
 /* ------------------------------ connect to DB ----------------------------- */
 const app = express();
 //QUESTION:when is base path necessary
-const { PORT = 3000, BASE_PATH } = process.env;
+const { PORT = 3000 } = process.env;
 // const { PORT = 3000 } = process.env;
 
 // mongoose.connect("mongodb://localhost:27017/aroundb");//older node versions
