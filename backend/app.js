@@ -22,13 +22,13 @@ const errorHandler = require("./middlewares/error-handler");
 /* -------------------------- declare app and port -------------------------- */
 /* ------------------------------ connect to DB ----------------------------- */
 const app = express();
-//when is base path necessary
+//QUESTION:when is base path necessary
 const { PORT = 3000, BASE_PATH } = process.env;
 // const { PORT = 3000 } = process.env;
 
 // mongoose.connect("mongodb://localhost:27017/aroundb");//older node versions
 mongoose.connect("mongodb://127.0.0.1/aroundb");
-// do we need options here?//
+
 /* -------------------------------- app -------------------------------- */
 
 app.use(helmet());

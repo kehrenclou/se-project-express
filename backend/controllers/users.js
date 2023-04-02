@@ -8,7 +8,6 @@ const { NODE_ENV, JWT_SECRET } = process.env; //secret saved on server in .env f
 
 const jwtSecret = require("../utils/config"); //local secret for dev
 
-// const { BadRequestError, NotFoundError,  ConflictError } = require("../errors");
 const BadRequestError = require("../errors/bad-request");
 const NotFoundError = require("../errors/not-found");
 const ConflictError = require("../errors/conflict");
@@ -22,9 +21,6 @@ const { SUCCESSFUL, CREATED } = require("../utils/statuses");
 
 /* ---------------------------- send User Profile ---------------------------- */
 const sendUserProfile = (req, res, next) => {
-  // const { userId } = req.params;
-  // const userId = req.user._id;
-
   User.findById({ _id: req.user._id })
     .orFail(() => {
       new NotFoundError("No user found by that Id");

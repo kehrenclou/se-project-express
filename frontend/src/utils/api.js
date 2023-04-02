@@ -4,7 +4,7 @@ import { useAuth } from "../hooks";
 // const baseUrl = "http://localhost:3000";
 const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "deployed-backend-url"
+    ? "htttps:api.kedoodledev.crabdance.com"
     : "http://localhost:3000";
 /* -------------------------------- class Api ------------------------------- */
 class Api {
