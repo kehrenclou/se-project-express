@@ -73,7 +73,7 @@ const loginUser = (req, res, next) => {
         NODE_ENV === "production" ? JWT_SECRET : jwtSecret,
         {
           expiresIn: "7d",
-        }
+        },
       );
 
       return res.status(SUCCESSFUL).send({ token: token });
