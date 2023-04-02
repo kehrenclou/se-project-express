@@ -1,5 +1,5 @@
 /* --------------------------------- imports -------------------------------- */
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 import { useUser, useModal } from "../../hooks";
@@ -56,7 +56,7 @@ function EditProfilePopup() {
       .finally(() => {
         setIsLoading(false);
       });
-  });
+  },[name]);//question what should dependency be isLoading?
 
   function closePopup() {
     setIsEditProfilePopupOpen(false);

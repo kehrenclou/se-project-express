@@ -11,7 +11,7 @@ export const useAuth = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("jwt");
     setToken(undefined);
-  }, []);
+  }, []); //question what should dependency be here
 
   return {
     isLoaded,

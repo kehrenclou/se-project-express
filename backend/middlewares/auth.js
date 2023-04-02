@@ -10,9 +10,6 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 //verify token from headers
 //if token ok, middleware should add token payload to the user object and call next()
-// const handleAuthError = (res) => {
-//   res.status(UNAUTHORIZED).send({ message: "Authorization Required" });
-// };
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;

@@ -7,7 +7,7 @@ import { api } from "../utils/api";
 /* ------------------------- function ProtectedRoute ------------------------ */
 function ProtectedRoute({ children, ...props }) {
   const { isLoggedIn, setIsLoggedIn, token, setIsLoaded, isLoaded } = useAuth();
-  const { currentUser, setCurrentUser } = useUser();
+  const { setCurrentUser } = useUser();
 
   /* ------------------------------- use Effects ------------------------------ */
 
@@ -35,7 +35,7 @@ function ProtectedRoute({ children, ...props }) {
       .catch((err) => {
         api.handleErrorResponse(err);
       });
-  }, []);
+  }, []);//question, add tokewn here?
 
   return (
     <Route {...props}>

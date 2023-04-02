@@ -25,7 +25,8 @@ function Register() {
         }
       })
       .catch((err) => {
-        auth.handleAuthError(err);
+        console.log(err)
+     
         setStatus("fail");
       })
       .finally(() => {

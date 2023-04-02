@@ -7,15 +7,12 @@ export const BASE_URL =
 
 const handleAuthResponse = (res) => {
   if (!res.ok) {
-    throw Error(res.statusText);
+   return Promise.reject(`Error:${res.status}`)
   } else {
     return res.json();
   }
 };
-export const handleAuthError = (err) => {
-  console.log(`Error: ${err}`);
-  throw err;
-};
+
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
