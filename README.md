@@ -1,6 +1,31 @@
-# react-around-api-full
+# About the Project
+Practicum USA's software engineering bootcamp Sprint 15.
 The API of "Around the U.S." with authorization and registration handled by the back-end server.
 
-This repository contains the full API of "Around the U.S." project that features user authorization and user registration and handles cards and users. Please add to this readme:
-* a link to repository with the complete React application which uses this API;
-* a link to the website that hosts your API.
+This repository contains the full API of "Around the U.S." project that features user authorization and user registration and handles cards and users. 
+
+## Figma Design
+
+- [Link to the project in Figma](https://www.figma.com/file/SurN1jaeEQIhuZEDMhmWWf/Sprint-4-Around-The-U.S.-desktop-mobile?node-id=0%3A1)
+
+## front and back end repos:
+
+https://github.com/kehrenclou/se_project_express
+
+# local deployment:
+- front-end: npm run start ( deploys: http://localhost:3001)
+- back-end: npm run dev (listening on port 3000)
+## deployed website:
+
+https://www.kedoodledev.crabdance.com
+
+## Technologies Used
+- Javascript
+- Node.js
+- Express
+- MongoDB
+- JSON webtokens
+- Google Cloud VM
+
+
+

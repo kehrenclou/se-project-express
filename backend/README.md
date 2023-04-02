@@ -11,7 +11,7 @@ This iteration of the project has the userID hard coded in app.js will update in
 
 - Express.js
 - ESLint
--
+- MongoDB
 
 ## Directories
 
@@ -29,7 +29,7 @@ This iteration of the project has the userID hard coded in app.js will update in
 
 ## Routes
 
-`GET /users` — returns all users.
+
 `GET/users/:userId` — returns user by \_id.
 `POST/users` — create new user.
 `PATCH/users/me` — update profile.
@@ -46,9 +46,10 @@ This iteration of the project has the userID hard coded in app.js will update in
 
 `npm run dev` — to launch the server with the hot reload feature.
 
-## Link to Github Project
+## Link to Deployed website
 
--coming soon
+https://www.kedoodledev.crabdance.com
+
 
 ## Plan on improving project
 
