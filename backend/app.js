@@ -1,7 +1,7 @@
 //backend/app.js
 /* --------------------------------- imports -------------------------------- */
 require("dotenv").config();
-console.log("dotenv",process.env.NODE_ENV);
+console.log("dotenv", process.env.NODE_ENV);
 const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
@@ -33,13 +33,20 @@ mongoose.connect("mongodb://127.0.0.1/aroundb");
 
 app.use(helmet());
 app.use(cors());
-app.options('*',cors()); //enable requests for all routes
+app.options("*", cors()); //enable requests for all routes
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json()); //for versions express 4.16+ can use this instead of bodyparser
 app.use(express.urlencoded({ extended: false }));
 
 app.use(requestLogger);
+
+//crash test - remove after review paases
+app.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("Server will crash now");
+  }, 0);
+});
 
 //routes
 app.post("/signup", validateUserBody, createUser);
