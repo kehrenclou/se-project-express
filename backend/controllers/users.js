@@ -21,11 +21,9 @@ const { CREATED } = require('../utils/statuses');
 
 /* ---------------------------- send User Profile ---------------------------- */
 const sendUserProfile = (req, res, next) => {
-
   User.findById({ _id: req.user._id })
     .orFail(() => new NotFoundError('No user found by that Id'))
     .then((user) => {
-
       res.send(user);
     })
 
@@ -88,8 +86,6 @@ const loginUser = (req, res, next) => {
           expiresIn: '7d',
         },
       );
-      console.log("return user", user, token)
-
       return res.send({ token });
     })
     .catch(() => {
