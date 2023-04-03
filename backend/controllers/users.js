@@ -13,7 +13,7 @@ const NotFoundError = require("../errors/not-found");
 const ConflictError = require("../errors/conflict");
 const UnauthorizedError = require("../errors/unauthorized");
 
-const { SUCCESSFUL, CREATED } = require("../utils/statuses");
+const { CREATED } = require("../utils/statuses");
 
 /* -------------------------------------------------------------------------- */
 /*                                  functions                                 */
@@ -24,7 +24,7 @@ const sendUserProfile = (req, res, next) => {
   User.findById({ _id: req.user._id })
     .orFail(() => new NotFoundError("No user found by that Id"))
     .then((user) => {
-      res.status(SUCCESSFUL).send(user);
+      res.status.send(user);
     })
 
     .catch(next); // equivalent to .catch(err=>next(err));
@@ -32,7 +32,7 @@ const sendUserProfile = (req, res, next) => {
 
 /* ----------------------------- create New User ---------------------------- */
 const createUser = (req, res, next) => {
-  const { name, about, avatar,email, password } = req.body;
+  const { name, about, avatar, email, password } = req.body;
 
   User.findOne({ email })
     .then((user) => {
@@ -40,7 +40,13 @@ const createUser = (req, res, next) => {
         return next(new ConflictError("User with this email already exists"));
       }
       return bcrypt.hash(password, 10).then((hash) => {
-        User.create({ name,about,avatar,email, password: hash })
+        User.create({
+          name,
+          about,
+          avatar,
+          email,
+          password: hash,
+        })
           .then((data) =>
             res.status(CREATED).send({
               name: data.name,
@@ -80,7 +86,7 @@ const loginUser = (req, res, next) => {
         }
       );
 
-      return res.status(SUCCESSFUL).send({ token });
+      return res.status.send({ token });
     })
     .catch(() => {
       next(new UnauthorizedError("Incorrect email or password"));
@@ -119,8 +125,7 @@ const updateUserAvatar = (req, res, next) => {
   User.findByIdAndUpdate(userId, { avatar }, { runValidators: true, new: true })
     .orFail(() => new NotFoundError("No user found by that Id"))
     .then((user) => {
-      // res.status(SUCCESSFUL).send({ data: user });
-      res.status(SUCCESSFUL).send(user);
+      res.status.send(user);
     })
     .catch((err) => {
       if (err.name === "CastError" || err.name === "ValidationError") {
