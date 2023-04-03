@@ -5,7 +5,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const path = require('path');
 const cors = require('cors');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -34,7 +33,6 @@ mongoose.connect('mongodb://127.0.0.1/aroundb');
 app.use(helmet());
 app.use(cors());
 app.options('*', cors()); // enable requests for all routes
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json()); // for versions express 4.16+ can use this instead of bodyparser
 app.use(express.urlencoded({ extended: false }));

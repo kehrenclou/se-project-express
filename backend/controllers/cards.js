@@ -7,7 +7,7 @@ const BadRequestError = require('../errors/bad-request');
 const NotFoundError = require('../errors/not-found');
 const ForbiddenError = require('../errors/forbidden');
 
-const {CREATED } = require('../utils/statuses');
+const { CREATED } = require('../utils/statuses');
 /* -------------------------------------------------------------------------- */
 /*                                  functions                                 */
 /* -------------------------------------------------------------------------- */
@@ -48,7 +48,6 @@ const deleteCard = (req, res, next) => {
       if (card.owner.equals(req.user._id)) {
         return card.remove(() => {
           res.send(card);
-
         });
       }
       throw new ForbiddenError('You do not have rights to delete card');
@@ -72,7 +71,6 @@ const likeCard = (req, res, next) => {
 
     .then((card) => {
       res.status.send(card);
-
     })
     .catch(next);
 };
@@ -86,7 +84,6 @@ const dislikeCard = (req, res, next) => {
     .orFail(() => new NotFoundError('No card found with that Id'))
 
     .then((card) => {
-
       res.status.send(card);
     })
     .catch(next);

@@ -65,9 +65,6 @@ const validateUserBody = celebrate({
 // do we need req params here for the userId or just the body?
 // used for updating Profile
 const validateUpdateProfileBody = celebrate({
-  params: Joi.object().keys({
-    _id: Joi.string(),
-  }),
   body: Joi.object().keys({
     name: Joi.string().default('Jaques Cousteau').min(2).max(30)
       .messages({

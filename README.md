@@ -16,8 +16,11 @@ https://github.com/kehrenclou/se_project_express
 - front-end: npm run start ( deploys: http://localhost:3001)
 - back-end: npm run dev (listening on port 3000)
 ## deployed website:
+-frontend domain
+https://kedoodledev.crabdance.com
 
-https://www.kedoodledev.crabdance.com
+-backend domain
+api.hedoodledev.crabdance.com
 
 ## Technologies Used
 - Javascript
