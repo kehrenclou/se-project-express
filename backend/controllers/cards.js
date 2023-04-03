@@ -14,8 +14,8 @@ const { SUCCESSFUL, CREATED } = require("../utils/statuses");
 /* ------------------------------ get all Cards ----------------------------- */
 const getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.status(SUCCESSFUL).send(cards))
-    .catch(next); //equivalent to .catch(err=>next(err));
+    .then((cards) => res.send(cards))
+    .catch(next); // equivalent to .catch(err=>next(err));
 };
 
 /* ----------------------------- create new Card ---------------------------- */
@@ -42,9 +42,7 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
   Card.findById(cardId)
-    .orFail(() => {
-      new NotFoundError("No card found with that Id");
-    })
+    .orFail(() => new NotFoundError("No card found with that Id"))
 
     .then((card) => {
       if (card.owner.equals(req.user._id)) {
@@ -56,7 +54,7 @@ const deleteCard = (req, res, next) => {
       throw new ForbiddenError("You do not have rights to delete card");
     })
 
-    .catch(next); //equivalent to .catch(err=>next(err));
+    .catch(next); // equivalent to .catch(err=>next(err));
 };
 
 /* -------------------------------- card Like ------------------------------- */
@@ -70,9 +68,7 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: userId } },
     { new: true }
   )
-    .orFail(() => {
-      new NotFoundError("No card found with that Id");
-    })
+    .orFail(() => new NotFoundError("No card found with that Id"))
 
     .then((card) => {
       res.status(SUCCESSFUL).send(card);
@@ -87,9 +83,7 @@ const dislikeCard = (req, res, next) => {
   const userId = req.user._id;
 
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
-    .orFail(() => {
-      new NotFoundError("No card found with that Id");
-    })
+    .orFail(() => new NotFoundError("No card found with that Id"))
 
     .then((card) => {
       // res.status(SUCCESSFUL).send({ data: card });

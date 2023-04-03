@@ -1,19 +1,19 @@
 // backend/controllers/users.js
 /* --------------------------------- imports -------------------------------- */
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
-const { NODE_ENV, JWT_SECRET } = process.env; //secret saved on server in .env file
+const { NODE_ENV, JWT_SECRET } = process.env; // secret saved on server in .env file
 
-const jwtSecret = require("../utils/config"); //local secret for dev
+const jwtSecret = require('../utils/config'); // local secret for dev
 
-const BadRequestError = require("../errors/bad-request");
-const NotFoundError = require("../errors/not-found");
-const ConflictError = require("../errors/conflict");
-const UnauthorizedError = require("../errors/unauthorized");
+const BadRequestError = require('../errors/bad-request');
+const NotFoundError = require('../errors/not-found');
+const ConflictError = require('../errors/conflict');
+const UnauthorizedError = require('../errors/unauthorized');
 
-const { SUCCESSFUL, CREATED } = require("../utils/statuses");
+const { SUCCESSFUL, CREATED } = require('../utils/statuses');
 
 /* -------------------------------------------------------------------------- */
 /*                                  functions                                 */
@@ -23,33 +23,33 @@ const { SUCCESSFUL, CREATED } = require("../utils/statuses");
 const sendUserProfile = (req, res, next) => {
   User.findById({ _id: req.user._id })
     .orFail(() => {
-      new NotFoundError("No user found by that Id");
+      new NotFoundError('No user found by that Id');
     })
     .then((user) => {
       res.status(SUCCESSFUL).send(user);
     })
 
-    .catch(next); //equivalent to .catch(err=>next(err));
+    .catch(next); // equivalent to .catch(err=>next(err));
 };
 
 /* ----------------------------- create New User ---------------------------- */
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
 
   return bcrypt.hash(password, 10, (err, hash) => {
-    console.log("calledcreateUser bend");
+    console.log('calledcreateUser bend');
 
     return User.findOne({ email }).then((user) => {
       if (user) {
-        return next(new ConflictError("User with this email already exists"));
+        return next(new ConflictError('User with this email already exists'));
       }
       return User.create({ ...req.body, password: hash })
-        .then((data) => {
-          return res.status(CREATED).send(data);
-        })
+        .then((data) => res.status(CREATED).send(data))
         .catch((err) => {
-          if (err.name === "ValidationError") {
-            new BadRequestError("Data is Invalid");
+          if (err.name === 'ValidationError') {
+            new BadRequestError('Data is Invalid');
           } else {
             next(err);
           }
@@ -59,27 +59,27 @@ const createUser = (req, res, next) => {
 };
 
 /* ------------------------------- login User ------------------------------- */
-//gets the email and password from the request and authenticates them
-//only user id should be written to the token payload
-//once token created, send to client in response body
+// gets the email and password from the request and authenticates them
+// only user id should be written to the token payload
+// once token created, send to client in response body
 const loginUser = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      //authentication succesful user is in the variable
+      // authentication succesful user is in the variable
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === "production" ? JWT_SECRET : jwtSecret,
+        NODE_ENV === 'production' ? JWT_SECRET : jwtSecret,
         {
-          expiresIn: "7d",
+          expiresIn: '7d',
         },
       );
 
-      return res.status(SUCCESSFUL).send({ token: token });
+      return res.status(SUCCESSFUL).send({ token });
     })
     .catch(() => {
-      next(new UnauthorizedError("Incorrect email or password"));
+      next(new UnauthorizedError('Incorrect email or password'));
     });
 };
 
@@ -92,23 +92,23 @@ const updateUserProfile = (req, res, next) => {
     userId,
     { name, about },
     {
-      runValidators: true, //data will be validated before the update
-      new: true, //the then handler receives the updated entry as input
-    }
+      runValidators: true, // data will be validated before the update
+      new: true, // the then handler receives the updated entry as input
+    },
   )
     .orFail(() => {
-      new NotFoundError("No user found with that Id");
+      new NotFoundError('No user found with that Id');
     })
     .then((user) => {
       if (!user) {
-        return new NotFoundError("No user found with that Id");
+        return new NotFoundError('No user found with that Id');
       }
       res.status(SUCCESSFUL).send(user);
       // res.status(SUCCESSFUL).send({ data: user });
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        next(new BadRequestError("Invalid User Id"));
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Invalid User Id'));
       } else {
         next(err);
       }
@@ -122,15 +122,15 @@ const updateUserAvatar = (req, res, next) => {
 
   User.findByIdAndUpdate(userId, { avatar }, { runValidators: true, new: true })
     .orFail(() => {
-      new NotFoundError("No user found by that Id");
+      new NotFoundError('No user found by that Id');
     })
     .then((user) => {
       // res.status(SUCCESSFUL).send({ data: user });
       res.status(SUCCESSFUL).send(user);
     })
     .catch((err) => {
-      if (err.name === "CastError" || err.name === "ValidationError") {
-        new BadRequestError("Data is Invalid");
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
+        new BadRequestError('Data is Invalid');
       } else {
         next(err);
       }
