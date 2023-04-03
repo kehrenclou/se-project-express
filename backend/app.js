@@ -6,6 +6,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
+const path=require('path');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUser, loginUser } = require('./controllers/users');
@@ -16,6 +17,7 @@ const {
   validateUserBody,
   validateLoginBody,
 } = require('./middlewares/validation');
+const { NotFoundError } = require('./errors/not-found');
 const errorHandler = require('./middlewares/error-handler');
 
 /* -------------------------- declare app and port -------------------------- */
@@ -33,6 +35,7 @@ mongoose.connect('mongodb://127.0.0.1/aroundb');
 app.use(helmet());
 app.use(cors());
 app.options('*', cors()); // enable requests for all routes
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json()); // for versions express 4.16+ can use this instead of bodyparser
 app.use(express.urlencoded({ extended: false }));
@@ -52,6 +55,11 @@ app.post('/signin', validateLoginBody, loginUser);
 
 app.use('/users', auth, usersRouter);
 app.use('/cards', auth, cardsRouter);
+
+// check if this is ok for 404 route
+// app.use((req, res, next) => {
+//   next(new NotFoundError('This route does not exist'));
+// });
 
 app.use(errorLogger); // winston
 app.use(errors()); // celebrate

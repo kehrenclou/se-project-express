@@ -21,10 +21,12 @@ const { CREATED } = require('../utils/statuses');
 
 /* ---------------------------- send User Profile ---------------------------- */
 const sendUserProfile = (req, res, next) => {
+
   User.findById({ _id: req.user._id })
     .orFail(() => new NotFoundError('No user found by that Id'))
     .then((user) => {
-      res.status.send(user);
+
+      res.send(user);
     })
 
     .catch(next); // equivalent to .catch(err=>next(err));
@@ -78,6 +80,7 @@ const loginUser = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       // authentication succesful user is in the variable
+
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : jwtSecret,
@@ -85,8 +88,9 @@ const loginUser = (req, res, next) => {
           expiresIn: '7d',
         },
       );
+      console.log("return user", user, token)
 
-      return res.status.send({ token });
+      return res.send({ token });
     })
     .catch(() => {
       next(new UnauthorizedError('Incorrect email or password'));
@@ -125,7 +129,7 @@ const updateUserAvatar = (req, res, next) => {
   User.findByIdAndUpdate(userId, { avatar }, { runValidators: true, new: true })
     .orFail(() => new NotFoundError('No user found by that Id'))
     .then((user) => {
-      res.status.send(user);
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {

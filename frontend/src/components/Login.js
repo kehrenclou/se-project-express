@@ -25,9 +25,11 @@ function Login() {
       .login(email, password)
 
       .then((res) => {
+        console.log(res);
         if (res) {
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
+
           api.setHeaders({
             authorization: `Bearer ${res.token}`,
             "Content-Type": "application/json",

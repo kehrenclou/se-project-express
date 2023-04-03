@@ -1,21 +1,21 @@
 // backend/routes/users.js
 /* --------------------------------- imports -------------------------------- */
-const router = require("express").Router();
+const router = require('express').Router();
 const {
   sendUserProfile,
   updateUserProfile,
   updateUserAvatar,
-} = require("../controllers/users");
+} = require('../controllers/users');
 
 const {
   validateUpdateProfileBody,
   validateUpdateAvatarBody,
-} = require("../middlewares/validation");
+} = require('../middlewares/validation');
 /* --------------------------------- routes --------------------------------- */
 
-router.get("/me", sendUserProfile);
-router.patch("/me", validateUpdateProfileBody, updateUserProfile);
-router.patch("/me/avatar", validateUpdateAvatarBody, updateUserAvatar);
+router.get('/me', sendUserProfile);
+router.patch('/me', validateUpdateProfileBody, updateUserProfile);
+router.patch('/me/avatar', validateUpdateAvatarBody, updateUserAvatar);
 
 /* --------------------------------- exports -------------------------------- */
 module.exports = router;

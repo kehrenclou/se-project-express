@@ -107,12 +107,22 @@ const validateCardBody = celebrate({
   }),
 });
 
-
+// todo:
+// validate deleteCard
+// validate likeCard
+// validate dislikeCard
+//
+const validateCardId = celebrate({
+  body: Joi.object().keys({
+    id: Joi.string().hex().length(24),
+  }),
+});
 /* --------------------------------- exports -------------------------------- */
 module.exports = {
   validateUserBody,
   validateLoginBody,
   validateUpdateProfileBody,
   validateUpdateAvatarBody,
-  validateCardBody
+  validateCardBody,
+  validateCardId,
 };
