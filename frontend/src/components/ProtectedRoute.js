@@ -15,7 +15,6 @@ function ProtectedRoute({ children, ...props }) {
   //checks for token
   //if token, update headers, getInfo, setIsLoggedIn, setIsLoaded, setCurrentUser
   useEffect(() => {
-    console.log("uepr1", token);
     if (!token) {
       return;
     }
