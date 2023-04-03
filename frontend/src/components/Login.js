@@ -25,7 +25,6 @@ function Login() {
       .login(email, password)
 
       .then((res) => {
-        console.log(res);
         if (res) {
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
