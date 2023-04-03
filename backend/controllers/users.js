@@ -22,9 +22,7 @@ const { SUCCESSFUL, CREATED } = require('../utils/statuses');
 /* ---------------------------- send User Profile ---------------------------- */
 const sendUserProfile = (req, res, next) => {
   User.findById({ _id: req.user._id })
-    .orFail(() => {
-      new NotFoundError('No user found by that Id');
-    })
+    .orFail(() => new NotFoundError('No user found by that Id'))
     .then((user) => {
       res.status(SUCCESSFUL).send(user);
     })
@@ -49,7 +47,7 @@ const createUser = (req, res, next) => {
         .then((data) => res.status(CREATED).send(data))
         .catch((err) => {
           if (err.name === 'ValidationError') {
-            new BadRequestError('Data is Invalid');
+            next(new BadRequestError('Data is Invalid'));
           } else {
             next(err);
           }
@@ -96,9 +94,7 @@ const updateUserProfile = (req, res, next) => {
       new: true, // the then handler receives the updated entry as input
     },
   )
-    .orFail(() => {
-      new NotFoundError('No user found with that Id');
-    })
+    .orFail(() => new NotFoundError('No user found with that Id'))
     .then((user) => {
       if (!user) {
         return new NotFoundError('No user found with that Id');
@@ -121,16 +117,14 @@ const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(userId, { avatar }, { runValidators: true, new: true })
-    .orFail(() => {
-      new NotFoundError('No user found by that Id');
-    })
+    .orFail(() => new NotFoundError('No user found by that Id'))
     .then((user) => {
       // res.status(SUCCESSFUL).send({ data: user });
       res.status(SUCCESSFUL).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        new BadRequestError('Data is Invalid');
+        next(new BadRequestError('Data is Invalid'));
       } else {
         next(err);
       }

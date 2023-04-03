@@ -1,13 +1,13 @@
 // controllers/cards.js
 /* --------------------------------- imports -------------------------------- */
 
-const Card = require("../models/card");
+const Card = require('../models/card');
 
-const BadRequestError = require("../errors/bad-request");
-const NotFoundError = require("../errors/not-found");
-const ForbiddenError = require("../errors/forbidden");
+const BadRequestError = require('../errors/bad-request');
+const NotFoundError = require('../errors/not-found');
+const ForbiddenError = require('../errors/forbidden');
 
-const { SUCCESSFUL, CREATED } = require("../utils/statuses");
+const { SUCCESSFUL, CREATED } = require('../utils/statuses');
 /* -------------------------------------------------------------------------- */
 /*                                  functions                                 */
 /* -------------------------------------------------------------------------- */
@@ -29,8 +29,8 @@ const createCard = (req, res, next) => {
     })
 
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        next(new BadRequestError("Data not valid"));
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Data not valid'));
       } else {
         next(err);
       }
@@ -42,7 +42,7 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
   Card.findById(cardId)
-    .orFail(() => new NotFoundError("No card found with that Id"))
+    .orFail(() => new NotFoundError('No card found with that Id'))
 
     .then((card) => {
       if (card.owner.equals(req.user._id)) {
@@ -51,7 +51,7 @@ const deleteCard = (req, res, next) => {
           // res.status(SUCCESSFUL).send({ data: card });
         });
       }
-      throw new ForbiddenError("You do not have rights to delete card");
+      throw new ForbiddenError('You do not have rights to delete card');
     })
 
     .catch(next); // equivalent to .catch(err=>next(err));
@@ -66,9 +66,9 @@ const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: userId } },
-    { new: true }
+    { new: true },
   )
-    .orFail(() => new NotFoundError("No card found with that Id"))
+    .orFail(() => new NotFoundError('No card found with that Id'))
 
     .then((card) => {
       res.status(SUCCESSFUL).send(card);
@@ -83,7 +83,7 @@ const dislikeCard = (req, res, next) => {
   const userId = req.user._id;
 
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
-    .orFail(() => new NotFoundError("No card found with that Id"))
+    .orFail(() => new NotFoundError('No card found with that Id'))
 
     .then((card) => {
       // res.status(SUCCESSFUL).send({ data: card });
