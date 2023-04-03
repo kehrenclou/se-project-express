@@ -10,8 +10,8 @@ const validator = require("validator");
 //should name, etc be set to .default('valuee') or.optional instead of .required
 /* ------------------------ custom validate functions ----------------------- */
 function validateUrl(value, helpers) {
-  console.log("called");
-  debugger;
+ 
+
   if (validator.isURL(value)) {
     return value;
   }
