@@ -31,8 +31,9 @@ class Api {
 
   handleErrorResponse = (err) => {
     console.log(`Error: ${err}`);
-    throw err;
+    // throw err;
   };
+
 
   getInfo = () => {
     //get user info from server

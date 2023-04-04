@@ -10,6 +10,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
+    "validator": "^13.9.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -18,8 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-  
-   "deploy": "npm run build && scp -r -i ~/.ssh/id_ed25519 ./build/* kedoodledev@kedoodledev.crabdance.com:/home/kedoodledev/se_project_express/frontend "
+    "deploy": "npm run build && scp -r -i ~/.ssh/id_ed25519 ./build/* kedoodledev@kedoodledev.crabdance.com:/home/kedoodledev/se_project_express/frontend "
   },
   "homepage": "https://kedoodledev.crabdance.com",
   "eslintConfig": {

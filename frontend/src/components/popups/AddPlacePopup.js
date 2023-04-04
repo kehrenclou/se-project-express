@@ -1,5 +1,6 @@
 /* --------------------------------- imports -------------------------------- */
 import React, { useState, useEffect } from "react";
+import validator from "validator";
 import PopupWithForm from "./PopupWithForm";
 import { useModal } from "../../hooks";
 
@@ -22,7 +23,7 @@ function AddPlacePopup({ onClose, onAddPlaceSubmit }) {
   useEffect(() => {
     setName("");
     setLink("");
-  }, [isAddPlacePopupOpen]);
+  }, [isAddPlacePopupOpen]); 
   /* -------------------------------- handlers -------------------------------- */
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -32,7 +33,7 @@ function AddPlacePopup({ onClose, onAddPlaceSubmit }) {
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
-    setIsLinkValid(event.target.validity.valid);
+    setIsLinkValid(validator.isURL(event.target.value));
     setErrorMessage({ link: event.target.validationMessage });
   };
 

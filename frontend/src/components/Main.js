@@ -84,6 +84,7 @@ function Main() {
       .catch((err) => {
         api.handleErrorResponse(err);
       })
+
       .finally(() => {
         setIsLoading(false);
       });
