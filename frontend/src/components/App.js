@@ -30,7 +30,7 @@ import {
 function App() {
   /* ------------------------------- use states ------------------------------- */
   const [token, setToken] = useState(localStorage.getItem("jwt"));
-  const [isMobileView,setIsMobileView]=useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   /* --------------------- set history and context stores --------------------- */
   let history = useHistory();
@@ -49,12 +49,12 @@ function App() {
     });
   }, [token]);
 
-useEffect(()=>{
-  if(window.innerWidth <=625){
-    setIsMobileView(true);
-  }
-},[window.innerWidth])
-  console.log(isMobileView);
+  useEffect(() => {
+    if (window.innerWidth <= 625) {
+      setIsMobileView(true);
+    }
+  }, [window.innerWidth]);
+
   // on load
   // set token to local storage,redirect depending on iftoken
   useEffect(() => {
