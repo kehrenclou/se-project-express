@@ -35,27 +35,30 @@
   grid-template-areas:
     "email email email email"
     /* ". link ."  */
-    "logo logo btn btn";
+    "logo logo logo btn";
+  /* align-items: center; */
 }
 .header__menu_open {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 }
 .header__btn {
-  background: #000 url(../images/mobileMenu.png) no-repeat;
-  border: none;
-  height: 24px;
-  width: 24px;
   grid-area: btn;
   justify-self: end;
-  /* margin-right:30px; */
-}
-.header__btn_open {
-  background: #000 url(../images/closebutton.svg) no-repeat;
   border: none;
+  align-items: flex-end;
+  /* display:none; */
+}
+.header__btn_closed {
+  background: #000 url(../images/mobileMenu.png) no-repeat;
   height: 24px;
   width: 24px;
-  grid-area: btn;
+}
+.header__btn_open {
+  background: #000 url(../images/closebutton.svg) no-repeat center;
+  background-size: 80%;
+  height: 30px;
+  width: 30px;
 }
 .header__sub-container {
   display: flex;
@@ -101,5 +104,6 @@
   }
   .header__btn {
     margin-right: 30px;
+    
   }
 }

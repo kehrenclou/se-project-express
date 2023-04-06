@@ -8,7 +8,7 @@ import { useUser, useAuth } from "../hooks";
 /* ----------------------------- function Header ---------------------------- */
 function Header() {
   /* -------------------------------- useState -------------------------------- */
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   /* ---------------------------------- hooks --------------------------------- */
   const { path, url } = useRouteMatch();
   const { currentUser } = useUser();
@@ -17,6 +17,13 @@ function Header() {
   const handleSignOut = () => {
     onSignOut();
   };
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(true);
+  };
+  const handleCloseClick=()=>{
+    setIsMenuOpen(false);
+  }
 
   /* --------------------------------- return --------------------------------- */
   return (
@@ -34,9 +41,7 @@ function Header() {
         >
           {currentUser ? (
             <div
-              className={`header__text${
-                isMenuOpen ? "header__menu_open" : ""
-              }`}
+              className={`header__text${isMenuOpen ? "header__menu_open" : ""}`}
             >
               {currentUser.email}
             </div>
@@ -51,7 +56,20 @@ function Header() {
             Log out
           </Link>
         </div>
-        <button className="header__btn"></button>
+
+        {isMenuOpen ? (
+          <button className="header__btn header__btn_open" onClick={handleCloseClick}></button>
+        ) : (
+          <button
+            className="header__btn header__btn_closed"
+            onClick={handleMenuClick}
+          ></button>
+        )}
+        {/* <button
+          className={`header__btn ${
+            isMenuOpen ? "header__btn_open" : "header__btn_closed"
+          }`}
+        ></button> */}
       </Route>
 
       <Route path={`${path}signup`}>
@@ -59,6 +77,7 @@ function Header() {
           Log in
         </Link>
       </Route>
+
       <Route path={`${path}signin`}>
         <Link to={`${url}signup`} className="header__link">
           Sign Up
