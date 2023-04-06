@@ -26,7 +26,7 @@ function Header() {
       <Route path={`${path}/`}>
         <div className="header__sub-container">
           {currentUser ? (
-            <span className="header__text">{currentUser.email}</span>
+            <div className="header__text">{currentUser.email}</div>
           ) : null}
 
           <Link
