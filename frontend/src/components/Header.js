@@ -1,18 +1,29 @@
 /* --------------------------------- imports -------------------------------- */
 
 import { Route, Link, useRouteMatch } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import headerlogo from "../images/headerlogo.svg";
 
-import { useUser, useAuth } from "../hooks";
+import { useUser, useAuth, useWindowSize } from "../hooks";
+
 /* ----------------------------- function Header ---------------------------- */
 function Header() {
+  const size = useWindowSize();
+
   /* -------------------------------- useState -------------------------------- */
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
+  console.log(isMobileView);
+  console.log(size.width);
+  /* -------------------------------- useEffect ------------------------------- */
+  useEffect(() => {
+    (size.width <= 625) ? setIsMobileView(true) : setIsMobileView(false);
+  }, [size]);
   /* ---------------------------------- hooks --------------------------------- */
   const { path, url } = useRouteMatch();
   const { currentUser } = useUser();
   const { onSignOut } = useAuth();
+
   /* -------------------------------- handlers -------------------------------- */
   const handleSignOut = () => {
     onSignOut();
@@ -21,9 +32,9 @@ function Header() {
   const handleMenuClick = () => {
     setIsMenuOpen(true);
   };
-  const handleCloseClick=()=>{
+  const handleCloseClick = () => {
     setIsMenuOpen(false);
-  }
+  };
 
   /* --------------------------------- return --------------------------------- */
   return (
@@ -58,18 +69,16 @@ function Header() {
         </div>
 
         {isMenuOpen ? (
-          <button className="header__btn header__btn_open" onClick={handleCloseClick}></button>
+          <button
+            className="header__btn header__btn_open"
+            onClick={handleCloseClick}
+          ></button>
         ) : (
           <button
             className="header__btn header__btn_closed"
             onClick={handleMenuClick}
           ></button>
         )}
-        {/* <button
-          className={`header__btn ${
-            isMenuOpen ? "header__btn_open" : "header__btn_closed"
-          }`}
-        ></button> */}
       </Route>
 
       <Route path={`${path}signup`}>
