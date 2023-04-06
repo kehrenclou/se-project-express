@@ -136,6 +136,8 @@
     grid-template-areas:
       "name button-edit"
       "about about";
+      row-gap: 14px;
+      column-gap: 10px;
   }
   .profile__about {
     text-align: center;
@@ -147,10 +149,10 @@
 }
 @media screen and (max-width: 625px) {
   /*was at 490px tablet view awkward at 667px, 670 nice 625 where other break is*/
-  .profile_-details {
+  /* .profile_-details {
     margin-top: 42px;
-    row-gap: 14px;
-  }
+ 
+  } */
   .profile__name {
     font-size: 22px;
     line-height: 1.2;
