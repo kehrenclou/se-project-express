@@ -6,6 +6,7 @@
   width: 100%;
   margin: 0 auto;
   justify-content: space-between;
+  align-items:flex-end;
 }
 
 .header__logo {
@@ -26,12 +27,16 @@
 }
 .header__sub-container {
   display: flex;
+  align-items: flex-end;
 }
 
 .header__text {
   font-size: 18px;
   font-weight: 500;
   padding-right: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left:20px;
 }
 
 @media screen and (max-width: 625px) {
