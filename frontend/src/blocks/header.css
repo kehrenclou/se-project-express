@@ -6,6 +6,7 @@
   width: 100%;
   margin: 0 auto;
   justify-content: space-between;
+  align-items:flex-end;
 }
 
 .header__logo {
@@ -26,18 +27,22 @@
 }
 .header__sub-container {
   display: flex;
+  align-items: flex-end;
 }
 
 .header__text {
   font-size: 18px;
   font-weight: 500;
   padding-right: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left:20px;
 }
 
 @media screen and (max-width: 625px) {
   /*was at 409 625 is where other breaks are*/
   .header {
-    padding: 28px 0 32px;
+    padding: 28px 0 32px ;
   }
   .header__logo {
     max-width: 126px;
@@ -46,6 +51,9 @@
   }
   .header__link {
     font-size: 14px;
-    margin-right: 30px;
+    /* margin-right: 30px; */
+  }
+  .header__sub-container{
+    margin-right:30px;
   }
 }
