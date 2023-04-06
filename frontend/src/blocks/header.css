@@ -6,12 +6,13 @@
   width: 100%;
   margin: 0 auto;
   justify-content: space-between;
-  align-items:flex-end;
+  align-items: flex-end;
 }
 
 .header__logo {
   max-width: 173px;
   max-height: 33px;
+  grid-area: logo;
 }
 
 .header__link {
@@ -20,29 +21,81 @@
   line-height: 1.2;
   text-decoration: none;
   color: white;
+  /* grid-area: link; */
 }
 
 .header__link_light {
   color: #a9a9a9;
 }
+.header__link_hidden {
+  display: none;
+}
+.header__menu {
+  /* flex-direction: column; */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr, auto;
+  grid-template-areas:
+    "email email email email"
+    /* ". link ."  */
+    "logo logo logo btn";
+  /* align-items: center; */
+}
+.header__menu_open {
+  margin: 0 auto;
+  padding: 0;
+}
+.header__btn {
+  grid-area: btn;
+  justify-self: end;
+  border: none;
+  align-items: flex-end;
+  /* display:none; */
+}
+.header__btn_closed {
+  background: #000 url(../images/mobileMenu.png) no-repeat;
+  height: 24px;
+  width: 24px;
+}
+.header__btn_open {
+  background: #000 url(../images/closebutton.svg) no-repeat center;
+  background-size: 80%;
+  height: 30px;
+  width: 30px;
+}
+.header__btn_hidden {
+  display: none;
+}
 .header__sub-container {
   display: flex;
   align-items: flex-end;
+  grid-area: email;
 }
-
+.header__sub-container_open {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 18px;
+  grid-area: email;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  margin-bottom: 27px;
+}
 .header__text {
   font-size: 18px;
   font-weight: 500;
   padding-right: 24px;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left:20px;
+  margin-left: 20px;
 }
-
+.header__text_hidden {
+  display: none;
+}
 @media screen and (max-width: 625px) {
   /*was at 409 625 is where other breaks are*/
   .header {
-    padding: 28px 0 32px ;
+    padding: 28px 0 32px;
   }
   .header__logo {
     max-width: 126px;
@@ -53,7 +106,10 @@
     font-size: 14px;
     margin-right: 30px;
   }
-  /* .header__sub-container{
-    margin-right:30px;
-  } */
+  .header__menu_open {
+    margin: 0;
+  }
+  .header__btn {
+    margin-right: 30px;
+  }
 }
