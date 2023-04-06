@@ -27,6 +27,9 @@
 .header__link_light {
   color: #a9a9a9;
 }
+.header__link_hidden {
+  display: none;
+}
 .header__menu {
   /* flex-direction: column; */
   display: grid;
@@ -60,6 +63,9 @@
   height: 30px;
   width: 30px;
 }
+.header__btn_hidden {
+  display: none;
+}
 .header__sub-container {
   display: flex;
   align-items: flex-end;
@@ -82,9 +88,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 20px;
-  /* grid-area: email; */
 }
-
+.header__text_hidden {
+  display: none;
+}
 @media screen and (max-width: 625px) {
   /*was at 409 625 is where other breaks are*/
   .header {
@@ -104,6 +111,5 @@
   }
   .header__btn {
     margin-right: 30px;
-    
   }
 }

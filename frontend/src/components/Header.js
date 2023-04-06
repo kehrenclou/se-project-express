@@ -13,11 +13,10 @@ function Header() {
   /* -------------------------------- useState -------------------------------- */
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
-  console.log(isMobileView);
-  console.log(size.width);
+
   /* -------------------------------- useEffect ------------------------------- */
   useEffect(() => {
-    (size.width <= 625) ? setIsMobileView(true) : setIsMobileView(false);
+    size.width <= 625 ? setIsMobileView(true) : setIsMobileView(false);
   }, [size]);
   /* ---------------------------------- hooks --------------------------------- */
   const { path, url } = useRouteMatch();
@@ -27,6 +26,7 @@ function Header() {
   /* -------------------------------- handlers -------------------------------- */
   const handleSignOut = () => {
     onSignOut();
+    setIsMenuOpen(false);
   };
 
   const handleMenuClick = () => {
@@ -38,7 +38,7 @@ function Header() {
 
   /* --------------------------------- return --------------------------------- */
   return (
-    <header className={`header ${isMenuOpen ? "header__menu" : ""}`}>
+    <header className={`header ${isMenuOpen  ? "header__menu" : ""}`}>
       <img
         className="header__logo"
         src={headerlogo}
@@ -52,7 +52,13 @@ function Header() {
         >
           {currentUser ? (
             <div
-              className={`header__text${isMenuOpen ? "header__menu_open" : ""}`}
+              className={`header__text ${
+                isMenuOpen && isMobileView
+                  ? "header__menu_open"
+                  : isMobileView
+                  ? "header__text_hidden"
+                  : ""
+              }`}
             >
               {currentUser.email}
             </div>
@@ -60,7 +66,11 @@ function Header() {
           <Link
             to={`${url}signin`}
             className={`header__link header__link_light ${
-              isMenuOpen ? "header__menu_open" : ""
+              isMenuOpen && isMobileView
+                ? "header__menu_open"
+                : isMobileView
+                ? "header__link_hidden"
+                : ""
             }`}
             onClick={handleSignOut}
           >
@@ -70,12 +80,16 @@ function Header() {
 
         {isMenuOpen ? (
           <button
-            className="header__btn header__btn_open"
+            className={`header__btn header__btn_open ${
+              !isMobileView ? "header__btn_hidden" : ""
+            }`}
             onClick={handleCloseClick}
           ></button>
         ) : (
           <button
-            className="header__btn header__btn_closed"
+            className={`header__btn header__btn_closed ${
+              !isMobileView ? "header__btn_hidden" : ""
+            }`}
             onClick={handleMenuClick}
           ></button>
         )}
