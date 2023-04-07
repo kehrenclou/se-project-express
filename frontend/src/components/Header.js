@@ -67,7 +67,7 @@ function Header() {
             to={`${url}signin`}
             className={`header__link header__link_light ${
               isMenuOpen && isMobileView
-                ? "header__menu_open"
+                ? "header__menu_open "
                 : isMobileView
                 ? "header__link_hidden"
                 : ""
