@@ -1,24 +1,13 @@
-// vackend/middleware/validation.js
-/* --------------------------------- imports -------------------------------- */
 const { celebrate, Joi } = require('celebrate');
-// const { Joi } = require("joi");
 const validator = require('validator');
 
-// allows validate req.params, headers, query as is
-// needs body-parser to use req.body
-// where does body-parser need to be imported in validation.js or in app.js
-// should name, etc be set to .default('valuee') or.optional instead of .required
-/* ------------------------ custom validate functions ----------------------- */
 function validateUrl(value, helpers) {
   if (validator.isURL(value)) {
     return value;
   }
   return helpers.error('string.uri');
 }
-/* -------------------------------------------------------------------------- */
-/*                          joi celebrate validation                          */
-/* -------------------------------------------------------------------------- */
-/* -------------------------- validateLoginBody ------------------------- */
+
 // used on LogIn User
 // app.post('/signin', validateLoginBody, loginUser);
 const validateLoginBody = celebrate({
@@ -33,7 +22,6 @@ const validateLoginBody = celebrate({
   }),
 });
 
-/* ---------------------------- validateUserBody ---------------------------- */
 // used on creating User
 // app.post('/signup', validateUserBody, createUser);
 const validateUserBody = celebrate({
@@ -63,7 +51,6 @@ const validateUserBody = celebrate({
   }),
 });
 
-/* ------------------------ validateUpdateProfileBody ----------------------- */
 // used for updating Profile
 // router.patch('/me', validateUpdateProfileBody, updateUserProfile);
 const validateUpdateProfileBody = celebrate({
@@ -81,7 +68,6 @@ const validateUpdateProfileBody = celebrate({
   }),
 });
 
-/* ------------------------ validateUpdateUserAvatar ------------------------ */
 // used for updating Avatar
 // router.patch('/me/avatar',validateUpdateAvatarBody,updateUserAvatar)
 const validateUpdateAvatarBody = celebrate({
@@ -93,7 +79,6 @@ const validateUpdateAvatarBody = celebrate({
   }),
 });
 
-/* ---------------------------- validateCardBody ---------------------------- */
 // used for creating Card
 // router.post('/', validateCardBody, createCard);
 
@@ -117,7 +102,6 @@ const validateCardId = celebrate({
     id: Joi.string().hex().length(24),
   }),
 });
-/* --------------------------------- exports -------------------------------- */
 module.exports = {
   validateUserBody,
   validateLoginBody,

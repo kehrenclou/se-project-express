@@ -1,9 +1,6 @@
-// models/card.js
-/* --------------------------------- imports -------------------------------- */
 const mongoose = require('mongoose');
 const { urlRegExp } = require('../utils/regex');
 
-/* --------------------------------- Schema --------------------------------- */
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -31,7 +28,6 @@ const cardSchema = new mongoose.Schema({
 
   likes: {
     type: Array,
-    // type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
     default: [],
   },
 
@@ -41,5 +37,4 @@ const cardSchema = new mongoose.Schema({
   },
 });
 
-/* ------------------------------ export Model ------------------------------ */
 module.exports = mongoose.model('card', cardSchema);

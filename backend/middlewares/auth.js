@@ -1,13 +1,8 @@
-// backend/middlewares/auth.js
-/* --------------------------------- imports -------------------------------- */
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/unauthorized');
 const jwtSecret = require('../utils/config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-// const JWT_SECRET = require("../utils/config");
-
-/* ---------------------------------- auth ---------------------------------- */
 
 // verify token from headers
 // if token ok, middleware should add token payload to the user object and call next()
@@ -34,4 +29,3 @@ module.exports = (req, res, next) => {
   next(); // goes to next middleware
 };
 
-/* --------------------------------- exports -------------------------------- */

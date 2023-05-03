@@ -1,5 +1,3 @@
-// errors.js
-/* ---------------------------------- const --------------------------------- */
 const SUCCESSFUL = 200;
 const CREATED = 201;
 const VALIDATION__ERROR = 400;
@@ -8,7 +6,6 @@ const FORBIDDEN = 403;
 const NOT_FOUND = 404;
 const INTERNAL_SERVER_ERROR = 500;
 
-/* --------------------------------- exports -------------------------------- */
 module.exports = {
   SUCCESSFUL,
   CREATED,

@@ -1,5 +1,3 @@
-// backend/controllers/users.js
-/* --------------------------------- imports -------------------------------- */
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -15,11 +13,7 @@ const UnauthorizedError = require('../errors/unauthorized');
 
 const { CREATED } = require('../utils/statuses');
 
-/* -------------------------------------------------------------------------- */
-/*                                  functions                                 */
-/* -------------------------------------------------------------------------- */
 
-/* ---------------------------- send User Profile ---------------------------- */
 const sendUserProfile = (req, res, next) => {
   User.findById({ _id: req.user._id })
     .orFail(() => new NotFoundError('No user found by that Id'))
@@ -27,10 +21,9 @@ const sendUserProfile = (req, res, next) => {
       res.send(user);
     })
 
-    .catch(next); // equivalent to .catch(err=>next(err));
+    .catch(next);
 };
 
-/* ----------------------------- create New User ---------------------------- */
 const createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
@@ -68,7 +61,6 @@ const createUser = (req, res, next) => {
     .catch(next);
 };
 
-/* ------------------------------- login User ------------------------------- */
 // gets the email and password from the request and authenticates them
 // only user id should be written to the token payload
 // once token created, send to client in response body
@@ -93,7 +85,6 @@ const loginUser = (req, res, next) => {
     });
 };
 
-// /* --------------------------- update User Profile -------------------------- */
 const updateUserProfile = (req, res, next) => {
   const userId = req.user._id;
   const { name, about } = req.body;
@@ -117,7 +108,6 @@ const updateUserProfile = (req, res, next) => {
     });
 };
 
-/* ------------------------------ update Avatar ----------------------------- */
 const updateUserAvatar = (req, res, next) => {
   const userId = req.user._id;
   const { avatar } = req.body;
@@ -136,9 +126,7 @@ const updateUserAvatar = (req, res, next) => {
     });
 };
 
-/* --------------------------------- exports -------------------------------- */
 module.exports = {
-  // getUsers,
   sendUserProfile,
   createUser,
   loginUser,

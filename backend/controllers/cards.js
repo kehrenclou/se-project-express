@@ -1,5 +1,3 @@
-// controllers/cards.js
-/* --------------------------------- imports -------------------------------- */
 
 const Card = require('../models/card');
 
@@ -8,17 +6,16 @@ const NotFoundError = require('../errors/not-found');
 const ForbiddenError = require('../errors/forbidden');
 
 const { CREATED } = require('../utils/statuses');
-/* -------------------------------------------------------------------------- */
-/*                                  functions                                 */
-/* -------------------------------------------------------------------------- */
-/* ------------------------------ get all Cards ----------------------------- */
+
+
+
 const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards))
     .catch(next); // equivalent to .catch(err=>next(err));
 };
 
-/* ----------------------------- create new Card ---------------------------- */
+
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
 
@@ -36,7 +33,7 @@ const createCard = (req, res, next) => {
     });
 };
 
-/* ------------------------------- delete Card ------------------------------ */
+
 const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
@@ -52,10 +49,9 @@ const deleteCard = (req, res, next) => {
       throw new ForbiddenError('You do not have rights to delete card');
     })
 
-    .catch(next); // equivalent to .catch(err=>next(err));
+    .catch(next);
 };
 
-/* -------------------------------- card Like ------------------------------- */
 
 const likeCard = (req, res, next) => {
   const { cardId } = req.params;
@@ -74,7 +70,6 @@ const likeCard = (req, res, next) => {
     .catch(next);
 };
 
-/* ------------------------------- card unlike ------------------------------ */
 const dislikeCard = (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
@@ -87,7 +82,6 @@ const dislikeCard = (req, res, next) => {
     })
     .catch(next);
 };
-/* --------------------------------- exports -------------------------------- */
 module.exports = {
   getCards,
   createCard,
