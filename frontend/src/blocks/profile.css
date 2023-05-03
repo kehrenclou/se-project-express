@@ -65,7 +65,6 @@
   overflow: hidden;
 }
 .profile__button-edit {
-  /*check naming BEM on this guy*/
   width: 24px;
   height: 24px;
   border: 1px solid white;
@@ -95,9 +94,7 @@
   overflow: hidden;
 }
 .profile__button-add {
-  /*check naming BEM on this guy*/
   min-width: 150px;
-  /* min-width: none; */
   height: 50px;
   border: 2px solid white;
   background-color: transparent;
@@ -137,11 +134,6 @@
   }
 }
 @media screen and (max-width: 625px) {
-  /*was at 490px tablet view awkward at 667px, 670 nice 625 where other break is*/
-  /* .profile_-details {
-    margin-top: 42px;
- 
-  } */
   .profile__name {
     font-size: 22px;
     line-height: 1.2;

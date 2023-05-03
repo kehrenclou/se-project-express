@@ -7,23 +7,19 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
 
-  display: flex; /*call display flex when modal is open .modal_open - modifier
-  /* display: none; */ /*hidden set below with visibility and opacity for transition*/
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   visibility: hidden;
   opacity: 0;
-
-  /*transition on close*/
   transition: visibility 0s 0.5s, opacity 0.5s ease-out;
 }
 .modal_type_image {
   background-color: rgba(0, 0, 0, 0.9);
 }
 .modal_open {
-  /* modifier to call when modal is open*/
   visibility: visible;
   opacity: 1;
   transition: visibility 0s, opacity 0.5s ease-in-out;
@@ -93,7 +89,6 @@
   line-height: 1.2;
 }
 .modal__form {
-  /* margin: 24px 0 0; */
   margin: 41px 0 0;
   color: #000;
   font-size: 14px;
@@ -168,7 +163,7 @@
     padding: 25px 22px;
   }
   .modal__button-close {
-    top: -40px; /*?-20px*/
+    top: -40px;
     right: 0;
     width: 20px;
     height: 20px;

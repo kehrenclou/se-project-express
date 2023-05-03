@@ -7,7 +7,6 @@
   list-style-type: none;
   max-width: 880px;
   display: grid;
-  /* grid-template-columns: repeat(auto-fit, minmax(282px, 1fr)); */
   grid-template-columns: repeat(3, minmax(auto, 282px));
   gap: 20px 17px;
 }
@@ -37,8 +36,6 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: block;
-  /* from dev tools to fix image sizes - need to figure out 
-  something other than hard coding sizes*/
   height: 282px;
   width: 282px;
   cursor: pointer;

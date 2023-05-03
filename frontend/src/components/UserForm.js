@@ -1,10 +1,7 @@
-/* --------------------------------- imports -------------------------------- */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-/* ----------------------------- function Login ---------------------------- */
 function UserForm({ title, submitText, text, linkText, link, onSubmit }) {
-  /* -------------------------------- useState -------------------------------- */
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -13,7 +10,7 @@ function UserForm({ title, submitText, text, linkText, link, onSubmit }) {
     email: "",
     password: "",
   });
-/* -------------------------------- handlers -------------------------------- */
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     setIsEmailValid(event.target.validity.valid);
@@ -30,7 +27,7 @@ function UserForm({ title, submitText, text, linkText, link, onSubmit }) {
     event.preventDefault();
     onSubmit(email, password);
   }
-/* --------------------------------- return --------------------------------- */
+
   return (
     <div className="userform">
       <h2 className="userform__title">{title}</h2>
@@ -65,5 +62,5 @@ function UserForm({ title, submitText, text, linkText, link, onSubmit }) {
   );
 }
 
-/* --------------------------------- exports -------------------------------- */
+
 export default UserForm;

@@ -1,15 +1,14 @@
-/* --------------------------------- imports -------------------------------- */
 import { useAuth } from "../hooks";
-/* -------------------------------- variables ------------------------------- */
+
 // const baseUrl = "http://localhost:3000";
 const baseUrl =
   process.env.NODE_ENV === "production"
     ? "https://api.kedoodledev.crabdance.com"
     : "http://localhost:3000";
-/* -------------------------------- class Api ------------------------------- */
-class Api {
+
+    class Api {
   constructor({ baseUrl, headers }) {
-    //constructor body
+
     this._baseUrl = baseUrl;
 
     this._headers = headers;
@@ -17,9 +16,7 @@ class Api {
 
   _request(url, options) {
     return fetch(url, options).then(this._handleResponse);
-    // return fetch(url, options).then((res) =>
-    //   res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-    // );
+
   }
 
   _handleResponse(res) {
@@ -31,7 +28,6 @@ class Api {
 
   handleErrorResponse = (err) => {
     console.log(`Error: ${err}`);
-    // throw err;
   };
 
 
@@ -104,7 +100,6 @@ class Api {
   }
 }
 
-/* --------------------------------- exports -------------------------------- */
 //sets headers with token on all api calls
 export const api = new Api({
   baseUrl: baseUrl,

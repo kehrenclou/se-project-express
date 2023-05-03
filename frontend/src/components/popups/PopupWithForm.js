@@ -1,8 +1,6 @@
-/* --------------------------------- imports -------------------------------- */
 import React from "react";
 import Popup from "./Popup";
 
-/* ------------------------- function PopupWIthForm ------------------------- */
 function PopupWithForm({
   isOpen,
   onClose,
@@ -13,13 +11,11 @@ function PopupWithForm({
   submitText,
 }) {
 
-  /* -------------------------------- handlers -------------------------------- */
   function handleSubmit(event) {
     event.preventDefault();
     onSubmit();
   }
 
-  /* --------------------------------- return --------------------------------- */
   return (
     <Popup isOpen={isOpen} onClose={onClose} name={name}>
       <h2 className="modal__title">{title}</h2>

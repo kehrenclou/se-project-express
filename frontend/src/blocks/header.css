@@ -21,7 +21,6 @@
   line-height: 1.2;
   text-decoration: none;
   color: white;
-  /* grid-area: link; */
 }
 
 .header__link_light {
@@ -32,15 +31,12 @@
 }
 
 .header__menu {
-  /* flex-direction: column; */
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr, auto;
   grid-template-areas:
     "email email email email"
-    /* ". link ."  */
     "logo logo logo btn";
-  /* align-items: center; */
 }
 .header__menu_open {
   margin: 0px;
@@ -51,7 +47,6 @@
   justify-self: end;
   border: none;
   align-items: flex-end;
- 
 }
 .header__btn_closed {
   background: #000 url(../images/mobileMenu.png) no-repeat;
@@ -94,7 +89,6 @@
   display: none;
 }
 @media screen and (max-width: 625px) {
-  /*was at 409 625 is where other breaks are*/
   .header {
     padding: 28px 0 32px;
   }
@@ -109,7 +103,7 @@
   }
   .header__menu_open {
     margin: 0;
-    padding:0;
+    padding: 0;
   }
   .header__btn {
     margin-right: 30px;

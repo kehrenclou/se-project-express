@@ -1,16 +1,12 @@
-/* --------------------------------- imports -------------------------------- */
 import { useHistory, withRouter } from "react-router-dom";
 import UserForm from "./UserForm";
 import { useModal } from "../hooks";
 import * as auth from "../utils/auth";
 
-/* ----------------------------- function Register ---------------------------- */
 function Register() {
-  /* ---------------------------------- hooks --------------------------------- */
   const history = useHistory();
   const { setStatus, setIsToolTipOpen } = useModal();
 
-  /* ------------------------------ handleSubmit ------------------------------ */
   function handleSubmit(email, password) {
 
     auth
@@ -34,7 +30,6 @@ function Register() {
       });
   }
 
-  /* --------------------------------- return --------------------------------- */
   return (
     <div className="signup">
       <UserForm
@@ -49,5 +44,4 @@ function Register() {
   );
 }
 
-/* --------------------------------- exports -------------------------------- */
 export default withRouter(Register);

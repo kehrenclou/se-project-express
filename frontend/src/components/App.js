@@ -1,4 +1,3 @@
-/* --------------------------------- imports -------------------------------- */
 import React, { useEffect, useState } from "react";
 import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 
@@ -24,21 +23,16 @@ import {
   useInitializeModalStore,
 } from "../contexts";
 
-/* -------------------------------------------------------------------------- */
-/*                                 functionApp                                */
-/* -------------------------------------------------------------------------- */
 function App() {
-  /* ------------------------------- use states ------------------------------- */
+
   const [token, setToken] = useState(localStorage.getItem("jwt"));
   const [isMobileView, setIsMobileView] = useState(false);
 
-  /* --------------------- set history and context stores --------------------- */
   let history = useHistory();
   const authStore = useInitializeAuthStore();
   const userStore = useInitializeUserStore();
   const modalStore = useInitializeModalStore();
 
-  /* --------------------------- useEffect  ----------------------------------- */
 
   // on token change
   // set headers
@@ -80,7 +74,6 @@ function App() {
     };
   }, []);
 
-  /* --------------------------------- return --------------------------------- */
   return (
     <div className="root">
       <div className="page">

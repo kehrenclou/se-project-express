@@ -1,15 +1,13 @@
-/* --------------------------------- imports -------------------------------- */
 import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth, useUser } from "../hooks";
 import { api } from "../utils/api";
 
-/* ------------------------- function ProtectedRoute ------------------------ */
 function ProtectedRoute({ children, ...props }) {
   const { isLoggedIn, setIsLoggedIn, token, setIsLoaded, isLoaded } = useAuth();
   const { setCurrentUser } = useUser();
-
-  /* ------------------------------- use Effects ------------------------------ */
+console.log("isLoggedIn", isLoggedIn)
+console.log("token",token)
 
   // on load - Protected route
   //checks for token
@@ -35,7 +33,7 @@ function ProtectedRoute({ children, ...props }) {
       .catch((err) => {
         api.handleErrorResponse(err);
       });
-  }, []); //question, add tokewn here?
+  }, []); 
 
   return (
     <Route {...props}>
@@ -44,5 +42,4 @@ function ProtectedRoute({ children, ...props }) {
   );
 }
 
-/* --------------------------------- exports -------------------------------- */
 export default ProtectedRoute;

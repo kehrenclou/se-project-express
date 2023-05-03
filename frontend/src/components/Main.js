@@ -1,4 +1,3 @@
-/* --------------------------------- imports -------------------------------- */
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import ImagePopup from "./popups/ImagePopup";
@@ -7,9 +6,7 @@ import ConfirmDeletePopup from "./popups/ConfirmDeletePopup";
 import { api } from "../utils/api";
 import { useUser, useAuth, useModal } from "../hooks";
 
-/* -------------------------- function Main(props) -------------------------- */
 function Main() {
-  /* ------------------------------ hooks ------------------------------ */
   const { currentUser } = useUser();
   const { isLoggedIn, token } = useAuth();
   const {
@@ -19,13 +16,13 @@ function Main() {
     setIsConfirmDeletePopupOpen,
     setIsLoading,
   } = useModal();
-  /* -------------------------------- useStates ------------------------------- */
+
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardToDelete, setCardToDelete] = useState({});
 
-  /* ------------------------------- useEffects ------------------------------- */
 
+  
   //load cards on load
   useEffect(() => {
     if (!isLoggedIn) {
@@ -45,34 +42,27 @@ function Main() {
       });
   }, [isLoggedIn]);
 
-  /* -------------------------------- handlers -------------------------------- */
-  //on AddPlace Click
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
   }
 
-  //on EditAvatar Click
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
 
-  //on EditProfile Click
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
 
-  //on card click
   function handleCardClick(clickedCard) {
     setSelectedCard(clickedCard);
   }
 
-  //on trash click
   function handleCardDeleteClick(card) {
     setIsConfirmDeletePopupOpen(true);
     setCardToDelete(card);
   }
 
-  //Add New Card
   function handleAddPlaceSubmit(newCard) {
     setIsLoading(true);
     api
@@ -90,7 +80,6 @@ function Main() {
       });
   }
 
-  //Like or Unlike Card
   function handleCardLike(card) {
     // Check one more time if this card was already liked
     const isLiked = card.likes.some((user) => user === currentUser._id);
@@ -111,7 +100,6 @@ function Main() {
       });
   }
 
-  //Confirm Delete Card - on confirm click
   function handleConfirmDelete() {
     setIsLoading(true);
     api
@@ -132,14 +120,12 @@ function Main() {
       });
   }
 
-  //close Delete Confirm Popup,Image &addPlace popups
   function handleClosePopups() {
     setIsAddPlacePopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
     setSelectedCard(null);
   }
 
-  /* --------------------------------- return --------------------------------- */
   return (
     <>
       <main>

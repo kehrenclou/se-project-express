@@ -1,4 +1,3 @@
-/* --------------------------------- imports -------------------------------- */
 
 import { Route, Link, useRouteMatch } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -6,24 +5,21 @@ import headerlogo from "../images/headerlogo.svg";
 
 import { useUser, useAuth, useWindowSize } from "../hooks";
 
-/* ----------------------------- function Header ---------------------------- */
 function Header() {
   const size = useWindowSize();
 
-  /* -------------------------------- useState -------------------------------- */
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
 
-  /* -------------------------------- useEffect ------------------------------- */
+
   useEffect(() => {
     size.width <= 625 ? setIsMobileView(true) : setIsMobileView(false);
   }, [size]);
-  /* ---------------------------------- hooks --------------------------------- */
+
   const { path, url } = useRouteMatch();
   const { currentUser } = useUser();
   const { onSignOut } = useAuth();
 
-  /* -------------------------------- handlers -------------------------------- */
   const handleSignOut = () => {
     onSignOut();
     setIsMenuOpen(false);
@@ -36,7 +32,6 @@ function Header() {
     setIsMenuOpen(false);
   };
 
-  /* --------------------------------- return --------------------------------- */
   return (
     <header className={`header ${isMenuOpen  ? "header__menu" : ""}`}>
       <img
@@ -110,5 +105,4 @@ function Header() {
   );
 }
 
-/* --------------------------------- exports -------------------------------- */
 export default Header;

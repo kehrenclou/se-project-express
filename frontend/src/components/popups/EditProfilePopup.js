@@ -1,13 +1,10 @@
-/* --------------------------------- imports -------------------------------- */
 import React, { useEffect, useState, useCallback } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 import { useUser, useModal } from "../../hooks";
 import { api } from "../../utils/api";
-/* ------------------------ function EditProfilePopup ----------------------- */
 
 function EditProfilePopup() {
-  /* ---------------------------------- hooks --------------------------------- */
   const { currentUser, setCurrentUser } = useUser();
   const {
     isEditProfilePopupOpen,
@@ -15,7 +12,8 @@ function EditProfilePopup() {
     isLoading,
     setIsLoading,
   } = useModal();
-  /* -------------------------------- useState -------------------------------- */
+
+
   const [name, setName] = useState(currentUser.name || "");
   const [description, setDescription] = useState(currentUser.about || "");
   const [isNameValid, setIsNameValid] = useState(false);
@@ -26,7 +24,6 @@ function EditProfilePopup() {
     description: "",
   });
 
-  /* -------------------------------- handlers -------------------------------- */
   //input name change
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -56,13 +53,12 @@ function EditProfilePopup() {
       .finally(() => {
         setIsLoading(false);
       });
-  },[name]);//question what should dependency be isLoading?
+  },[name]);
 
   function closePopup() {
     setIsEditProfilePopupOpen(false);
   }
 
-  /* ------------------------------- useEffects ------------------------------- */
   useEffect(() => {
     if (currentUser) {
       setName(currentUser.name);
