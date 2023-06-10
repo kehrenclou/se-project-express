@@ -6,8 +6,7 @@ import { api } from "../utils/api";
 function ProtectedRoute({ children, ...props }) {
   const { isLoggedIn, setIsLoggedIn, token, setIsLoaded, isLoaded } = useAuth();
   const { setCurrentUser } = useUser();
-console.log("isLoggedIn", isLoggedIn)
-console.log("token",token)
+
 
   // on load - Protected route
   //checks for token
@@ -24,6 +23,7 @@ console.log("token",token)
     api
       .getInfo()
       .then((res) => {
+       
         if (res) {
           setIsLoggedIn(true);
           setIsLoaded(true);

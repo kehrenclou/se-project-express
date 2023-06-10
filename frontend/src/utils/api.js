@@ -48,6 +48,7 @@ const baseUrl =
   }
 
   setUserInfo(inputName, inputAbout) {
+
     return this._request(`${this._baseUrl}/users/me`, {
       headers: this._headers,
       method: "PATCH",

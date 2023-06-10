@@ -26,7 +26,6 @@ function EditProfilePopup() {
   //input name change
   const handleNameChange = (event) => {
     setName(event.target.value);
-    // setCurrentUser({ ...currentUser, name: event.target.value });
     setIsNameValid(event.target.validity.valid);
     setErrorMessage({ name: event.target.validationMessage });
   };
@@ -34,14 +33,19 @@ function EditProfilePopup() {
   //input description change
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
-
+   
     // setCurrentUser({ ...currentUser, about: event.target.value });
     setIsDescriptionValid(event.target.validity.valid);
     setErrorMessage({ description: event.target.validationMessage });
   };
+  console.log({ name });
+  console.log({ description });
+  console.log({ currentUser });
 
   //Update User
   const handleUpdateProfile = useCallback(() => {
+
+    setCurrentUser({...currentUser,about:description,name:name})
     setIsLoading(true);
     api
       .setUserInfo(name, description)
@@ -55,7 +59,7 @@ function EditProfilePopup() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [name, description]);
+  }, [name]);
 
   function closePopup() {
     setIsEditProfilePopupOpen(false);
@@ -63,6 +67,7 @@ function EditProfilePopup() {
 
   useEffect(() => {
     if (currentUser) {
+
       setName(currentUser.name);
       setDescription(currentUser.about);
     }
