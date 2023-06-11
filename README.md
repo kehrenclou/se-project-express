@@ -14,7 +14,7 @@ https://github.com/kehrenclou/se_project_express/assets/98502327/07b74a1b-2e02-4
 
 https://github.com/kehrenclou/se_project_express
 
-# local deployment:
+## local deployment:
 - front-end: npm run start ( deploys: http://localhost:3001)
 - back-end: npm run dev (listening on port 3000)
 ## deployed website:
