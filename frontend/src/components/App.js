@@ -25,7 +25,7 @@ import {
 
 function App() {
 
-  const [token, setToken] = useState(localStorage.getItem("jwt"));
+
   const [isMobileView, setIsMobileView] = useState(false);
 
   let history = useHistory();
@@ -38,10 +38,10 @@ function App() {
   // set headers
   useEffect(() => {
     api.setHeaders({
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${authStore.token}`,
       "Content-Type": "application/json",
     });
-  }, [token]);
+  }, [authStore.token]);
 
   useEffect(() => {
     if (window.innerWidth <= 625) {
@@ -52,11 +52,12 @@ function App() {
   // on load
   // set token to local storage,redirect depending on iftoken
   useEffect(() => {
-    setToken(localStorage.getItem("jwt"));
+
     if (!authStore.token) {
       history.push("/signin");
       return;
     }
+  
     history.push("/");
   }, []);
 
