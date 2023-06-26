@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts";
 export const useAuth = () => {
   // if decoding token needed would happen here
   // example: const userData = token ? jwt.decode(token, ) : {};
-  const { isLoggedIn, token, setToken, setIsLoggedIn, isLoaded, setIsLoaded } =
+  const { isLoggedIn, token, setToken, setIsLoggedIn,   } =
     useContext(AuthContext);
 
   const onSignOut = useCallback(() => {
@@ -14,12 +14,12 @@ export const useAuth = () => {
   }, []); 
 
   return {
-    isLoaded,
+
     isLoggedIn,
     token,
     setToken,
     setIsLoggedIn,
-    setIsLoaded,
+
     onSignOut,
   };
 };

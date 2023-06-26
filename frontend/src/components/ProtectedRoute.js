@@ -4,13 +4,12 @@ import { useAuth, useUser } from "../hooks";
 import { api } from "../utils/api";
 
 function ProtectedRoute({ children, ...props }) {
-  const { isLoggedIn, setIsLoggedIn, token, setIsLoaded, isLoaded } = useAuth();
+  const { isLoggedIn, setIsLoggedIn, token } = useAuth();
   const { setCurrentUser } = useUser();
-
 
   // on load - Protected route
   //checks for token
-  //if token, update headers, getInfo, setIsLoggedIn, setIsLoaded, setCurrentUser
+  //if token, update headers, getInfo, setIsLoggedIn, , setCurrentUser
   useEffect(() => {
     if (!token) {
       return;
@@ -23,21 +22,20 @@ function ProtectedRoute({ children, ...props }) {
     api
       .getInfo()
       .then((res) => {
-       
         if (res) {
           setIsLoggedIn(true);
-          setIsLoaded(true);
+
           setCurrentUser(res);
         }
       })
       .catch((err) => {
         api.handleErrorResponse(err);
       });
-  }, []); 
+  }, []);
 
   return (
     <Route {...props}>
-      {!isLoaded ? null : isLoggedIn ? children : <Redirect to={"/signin"} />}
+      {isLoggedIn ? children : <Redirect to={"/signin"} />}
     </Route>
   );
 }
